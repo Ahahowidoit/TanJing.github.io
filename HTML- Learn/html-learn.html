@@ -1,0 +1,178 @@
+﻿<h1>我是标题</h1>
+<p> 我是段落</p>
+<!-- 段落中的文字设置-->
+<b>粗体</b> 
+<big>大号字</big>
+<em>着重文字</em>
+<i>斜体字</i>
+<small>小号字</small>
+<strong>加重语气</strong>
+<sub>下标</sub>
+<sup>上标</sup>
+<ins>插入字</ins>
+<del>删除字</del>
+<u>下划线</u>
+<code>计算机代码</code>
+<kbd>键盘文本</kbd>
+<samp>计算机代码样本</samp>
+<tt>打字机代码</tt>
+<var>变量</var>
+<pre>预格式文本</pre>
+<abbr>缩写</abbr>
+<address>地址</address>
+<acronym>首字母缩写</acronym>
+<bdo>文字方向</bdo>
+<blockquote cite='www.baidu.com'>长引用</blockquote>
+<q>短引用</q>
+<cite>引用</cite>
+<dfn>定义项目</dfn>
+<br>
+<big>我换行了</big>
+<hr>
+
+<!-- 链接:我们在浏览网页时点击一个地方的按钮它会跳到另一个地方，那么这就是所谓的链接了。
+一般它用a标签包裹，里面有标签名，标签跳转的地址等信息 -->
+<!-- 1)链接的表现形式 : 
+ 1 . <a href="https://www.baidu.com">百度</a> #可以是一个url地址，点击即可打开百度首页
+ 2 . <a href="1.Html">百度</a> #也可以是一个Html文件
+ 3 . <a href="mailto:2091500484@qq.com">发送邮件</a>#创建电子邮箱链接 -->
+<a href="https://www.baidu.com">百度</a>
+<a href="mailto:2091500484@qq.com">发送邮件</a> 
+ 
+ <!-- 2)链接的跳转方式 :定义你打开的页面是当前页面还是新的页面或者说是上一个页面：
+<a href="https://www.baidu.com" target="_blank">百度</a> #新窗口打卡百度
+<a href="https://www.baidu.com" target="_top">百度</a> #上一个窗口打开百度
+<a href="https://www.baidu.com" target="_parent">百度</a> #父窗口打开百度
+<a href="https://www.baidu.com" target="_self">百度</a> #当前窗口打开百度 -->
+<a href="https://www.baidu.com" target="_blank">
+
+
+<!-- 3)锚链接 :快速定位页面中的某些标题，可以通过设置name属性来设置锚链接
+<a href='#mao'>锚链接创建</a>
+<p><a name='mao'>这是一个锚链接</a></p> -->
+
+
+<!-- 图片 -->
+<!-- 1)插入图片:我们只需输入图片地址即可，
+后面两项为鼠标放在图片上显示的内容和图片显示不出来的时候的替代文本 -->
+<img src="1.jpg" title='图片' alt='图片无法显示'/>
+<!-- 2)设置背景图片 : 需要在body标签中设置背景为图片地址 -->
+<body background="E:\other\save_picture\picture0104\49908627.jpg">
+3)图片映射
+通过点击图片跳转到相应链接页面
+<a href="https://www.baidu.com"><img src="1.png" title='图片' alt='图片无法显示'/></a> -->
+
+
+<!-- 表格 
+有时候我们也需要插入表格来展示一些数据，表格的制作稍微有点麻烦，
+不过用Sublime Text 3它可以十分轻松的创建表格。
+表格一般由表头，表的标题，表的内容组成。最常用的就是Table标签了 -->
+
+<!-- 表格边框1px,单元格边距5px,单元格间距10px,背景颜色灰色,背景图片1.jpg-->
+<table border="1" cellpadding="5" cellspacing="10" bgcolor="gray"  background='1.jpg'>
+<col bgcolor='red'/> <!-- 设置表格列的属性 -->
+<colgroup bgcolor='blue'></colgroup> <!-- 设置表格列组的属性 -->
+<caption>表格标题</caption>
+<!-- 页眉 -->
+<thead>
+<tr>       <!-- 表格的行 -->
+<th colspan="2">1--one</th> <!-- 表格表头，相当于列 跨两行 -->
+<th>2--two</th>
+<th>3--three</th>
+<th>4--four</th>
+</tr>
+</thead>
+
+<!-- 表格主体 -->
+<tbody>
+<tr>
+<td>a</td>   <!-- 表格单元 -->
+<td>b</td>
+<td>c</td>
+<td>d</td>
+</tr>
+</tbody>
+
+<!-- 表格页脚 -->
+<tfoot>
+<tr>
+<td>h</td>
+<td>j</td>
+<td>k</td>
+<td>l</td>
+</tr>
+</tfoot>
+</table>
+
+
+<!-- 列表
+列表就是我们常常见到的一篇文章的目录，它一般以一种树型状存在着，它可以分为有序列表和无序列表。
+1).有序列表
+以标签ol为主体，li为父目录 -->
+<ol>
+<li>任性</li>
+<li>90后</li>
+<li>boy</li>
+</ol>
+
+<ol start="45">
+<li>90后</li>
+<li>boy</li>
+<li>任性</li>
+</ol>
+
+<ol type="a">
+<li>90后</li>
+<li>boy</li>
+<li>任性</li>
+</ol>
+
+<ol type="A">
+<li>90后</li>
+<li>boy</li>
+<li>任性</li>
+</ol>
+
+<ol type="I">
+<li>90后</li>
+<li>boy</li>
+<li>任性</li>
+</ol>
+
+<ol type="i">
+<li>90后</li>
+<li>boy</li>
+<li>任性</li>
+</ol>
+
+
+2).无序列表
+与有序列表唯一不同的就是没有数字也没有字母，只有图形，也是犹如项目符号一样。
+<ul>
+ <li>任性</li>
+ <li>90后</li>
+ <li>boy</li>
+</ul>
+
+<ul type="disc">
+ <li>90后</li>
+ <li>boy</li>
+ <li>任性</li>
+</ul>
+
+<ul type="circle">
+ <li>90后</li>
+ <li>boy</li>
+ <li>任性</li>
+</ul>
+
+<ul type="square">
+ <li>90后</li>
+ <li>boy</li>
+ <li>任性</li>
+</ul>
+
+
+
+
+
