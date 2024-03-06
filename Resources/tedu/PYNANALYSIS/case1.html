@@ -1,0 +1,92 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNANALYSIS DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">sum函数练习</a>
+        </li>
+        <li>
+          <a href="#case2">mean函数练习</a>
+        </li>
+        <li>
+          <a href="#case3">max和min函数练习</a>
+        </li>
+        <li>
+          <a href="#case4">切片练习</a>
+        </li>
+        <li>
+          <a href="#case5">where函数练习1</a>
+        </li>
+        <li>
+          <a href="#case6">where函数练习2</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 sum函数练习</h2>
+      <h3>1.1 问题</h3>
+      <p>求出每人的总成绩</p>
+      <h3>1.2 步骤</h3>
+      <pre class="code">a1.sum(axis=1)#array([263, 278, 272])
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 mean函数练习</h2>
+      <h3>2.1 问题</h3>
+      <p>求出每科的平均成绩</p>
+      <h3>2.2 步骤</h3>
+      <pre class="code">np.round(a1.mean(axis=0),2)#array([76.  , 39.67, 89.67, 65.67])
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 max和min函数练习</h2>
+      <h3>3.1 问题</h3>
+      <p>求出语文的最低分和最高分</p>
+      <h3>3.2 步骤</h3>
+      <pre class="code">a1[0].min()#27
+a1[0].max()#93
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 切片练习</h2>
+      <h3>4.1 问题</h3>
+      <p>求出每人的文理总分</p>
+      <h3>4.2 步骤</h3>
+      <pre class="code">a1[:,[0,2]].sum(axis=1)#array([169, 179, 149])
+a1[:,[1,3]].sum(axis=1)#array([ 94,  99, 123])
+</pre>
+      <a name="case5">
+      </a>
+      <h2>5 where函数练习1</h2>
+      <h3>5.1 问题</h3>
+      <p>如果分数小于60,将分数变为'不及格'</p>
+      <h3>5.2 步骤</h3>
+      <pre class="code">np.where(a1&lt;60,'不及格',a1)
+</pre>
+      <a name="case6">
+      </a>
+      <h2>6 where函数练习2</h2>
+      <h3>6.1 问题</h3>
+      <p>如果分数小于60,将分数变为'不及格',60~85的分数变为‘良好’,大于85的分数变为‘优秀’</p>
+      <h3>6.2 步骤</h3>
+      <pre class="code">np.where(a1&lt;60,'不及格',np.where(a1&lt;=85,'良好','优秀'))
+</pre>
+    </div>
+  </body>
+</html>

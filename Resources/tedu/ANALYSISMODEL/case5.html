@@ -1,0 +1,283 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>ANALYSISMODEL DAY07</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">数据分析常用方法（下）</a>
+        </li>
+        <li>
+          <a href="#case2">项目1</a>
+        </li>
+        <li>
+          <a href="#case3">项目2</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 数据分析常用方法（下）</h2>
+      <h3>1.1 问题</h3>
+      <p>在7名应聘者中选出最优一个发offer</p>
+      <p>在13名销售人员中选出出3位发放奖金</p>
+      <p>对旅游人次分组统计数据进行帕累托分析</p>
+      <p>对某产品购买流程进行漏斗分析</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：在7名应聘者中选出最优一个发offer</p>
+      <p>1）设计指标优化矩阵</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p>2）计算每个指标得分及权重</p>
+      <pre class="code">公式如下
+得分公式 =SUM(B13:D13)
+权重公式 =E13/SUM($E$13:$E$15)
+</pre>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p>3）计算应聘者综合得分</p>
+      <pre class="code">=B2*$F$13+C2*$F$14+D2*$F$15
+</pre>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-3</p>
+      </div>
+      <p>4）利用综合得分排名次</p>
+      <pre class="code">=rank(F2,$F$2:$F$8,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-4</p>
+      </div>
+      <p class="number">步骤二：在13名销售人员中选出出3位发放奖金</p>
+      <p>1）设计指标优化矩阵</p>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-5</p>
+      </div>
+      <p>2）计算每个指标得分（求和）及权重（得分/总分）</p>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-6</p>
+      </div>
+      <p>3）对各指标进行0-1标准化</p>
+      <pre class="code">=(J2-MIN(J$2:J$14))/(MAX(J$2:J$14)-MIN(J$2:J$14))
+</pre>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-7</p>
+      </div>
+      <p>4）计算各销售人员综合得分</p>
+      <pre class="code">=J26*$N$18+K26*$N$19+L26*$N$20
+</pre>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-8</p>
+      </div>
+      <p>5）利用综合得分排名次</p>
+      <pre class="code">=RANK.EQ(M2,$M$2:$M$14,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图-9</p>
+      </div>
+      <p class="number">步骤三：对旅游人次分组统计数据进行帕累托分析</p>
+      <p>1）计算各人群占比</p>
+      <pre class="code">=B3/SUM($B$3:$B$9)
+</pre>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图-10</p>
+      </div>
+      <p>2）计算人群累计占比</p>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图-11</p>
+      </div>
+      <p>3）绘制组合图</p>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图-12</p>
+      </div>
+      <p class="number">步骤四：对某产品购买流程进行漏斗分析</p>
+      <p>1）计算各环节转化率</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图-13</p>
+      </div>
+      <p>2）计算总体转化率</p>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图-14</p>
+      </div>
+      <p>3）计算条形图占位</p>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图-15</p>
+      </div>
+      <p>4）绘制堆积条形图</p>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图-16</p>
+      </div>
+      <p>5）对纵坐标轴逆序</p>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图-17</p>
+      </div>
+      <p>6）隐藏蓝色占位条</p>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图-18</p>
+      </div>
+      <p>7）选中图例按del 键盘删除</p>
+      <p>8）修改条形图间隙</p>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图-19</p>
+      </div>
+      <p>9右键添加数据标签</p>
+      <p>10）插入倒梯形图（选中图形后点击任意单元格拖拽）</p>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图-20</p>
+      </div>
+      <p>11）复制倒梯形图为漏斗图做填充</p>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图-21</p>
+      </div>
+      <p>12）修改图标标题</p>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图-22</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 项目1</h2>
+      <h3>2.1 问题</h3>
+      <p>零售行业某公司进行每日销售额和利润复盘，在8月17日出现在销售额大幅度上涨的情况下利润总额确发生下降，请找出原因.对旅游人次分组统计数据进行帕累托分析</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：零售行业某公司进行每日销售额和利润复盘，在8月17日出现在销售额大幅度上涨的情况下利润总额确发生下降，请找出原因</p>
+      <p>1）统计每天的利润率及刘润率环比</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图-23</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image024.png" />
+        <p>图-24</p>
+      </div>
+      <p>2）绘制折线图，并修饰折线图</p>
+      <div class="image">
+        <img src="index.files/image025.png" />
+        <p>图-25</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image026.png" />
+        <p>图-26</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image027.png" />
+        <p>图-27</p>
+      </div>
+      <p>结果是8.17产生了异常</p>
+      <p>3）筛选出8.17的数据</p>
+      <p>4）对8.17的数据做透视表统计其销售额、总利润率及销售额贡献</p>
+      <div class="image">
+        <img src="index.files/image028.png" />
+        <p>图-28</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image029.png" />
+        <p>图-29</p>
+      </div>
+      <p>流量宝销售金额占比达78%，例如率-11%</p>
+      <p class="number">步骤二：绘制象限图</p>
+      <p>找出与流量宝同样对利润率下降产生贡献的渠道把数据复制出来后进行绘制箱线图</p>
+      <p>1）计算两个指标的平均值</p>
+      <p>2）选中两个指标的所有数据 ”插入“菜单的散点图</p>
+      <p>3）选中图表，点击图表右侧加号，勾选掉网格线</p>
+      <p>4）选中图表上的任意一个点，右键添加数据标签</p>
+      <p>5）选中任意一个数据标签右键设置数据标签个格式</p>
+      <div class="image">
+        <img src="index.files/image030.png" />
+        <p>图-30</p>
+      </div>
+      <p>6）调整X,Y坐标轴，交叉点为均值，并修改上下限</p>
+      <div class="image">
+        <img src="index.files/image031.png" />
+        <p>图-31</p>
+      </div>
+      <p>7）隐藏坐标轴标签 选中坐标轴右键”设置坐标轴格式“ ——》标签——》标签位置为”无“</p>
+      <p>8）添加坐标轴箭头，坐标轴右键”设置坐标轴格式“——》填充桶——》线条——》结尾箭头类型</p>
+      <p>9）添加坐标轴标题，选中图表，图表右侧加号，勾选坐标轴表题，并写入相应文字</p>
+      <a name="case3">
+      </a>
+      <h2>3 项目2</h2>
+      <h3>3.1 问题</h3>
+      <p>年轻有为，帅气多金的你，拥有众多追求者，如何从众多美女中选出最优的一个？</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算每人的BMI及月剩余</p>
+      <pre class="code">=D3/(C11/100)^2
+</pre>
+      <div class="image">
+        <img src="index.files/image032.png" />
+        <p>图-32</p>
+      </div>
+      <p class="number">步骤二：计算每人BMI与标准值22的</p>
+      <pre class="code">=ABS(D10-$I$23)
+</pre>
+      <div class="image">
+        <img src="index.files/image033.png" />
+        <p>图-33</p>
+      </div>
+      <p class="number">步骤三：对每个指标进行0-1标准化</p>
+      <pre class="code">=(B21-MIN(B$21:B$26))/(MAX(B$21:B$26)-MIN(B$21:B$26))
+</pre>
+      <div class="image">
+        <img src="index.files/image034.png" />
+        <p>图-34</p>
+      </div>
+      <p class="number">步骤四：设计指标权重的优化矩阵</p>
+      <div class="image">
+        <img src="index.files/image035.png" />
+        <p>图-35</p>
+      </div>
+      <p class="number">步骤五：利用指标权重和标准化后的数据计算综合得分</p>
+      <pre class="code">=B31*$I$41 + C31*$I$42+ D31*$I$43+ E31*$I$44+ F31*$I$45+ G31*$I$46
+</pre>
+      <div class="image">
+        <img src="index.files/image036.png" />
+        <p>图-36</p>
+      </div>
+      <p class="number">步骤六：根据综合得分进行打名次</p>
+      <pre class="code">=RANK(I2,$I$2:$I$7,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image037.png" />
+        <p>图-37</p>
+      </div>
+    </div>
+  </body>
+</html>

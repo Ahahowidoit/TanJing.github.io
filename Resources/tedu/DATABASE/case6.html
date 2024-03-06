@@ -1,0 +1,525 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATABASE DAY05</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">准备数据</a>
+        </li>
+        <li>
+          <a href="#case2">数据验证</a>
+        </li>
+        <li>
+          <a href="#case3">用户分层</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 准备数据</h2>
+      <h3>1.1 问题</h3>
+      <p>数据库创建 Online_Shop</p>
+      <p>使用数据库Online_Shop</p>
+      <p>创建users 表，并向表内 加载 users.csv 数据</p>
+      <p>创建user_addr表，并向表内加载 user_addr.csv数据</p>
+      <p>创建shops 表，并向表内加载 shops.csv 数据</p>
+      <p>创建goods 表，并向表内加载 goods.csv</p>
+      <p>创建good_cats 表，并向表内加载 good_cats.csv</p>
+      <p>创建pay_methods表，并向表内加载 pay_methods.csv</p>
+      <p>创建orders表，并向表内加载 orders.csv</p>
+      <p>创建order_defult表，并向表内加载order_defult.csv</p>
+      <p>创建order_return表，并向表内加载order_return.csv</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：准备数据</p>
+      <pre class="code">#查看load data 要求的存放文件的路径 ，
+show global variables like '%secure_file_priv%';
+#并新建data 文件夹 把9个表数据.csv 文件放到 data 
+</pre>
+      <p class="number">步骤二：数据库创建 Online_Shop</p>
+      <pre class="code">create  database  Online_Shop;
+</pre>
+      <p class="number">步骤三：使用数据库Online_Shop</p>
+      <pre class="code">use  Online_Shop;
+</pre>
+      <p class="number">步骤四：创建users 表，并向表内 加载 users.csv 数据</p>
+      <pre class="code">#建表
+create table users(
+userId  int(11) ,
+loginName  varchar(20),
+loginSecret  int(11),
+loginPwd  varchar(50),
+userType  tinyint(4),
+userSex  tinyint(4),
+userName  varchar(100),
+trueName  varchar(100),
+brithday  date,
+userPhoto  varchar(200),
+userQQ  varchar(20),
+userPhone  char(11),
+userEmail  varchar(50),
+userScore  int(11),
+userTotalScore  int(11),
+lastIP  varchar(16),
+lastTime  datetime,
+userFrom  tinyint(4),
+userMoney  decimal(11,2),
+lockMoney  decimal(11,2),
+userStatus  tinyint(4),
+dataFlag  tinyint(4),
+createTime  datetime,
+payPwd  varchar(100),
+rechargeMoney  decimal(11,2),
+isInform  tinyint(4));
+​
+#加载数据
+load data infile "/var/lib/mysql-files/data/users.csv" into table users 
+fields terminated by ',' 
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n'
+ignore 1 lines 
+</pre>
+      <p class="number">步骤五：创建user_addr表，并向表内加载 user_addr.csv数据</p>
+      <pre class="code">#新建表
+create table user_addr(
+addressId int(11),
+userId  int(11),
+userName  varchar(50),
+otherName  varchar(50),
+userPhone  varchar(20),
+areaIdPath  varchar(255),
+areaId  int(11),
+userAddress  varchar(255),
+isDefault  tinyint(4),
+dataFlag  tinyint(4),
+createTime  datetime
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/user_address.csv" into table user_addr 
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+</pre>
+      <p class="number">步骤六：创建shops 表，并向表内加载 shops.csv 数据</p>
+      <pre class="code">#新建表
+create table shops(
+shopId  int(11),
+shopSn  varchar(20),
+userId  int(11),
+areaIdPath  varchar(255),
+areaId  int(11),
+isSelf  tinyint(4),
+shopName  varchar(100),
+shopkeeper  varchar(50),
+telephone  varchar(20),
+shopCompany  varchar(255),
+shopImg  varchar(150),
+shopTel  varchar(40),
+shopQQ  varchar(50),
+shopWangWang  varchar(50),
+shopAddress  varchar(255),
+bankId  int(11),
+bankNo  varchar(20),
+bankUserName  varchar(50),
+isInvoice  tinyint(4),
+invoiceRemarks  varchar(255),
+serviceStartTime  bigint(20),
+serviceEndTime  bigint(20),
+freight  int(11),
+shopAtive  tinyint(4),
+shopStatus  tinyint(4),
+statusDesc  varchar(255),
+dataFlag  tinyint(4),
+createTime  date,
+shopMoney  decimal(11,2),
+lockMoney  decimal(11,2),
+noSettledOrderNum  int(11),
+noSettledOrderFee  decimal(11,2),
+paymentMoney  decimal(11,2),
+bankAreaId  int(11),
+bankAreaIdPath  varchar(100),
+applyStatus  tinyint(4),
+applyDesc  varchar(255),
+applyTime  datetime,
+applyStep  tinyint(4),
+shopNotice  varchar(300),
+rechargeMoney  decimal(11,2),
+longitude  decimal(10,7),
+latitude  decimal(10,7),
+mapLevel  int(11),
+BDcode  varchar(16),
+modifyTime datetime
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/shops.csv" into table shops
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+</pre>
+      <p class="number">步骤七：创建goods 表，并向表内加载 goods.csv</p>
+      <pre class="code">#新建表
+create table goods(
+goodsId int(11),
+goodsSn  varchar(20),
+productNo  varchar(20),
+goodsName  varchar(200),
+goodsImg  varchar(150),
+shopId  bigint(11),
+goodsType  tinyint(4),
+marketPrice  decimal(11,2),
+shopPrice  decimal(11,2),
+warnStock  bigint(11),
+goodsStock  bigint(11),
+goodsUnit  char(10),
+goodsTips  text,
+isSale  tinyint(4),
+isBest  tinyint(4),
+isHot  tinyint(4),
+isNew  tinyint(4),
+isRecom  tinyint(4),
+goodsCatIdPath  varchar(255),
+goodsCatId  int(11),
+shopCatId1  int(11),
+shopCatId2  int(11),
+brandId  int(11),
+goodsDesc  text,
+goodsStatus  tinyint(4),
+saleNum  int(11),
+saleTime  varchar(25),
+visitNum  int(11),
+appraiseNum  int(11),
+isSpec  tinyint(4),
+gallery  text,
+goodsSeoKeywords  varchar(200),
+illegalRemarks  varchar(255),
+dataFlag  tinyint(4),
+createTime  varchar(25),
+isFreeShipping  tinyint(4),
+goodsSerachKeywords  text,
+modifyTime datetime
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/goods.csv" into table goods 
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+</pre>
+      <p class="number">步骤八：创建good_cats 表，并向表内加载 good_cats.csv</p>
+      <pre class="code">#新建表
+create table good_cats(
+catId int(11),
+parentId  int(11),
+catName  varchar(20),
+isShow  tinyint(4),
+isFloor  tinyint(4),
+catSort  int(11),
+dataFlag  tinyint(4),
+createTime  varchar(25),
+commissionRate  decimal(11,2),
+catImg  varchar(150),
+subTitle  varchar(150),
+simpleName  varchar(20),
+seoTitle  varchar(200),
+seoKeywords  varchar(200),
+seoDes  varchar(200),
+catListTheme  varchar(200),
+detailTheme  varchar(200),
+mobileCatListTheme  varchar(200),
+mobileDetailTheme  varchar(200),
+wechatCatListTheme  varchar(200),
+wechatDetailTheme  varchar(200),
+cat_level  tinyint(4)
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/goods_cats.csv" 
+into table good_cats
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+</pre>
+      <p class="number">步骤九：创建pay_methods表，并向表内加载 pay_methods.csv</p>
+      <pre class="code">create table pay_methods(
+id  int(11),
+payCode  varchar(20),
+payName  varchar(255),
+payDesc  text,
+payOrder  int(11),
+payConfig  text,
+enabled  tinyint(4),
+isOnline  tinyint(4),
+payFor  varchar(100)
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/pay_methods.csv" into table pay_methods 
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines;
+</pre>
+      <p class="number">步骤十：创建orders表，并向表内加载 orders.csv</p>
+      <pre class="code"># 新建表
+CREATE TABLE `orders` (
+  `orderId` bigint(11) DEFAULT NULL,
+  `orderNo` varchar(20) DEFAULT NULL,
+  `userId` bigint(11) DEFAULT NULL,
+  `orderStatus` tinyint(4) DEFAULT NULL,
+  `goodsMoney` decimal(11,2) DEFAULT NULL,
+  `deliverType` tinyint(4) DEFAULT NULL,
+  `deliverMoney` decimal(11,2) DEFAULT NULL,
+  `totalMoney` decimal(11,2) DEFAULT NULL,
+  `realTotalMoney` decimal(11,2) DEFAULT NULL,
+  `payType` tinyint(4) DEFAULT NULL,
+  `isPay` tinyint(4) DEFAULT NULL,
+  `areaId` int(11) DEFAULT NULL,
+  `userAddressId` int(11) DEFAULT NULL,
+  `areaIdPath` varchar(10) DEFAULT NULL,
+  `userName` varchar(20) DEFAULT NULL,
+  `userAddress` varchar(255) DEFAULT NULL,
+  `userPhone` char(20) DEFAULT NULL,
+  `orderScore` int(11) DEFAULT NULL,
+  `isInvoice` tinyint(4) DEFAULT NULL,
+  `invoiceClient` varchar(255) DEFAULT NULL,
+  `orderRemarks` varchar(255) DEFAULT NULL,
+  `orderSrc` tinyint(4) DEFAULT NULL,
+  `needPay` decimal(11,2) DEFAULT NULL,
+  `payRand` int(11) DEFAULT NULL,
+  `orderType` int(11) DEFAULT NULL,
+  `isRefund` tinyint(4) DEFAULT NULL,
+  `isAppraise` tinyint(4) DEFAULT NULL,
+  `cancelReason` int(11) DEFAULT NULL,
+  `rejectReason` int(11) DEFAULT NULL,
+  `rejectOtherReason` varchar(255) DEFAULT NULL,
+  `isClosed` tinyint(4) DEFAULT NULL,
+  `goodsSearchKeys` varchar(20) DEFAULT NULL,
+  `orderunique` varchar(50) DEFAULT NULL,
+  `isFromCart` tinyint(1) DEFAULT NULL,
+  `receiveTime` varchar(25) DEFAULT NULL,
+  `deliveryTime` varchar(25) DEFAULT NULL,
+  `tradeNo` varchar(100) DEFAULT NULL,
+  `dataFlag` tinyint(4) DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `settlementId` int(11) DEFAULT NULL,
+  `commissionFee` decimal(11,2) DEFAULT NULL,
+  `scoreMoney` decimal(11,2) DEFAULT NULL,
+  `useScore` int(11) DEFAULT NULL,
+  `orderCode` varchar(10) DEFAULT NULL,
+  `extraJson` text,
+  `orderCodeTargetId` int(11) DEFAULT NULL,
+  `noticeDeliver` varchar(10) DEFAULT NULL,
+  `invoiceJson` text,
+  `lockCashMoney` varchar(10) DEFAULT NULL,
+  `payTime` varchar(25) DEFAULT NULL,
+  `isBatch` tinyint(4) DEFAULT NULL,
+  `totalPayFee` tinyint(4) DEFAULT NULL,
+  `modifiedTime` datetime DEFAULT NULL
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/orders.csv" into table orders 
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines;
+</pre>
+      <p class="number">步骤十一：创建order_defult表，并向表内加载order_defult.csv</p>
+      <pre class="code">#新建表
+create table order_defult(
+ogId  bigint(11),
+orderId  bigint(11),
+goodsId  bigint(11),
+goodsNum  bigint(11),
+goodsPrice  decimal(11,2),
+payPrice decimal(11,2),
+goodsSpecId  int(11),
+goodsSpecNames  varchar(500),
+goodsName  varchar(200),
+goodsImg  varchar(150),
+extraJson  text,
+goodsType  tinyint(4),
+commissionRate  decimal(11,2),
+goodsCode  varchar(20),
+promotionJson  text,
+createTime  varchar(20)
+);
+#加载数据
+load data infile "/var/lib/mysql-files/data/order_defult.csv" into table order_defult  
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+</pre>
+      <p class="number">步骤十二：创建order_return表，并向表内加载order_return.csv</p>
+      <pre class="code">#新建表
+create table order_return (
+id  int(11),
+orderId  int(11),
+goodsId  int(11),
+refundTo  int(11),
+refundReson  int(11),
+refundOtherReson  varchar(255),
+backMoney  decimal(11,2),
+refundTradeNo  varchar(100),
+refundRemark  varchar(500),
+refundTime  varchar(25),
+shopRejectReason  varchar(255),
+refundStatus  tinyint(4),
+createTime varchar(25), -- 用户申请退款时间
+modifiedTime datetime
+);
+​
+#加载数据
+load data infile "/var/lib/mysql-files/data/order_return.csv" into table order_return  
+fields terminated by ','   
+OPTIONALLY  ENCLOSED BY '\"' 
+lines terminated by '\r\n' 
+IGNORE 1 lines
+
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 数据验证</h2>
+      <h3>2.1 问题</h3>
+      <p>users与user_addr之间的关系</p>
+      <p>goods 与 good_cats 及 shops 之间的关系</p>
+      <p>order表与order_defult、order_return  、pay_methods,user、user_addr 之间的关</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：users与user_addr之间的关系</p>
+      <pre class="code">#1. 先检验users表userid 是否唯一
+select userid,count(*) from users
+group by userid
+having count(*) &gt;1
+​
+#2. 再检验user_addr表中的userid 是否都存在user表中
+select * from user_addr
+where userid not in (select userid from users)
+</pre>
+      <p class="number">步骤二：goods 与 good_cats 及 shops 之间的关系</p>
+      <pre class="code">#1.检验good_cats 的 catid 是否唯一
+select catid ,count(*) from good_cats
+group by catid 
+having count(*)&gt;1
+​
+#2.检验goods 表的goodsCatId值要在good_cats表中
+select count(*) 
+from  goods
+where goodsCatId not in(select catid from good_cats)
+​
+#3.检验shops 的 shopid 是否唯一
+select shopid,count(*) from shops
+group by shopid
+having count(*)&gt;1
+​
+#4.检验goods 中的 shopid 是否在shops 的shopid 中
+select * from goods
+where shopId not in (select shopid from shops)
+</pre>
+      <p class="number">步骤三：order表与order_defult、order_return 、pay_methods,user、user_addr 之间的关系</p>
+      <pre class="code">#1 已经检验过 users表userid 是否唯一
+#2 检验order表中userId 是否都存在users 表中
+select  *  from orders
+where userid not in (select  userId from users)
+​
+#3 检验user_addr 的 addressId是否唯一
+select addressId, count(*) from user_addr
+group by addressId 
+having count(*) &gt;1
+​
+#4 检验order 表的userAddressId是否都存在user_addr表
+select  *  from orders
+where userAddressId not in (select  addressId from user_addr)
+​
+#5 pay_methods的id 是否唯一
+select id from pay_methods
+group by id
+having count(*) &gt;1
+​
+#6 检验order表的payType是否pay_methods内
+select * from orders
+where payType not in (select id from pay_methods)
+​
+#7 检验order_defult 表的中的orderid 是否都存在于orders 表中
+select * from  order_defult
+where orderId not in (select orderId from orders)
+​
+#8 删除掉order_defult 表的中的orderid 不存在于orders 表中的数据
+delete from order_defult where orderId not in (select orderId from orders)
+​
+#9 检验 order_defult 表的orderid 是否都存在于 orders 表中
+select * from order_defult
+where orderId not in (select orderid from orders)
+​
+#10 删除order_defult 表的orderid 不存在于 orders 表中的数据
+delete from order_defult
+where orderId not in (select orderid from orders)
+​
+#11 order_return 表的订单号存在于orders表，并且 order_return 的goodid 存在于order_defult 表
+select count(*) from order_return
+where 0 = 
+(select count(*) from online_shop.order_defult 
+ where order_defult.orderId = order_return.orderId 
+ and order_defult.goodsId =order_return.goodsId )
+ #删除就没数据了，先留着
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 用户分层</h2>
+      <h3>3.1 问题</h3>
+      <p>根据规则为用户进行分层</p>
+      <p>睡眠用户生命周期时长及生命价值</p>
+      <p>找到睡眠用户的行为规律（时间）</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据规则为用户进行分层</p>
+      <pre class="code">create  table  usertype  as
+select *,
+case 
+    when 多久没来了/平均购物间隔 is null  then  "一次"
+    when 多久没来了/平均购物间隔 &lt;1 then "活跃"
+    when 多久没来了/平均购物间隔 &lt;2 then "一般"
+     when 多久没来了/平均购物间隔 &lt;3 then "睡眠"
+    else "流失"
+end as user_type 
+from(
+select orders.userId,
+datediff(max(createTime),min(createTime))/(count(orderId)-1) 平均购物间隔,
+datediff('2020/4/7',max(createTime)) 多久没来了
+from orders
+where orderStatus in (-3,0,1,2)
+group by orders.userId) as sub ;   
+</pre>
+      <p class="number">步骤二：睡眠用户生命周期时长及生命价值</p>
+      <pre class="code">select usertype.userid,
+datediff(max(orders.createTime),max(users.createTime))  as 生命周期时长, 
+sum(totalMoney) as 生命价值  from usertype 
+inner join users on usertype.userid=users.userId and user_type="睡眠"
+left join orders on usertype.userid =orders.userId
+GROUP  by usertype.userid;
+</pre>
+      <p class="number">步骤三：找到睡眠用户的行为规律（时间）</p>
+      <pre class="code">select hour(orders.createtime),count(distinct orders.userid)
+from usertype
+inner join orders on user_jiange1.userid = orders.userid
+and usertype.user_type in("流失用户","睡眠用户")
+group by hour(orders.createtime)
+</pre>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,414 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATABASE DAY05</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">表关联</a>
+        </li>
+        <li>
+          <a href="#case2">综合练习（三国表）</a>
+        </li>
+        <li>
+          <a href="#case3">综合练习（sales表）</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 表关联</h2>
+      <h3>1.1 问题</h3>
+      <p>每本书与平均价格的差异</p>
+      <p>每本书与其出版社平均价格的差异</p>
+      <p>每本书对书店积压成本的贡献率</p>
+      <p>每本书对书店其出版社积压成本的贡献率</p>
+      <p>统计书单的累计价格</p>
+      <p>统计书单的各出版社累计价格</p>
+      <p>当前行和前一行价格之和</p>
+      <p>当前行和前一行后一行的价格之和</p>
+      <p>找到各出版社price 最高图书信息</p>
+      <p>找到比所用图书平均价格高的图书信息</p>
+      <p>每个出版社各图书价格排序之差（第一名-第二名，第二名-第三名..)</p>
+      <p>每个作者各图书price排序之差</p>
+      <p>每本书与其出版社最高价格之差</p>
+      <p>找出每出版社价格最高前两本书</p>
+      <p>按价格把图书分为4份</p>
+      <p>按价格把图书分为3份，并统计每份英雄数量</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：每本书与平均价格的差异</p>
+      <pre class="code">select *,
+price - avg(price) over() as diff
+from books;
+</pre>
+      <p class="number">步骤二：每本书与其出版社平均价格的差异</p>
+      <pre class="code">select *,
+price-avg(price) over(partition by press) as diff
+from books;
+</pre>
+      <p class="number">步骤三：每本书对书店积压成本的贡献率</p>
+      <pre class="code">select *, 
+price/sum(price) over() as 贡献率
+from books;
+</pre>
+      <p class="number">步骤四：每本书对书店其出版社积压成本的贡献率</p>
+      <pre class="code">select *, 
+price/sum(price) over(partition by press) as 贡献率 
+from books;
+</pre>
+      <p class="number">步骤五：统计书单的累计价格</p>
+      <pre class="code">select *,
+sum(price) 
+over(order by price desc rows between 
+     unbounded preceding and 
+     current row ) as 累计
+from books ;
+</pre>
+      <p class="number">步骤六：统计书单的各出版社累计价格</p>
+      <pre class="code">select *,
+sum(price) over(
+    partition by press
+    order by price desc
+    rows between unbounded preceding and current row
+              ) as 累计
+from books;
+</pre>
+      <p class="number">步骤七：当前行和前一行价格之和</p>
+      <pre class="code">select *,
+sum(price) over(rows between 1 preceding and current row)    
+as 上一个值和本值的合 
+from books;
+</pre>
+      <p class="number">步骤八：当前行和前一行后一行的价格之和</p>
+      <pre class="code">select *, 
+sum(price) over(rows between 1 preceding  and 1 following ) 
+as  当前3行合
+from books;
+</pre>
+      <p class="number">步骤九：找到各出版社price 最高图书信息</p>
+      <pre class="code">select  * from (
+select *,max(price) over(partition by press) 
+as 本出版社最高price
+from books) as 屏幕上的表
+where price= 本出版社最高price
+</pre>
+      <p class="number">步骤十：找到比所用图书平均价格高的图书信息</p>
+      <pre class="code">select * from (
+select *,avg(price) over() as 平均价格 from books
+) as 屏幕上的表
+where price&gt;平均价格;
+</pre>
+      <p class="number">步骤十一：每个出版社各图书价格排序之差（第一名-第二名，第二名-第三名..)</p>
+      <pre class="code">select  *,
+price-lead(price,1) over(partition by press
+                    order by price desc)  
+                    as diff
+from books;
+</pre>
+      <p class="number">步骤十二：每个作者各图书price排序之差</p>
+      <pre class="code">select *,
+attack - lead(price) over(partition by author 
+                        order by price desc)
+as diff 
+from books;
+</pre>
+      <p class="number">步骤十三：每本书与其出版社最高价格之差</p>
+      <pre class="code">select *,
+ max(price) over(PARTITION by press) - price as diff,
+first_value(attack) 
+over(PARTITION by press order by price desc) -price as diff1
+from  sanguo;
+</pre>
+      <p class="number">步骤十四：找出每出版社价格最高前两本书</p>
+      <pre class="code">select  * from (
+select *,
+row_number() over(partition by press order by price desc) as  出版社内名次row,
+rank() over(partition by press order by price desc) as  出版社内名次rank,
+dense_rank() over(partition by press order by price desc) as  出版社内名次den
+from books
+) as 屏幕上的表
+where 出版社内名次den&lt;=2;
+</pre>
+      <p class="number">步骤十五：按价格把图书分为4份</p>
+      <pre class="code">select *,
+ntile(4) over(order by price desc) 
+from book;
+</pre>
+      <p class="number">步骤十六：按价格把图书分为3份，并统计每份英雄数量</p>
+      <pre class="code">select 组别,count(bname) as 图书数 from(
+select *,ntile(3) over(order by price desc) as 组别
+from books) as 屏幕上的表
+group by 组别;
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 综合练习（三国表）</h2>
+      <h3>2.1 问题</h3>
+      <p>查找所有蜀国人信息，按照攻击力排名</p>
+      <p>吴国英雄攻击力超过300的改为300，最多改2个</p>
+      <p>查找攻击力超过200的魏国英雄名字和攻击力并显示为姓名， 攻击力</p>
+      <p>所有英雄按照攻击力降序排序，如果相同则按照防御生序排序</p>
+      <p>查找名字为3字的</p>
+      <p>找到魏国防御力排名2-3名的英雄</p>
+      <p>查找所有女性角色中攻击力大于180的和男性中攻击力小于250的</p>
+      <p>查找攻击力比魏国最高攻击力的人还要高的蜀国英雄</p>
+      <p>比本国平均攻击力高的英雄</p>
+      <p>每个英雄与本性别英雄最高攻击力的差值</p>
+      <p>各国攻击力最高的前两个英雄</p>
+      <p>各性别防御力最低的两个英雄</p>
+      <p>统计各国英雄的平均攻击力，人数，最高防御力</p>
+      <p>查找有防御力大于80的国家</p>
+      <p>统计每个用户每年消费占比（在自己的消费总额中）</p>
+      <p>统计年累计销售</p>
+      <p>计算每位用户的每次购物间隔</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：数据准备（三国表)</p>
+      <pre class="code">create table sanguo(
+id int primary key auto_increment,
+name varchar(30),
+gender enum('男','女'),
+country enum('魏','蜀','吴'),
+attack smallint,
+defense tinyint
+);
+​
+insert into sanguo
+values (1, '曹操', '男', '魏', 256, 63),
+       (2, '张辽', '男', '魏', 328, 69),
+       (3, '甄姬', '女', '魏', 168, 34),
+       (4, '夏侯渊', '男', '魏', 366, 83),
+       (5, '刘备', '男', '蜀', 220, 59),
+       (6, '诸葛亮', '男', '蜀', 170, 54),
+       (7, '赵云', '男', '蜀', 377, 66),
+       (8, '张飞', '男', '蜀', 370, 80),
+       (9, '孙尚香', '女', '蜀', 249, 62),
+       (10, '大乔', '女', '吴', 190, 44),
+       (11, '小乔', '女', '吴', 188, 39),
+       (12, '周瑜', '男', '吴', 303, 60),
+       (13, '吕蒙', '男', '吴', 330, 71);
+</pre>
+      <p class="number">步骤二：查找所有蜀国人信息，按照攻击力排名</p>
+      <pre class="code">select * from sanguo where country="蜀"
+order by attack desc;
+</pre>
+      <p class="number">步骤三：吴国英雄攻击力超过300的改为300，最多改2个</p>
+      <pre class="code">update sanguo set attack=300
+where country="吴" and attack&gt;300
+limit 2;
+</pre>
+      <p class="number">步骤四：查找攻击力超过200的魏国英雄名字和攻击力并显示为姓名， 攻击力</p>
+      <pre class="code">select name as 姓名,attack as 攻击力
+from sanguo
+where attack&gt;200 and country="魏";
+</pre>
+      <p class="number">步骤五：所有英雄按照攻击力降序排序，如果相同则按照防御生序排序</p>
+      <pre class="code">select * from sanguo
+order by attack desc,defense;
+</pre>
+      <p class="number">步骤六：查找名字为3字的</p>
+      <pre class="code">select * from sanguo where name like "___";
+</pre>
+      <p class="number">步骤七：找到魏国防御力排名2-3名的英雄</p>
+      <pre class="code">select * from sanguo where country="魏"
+order by defense desc
+limit 2 offset 1;
+</pre>
+      <p class="number">步骤八：查找所有女性角色中攻击力大于180的和男性中攻击力小于250的</p>
+      <pre class="code">select * from sanguo where gender="女" and attack&gt;180
+union
+select * from sanguo where gender="男" and attack&lt;250;
+</pre>
+      <p class="number">步骤九：查找攻击力比魏国最高攻击力的人还要高的蜀国英雄</p>
+      <pre class="code">select * from sanguo
+where country="蜀" and
+attack &gt; (select attack from sanguo
+where country="魏" order by attack desc
+limit 1);
+</pre>
+      <p class="number">步骤十：比本国平均攻击力高的英雄</p>
+      <pre class="code">select * from sanguo as zhu
+where attack&gt;(select avg(attack) from sanguo where country=zhu.country);
+</pre>
+      <p class="number">步骤十一：每个英雄与本性别英雄最高攻击力的差值</p>
+      <pre class="code">select *,max(attack) over(partition by gender) - attack as diff 
+from sanguo as zhu
+</pre>
+      <p class="number">步骤十二：各国攻击力最高的前两个英雄</p>
+      <pre class="code">select * from(
+select *,rank() over(partition by  country order by attack desc) as mingci 
+from sanguo) as 屏幕上的表
+where mingci&lt;=2
+</pre>
+      <p class="number">步骤十三：各性别防御力最低的两个英雄</p>
+      <pre class="code">select * from(
+select *,rank() over(partition by  gender order by defense) as mingci 
+from sanguo) as 屏幕上的表
+where mingci&lt;=2
+</pre>
+      <p class="number">步骤十四：统计各国英雄的平均攻击力，人数，最高防御力</p>
+      <pre class="code">select country,avg(attack), count(name),max(defense)   
+from sanguo
+group by country;
+</pre>
+      <p class="number">步骤十五：查找有防御力大于80的国家</p>
+      <pre class="code">#方法1
+select country
+from sanguo
+group by country
+having max(defense) &gt;80;
+#方法2
+select distinct country
+from sanguo
+where defense&gt;80
+</pre>
+      <p class="number">步骤十六：统计每个用户每年消费占比（在自己的消费总额中）</p>
+      <pre class="code">#理解题意
+用户 年  消费  消费综合  占比
+A  2021  100  300   100/300
+A  2022  200  300   200/300
+B  2021  300  800   300/800
+B  2022  500  800   500/800
+c  2018  300  1600   300/1600
+c  2019  500  1600   500/1600
+c  2021  300  1600   300/1600
+c  2022  500  1600   500/1600
+​
+select *,
+sum(total_sales) over(partition by customer_id) ren_all_sales,
+total_sales/ sum(total_sales) over(partition by customer_id) as zhanbi 
+from(
+select customer_id,year(date_time) nian ,sum(unit_price * quantity) total_sales  from sales
+group by customer_id,year(date_time)) as sub
+</pre>
+      <p class="number">步骤十七：统计年累计销售</p>
+      <pre class="code">#理解题意
+nian 消费 累计
+2020 100  100
+2021 200  300
+2022 500  800
+​
+select *,
+sum(total_sales) over(order by nian rows between unbounded preceding and  current row) as leiji 
+from(
+select year(date_time) nian ,sum(unit_price * quantity) total_sales  from sales
+group by year(date_time)
+) as sub
+order by nian 
+</pre>
+      <p class="number">步骤十八：计算每位用户的每次购物间隔</p>
+      <pre class="code">用户 时间    金额   下一次购物时间(lead)   每次购物间隔 = 下一次购物时间-时间
+a  2010-10-1  200   2010-10-10     2010-10-10-2010-10-1
+a  2010-10-10 300   2010-12-10
+a  2010-12-10 100   null 
+B  2011-11-11 200   2011-11-20
+B  2011-11-20  60   
+​
+select *,lag(date_time) over(partition by customer_id order by date_time) pre_time,
+datediff(date_time,lag(date_time) over(partition by customer_id order by date_time)) jiange
+from (
+select customer_id , date_time, sum(unit_price * quantity) total_sales from sales
+group by customer_id , date_time) as sub;
+order by customer_id,date_time
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 综合练习（sales表）</h2>
+      <h3>3.1 问题</h3>
+      <p>查找所有蜀国人信息，按照攻击力排名</p>
+      <p>吴国英雄攻击力超过300的改为300，最多改2个</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：数据准备（sales表)</p>
+      <pre class="code">#建立销售表
+create  table  sales(
+order_id  varchar(50),
+product_id  int,
+customer_id   varchar(50),
+date_time  date,
+freight_charges  float, -- 运费
+unit_price  float, -- 单价
+quantity  int  -- 数量
+);
+​
+#像表内导入数据
+sales 表右键——》数据导入——》选择sales.csv文件——》双击映射记录查看映射关系——》继续（完成导入）
+</pre>
+      <p class="number">步骤二：统计每位用户每次购物与第一次购物的时间差</p>
+      <pre class="code">用户  时间     金额   第一次购物时间   每次购物与第一次购物的时间差 = 时间 - 第一次购物时间
+a  2010-10-1  200   2010-10-1      2010-10-1 - 2010-10-1
+a  2010-10-10 300   2010-10-1      2010-10-10 - 2010-10-1 
+a  2010-12-10 100   2010-10-1 
+B  2011-11-11 200   2011-11-11
+B  2011-11-20  60   2011-11-11
+​
+INSERT OVERWRITE LOCAL DIRECTORY "/home/tarena/2111/Hive/tongji"
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
+select *,
+first_value(date_time) over(partition by customer_id order by date_time) as first_time,
+datediff(date_time,first_value(date_time) over(partition by customer_id order by  date_time)) as firsst_jiange
+from(
+select customer_id , date_time, sum(unit_price * quantity) total_sales 
+from sales
+group by customer_id , date_time) as sub
+步骤三：每年消费最高的10人 
+#理解题意
+用户 年   消费    年内名词(row_number)
+c  2018  300       1
+c  2019  500       1
+B  2021  300       1
+c  2021  300       2
+A  2021  100       3
+B  2022  600       1
+c  2022  500       2
+A  2022  200       3
+  
+ #一年内很难出现相同消费的人,所以此处row_number, rank, dense_rank 没有差异
+ select * from (
+ select *,rank() over(partition by nian order by total_sales desc) as mingci 
+ from(
+ select  year(date_time) nian ,customer_id ,sum(unit_price * quantity) total_sales 
+ from sales
+ group by  year(date_time),customer_id) as sub
+ order by nian ,total_sales desc) as sub1
+ where mingci&lt;=10
+</pre>
+      <p class="number">步骤四：每年销售额最高的2个月</p>
+      <pre class="code"> #每年很难出现相同消费,所以此处row_number, rank, dense_rank 没有差异
+ #建议dense_rank
+ nian  yue  消费   mingci 
+ 2021  1    100     3
+ 2021  2    200     2
+ 2021  3    500     1
+ 2022  1    300     2
+ 2022  2    400     1
+ 2022  3    200     3
+ 
+ select * from (
+ select  *,dense_rank() over(partition by nian order by  total_sales desc) mingci
+ from (
+ select  year(date_time) nian, month(date_time) as yue,
+ sum(unit_price * quantity) total_sales 
+ from sales
+ group by  year(date_time),month(date_time)) as sub
+ ) as sub1
+ where mingci&lt;=2
+ order by nian,total_sales desc
+</pre>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,369 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME DATAHOUSE DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">Json 练习</a>
+        </li>
+        <li>
+          <a href="#case2">表输入输出练习</a>
+        </li>
+        <li>
+          <a href="#case3">串讲转换（上）</a>
+        </li>
+        <li>
+          <a href="#case4">串讲转换（下）</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 Json 练习</h2>
+      <h3>1.1 问题</h3>
+      <p>本例要求解析05_JSON输入.json文件，从外层的status，到内层的 field、value</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：新建转换，拖拽Json_input控件，并读取05_JSON输入.json的status、response 数据</p>
+      <p>拖拽Json input 控件——&gt;双击——&gt;“文件”tab ——&gt;浏览选择 05_Json输入.json文件——&gt;点击”填加”到“选中的文件”</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图1</p>
+      </div>
+      <p>选择“字段”tab ——&gt;”select fields”——&gt;勾选status、response</p>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图2</p>
+      </div>
+      <p class="number">步骤二：拖拽Json_input控件，从第一步骤response数据，读取submissions、 total、 pages 数据</p>
+      <p>拖拽Json_input ——双击——“源定义在一个字段里”——“response”</p>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图3</p>
+      </div>
+      <p>选个“字段”Tab输入定义的字段名及提取路径</p>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图4</p>
+      </div>
+      <p>步骤三：拖拽Json_input控件，从第二步骤submissions数据，读取id、 timestamp、data等数据</p>
+      <p>拖拽Json_input ——双击——“源定义在一个字段里”——“submissions”，并选择“字段”tab 进行输入名称和路径。</p>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图5</p>
+      </div>
+      <p>步骤四：拖拽Json_input控件，从第三步骤data数据，读取id、 timestamp、data等数据 field、value 数据</p>
+      <p>拖拽Json_input ——双击——“源定义在一个字段里”——“data”，并选择“字段”tab 进行输入名称和路径。</p>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图6</p>
+      </div>
+      <p>步骤五：拖拽转换中的字段选择控件，把数据流中的 response、 submissions、data 都异常</p>
+      <p>拖拽字段选择控件——&gt;双击——&gt;“移除”Tab——&gt;选择“response”、“submissions”、 “data”。</p>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图7</p>
+      </div>
+      <p>步骤六：把数据保存到Excel文件中</p>
+      <p>拖拽Excel 输出——&gt;双击——&gt;浏览选择文件路径并输入文件名,选择“字段”Tab——字段获取。</p>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图8</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 表输入输出练习</h2>
+      <h3>2.1 问题</h3>
+      <p>准备数据：创建kettle 数据库，并在库内创建 student,score,course,teacher 4张表，Kettle 与 Mysql创建连接并共享</p>
+      <p>读取Kettle 数据库studetn表存入到student.xls文件中,修改王菊的男，并读入student.xls文件对kettle 数据库student表进行更新（查看kettle 数据库student表的王菊是否为修改为男）</p>
+      <p>修改student.xls文件，在其中添加ID为10，姓名为王菊3数据，并读入student.xls文件对kettle 数据库student表进行插入（查看kettle 数据库student表是否多王菊3数据）</p>
+      <p>修改student.xls文件，只保留列头和王菊2，王菊3两条数据，并读入student.xls文件对kettle 数据库student表进行删除（查看kettle 数据库student表王菊2，王菊3是被删除）</p>
+      <p>读取01_kettle快速体验.csv存入kettle数据库的kettle_test 表</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：打开DBeaver创建kettle数据</p>
+      <pre class="code">Create database kettle;
+</pre>
+      <p class="number">步骤二：进入kettle数据库创建student,score,course,teacher表</p>
+      <pre class="code">Use kettle;
+CREATE TABLE `student` (
+  `s_id` int(11) DEFAULT NULL,
+  `s_name` varchar(50) DEFAULT NULL,
+  `s_birth` date DEFAULT NULL,
+  `s_sex` varchar(50) DEFAULT NULL
+);
+INSERT INTO `student` VALUES (1,'赵雷','1990-01-01','男'),(2,'钱电','1990-12-21','男'),(3,'孙风','1990-05-20','男'),(4,'李云','1990-08-06','男'),(5,'周梅','1991-12-01','女'),(6,'吴兰','1992-03-01','女'),(7,'郑竹','1989-07-01','女'),(8,'王菊','1990-01-20','女'),(9,'王菊2','1991-12-01','女');
+
+CREATE TABLE `course` (
+  `c_id` int(11) DEFAULT NULL,
+  `c_name` varchar(50) DEFAULT NULL,
+  `t_id` int(11) DEFAULT NULL
+);
+INSERT INTO `course` VALUES (1,'语文',2),(2,'数学',1),(3,'英语',3);
+
+CREATE TABLE `score` (
+  `s_id` int(11) DEFAULT NULL,
+  `c_id` int(11) DEFAULT NULL,
+  `s_score` int(11) DEFAULT NULL
+);
+INSERT INTO `score` VALUES (1,1,80),(1,2,90),(1,3,99),(2,1,70),(2,2,60),(2,3,80),(3,1,80),(3,2,80),(3,3,80),(4,1,50),(4,2,50),(4,3,50),(5,1,76),(5,2,87),(6,1,50),(6,3,50),(7,2,89),(7,3,98);
+
+
+CREATE TABLE `teacher` (
+  `t_id` int(11) DEFAULT NULL,
+  `t_name` varchar(50) DEFAULT NULL
+);
+INSERT INTO `teacher` VALUES (1,'张三'),(2,'李四'),(3,'王五');
+</pre>
+      <p class="number">步骤三：kettle与数据库连接</p>
+      <p>选择“主对象树”——》DB连接右键新建——》连接类型选择“MySQL”——》连接名为mysql。</p>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图9</p>
+      </div>
+      <p class="number">步骤四：mysql连接共享</p>
+      <p>Mysql 连接右键选择“共享”。</p>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图9</p>
+      </div>
+      <p class="number">步骤五：验证表输入、更新</p>
+      <p>读取Kettle 数据库studetn表存入到student.xls文件中,修改王菊的男，并读入student.xls文件对kettle 数据库student表进行更新（查看kettle 数据库student表的王菊是否为修改为男）</p>
+      <p>1）读取Kettle 数据库studetn表数据存入</p>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图10</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图11</p>
+      </div>
+      <p>2）打开student.xls文件，修改王菊的性别为男</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图12</p>
+      </div>
+      <p>3）新建转换文件，并读取student.xls文件</p>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图13</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图14</p>
+      </div>
+      <p>4）更新到kettle 数据库student表</p>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图15</p>
+      </div>
+      <p>5）运行转换并查看 kettle 数据库student表</p>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图16</p>
+      </div>
+      <p class="number">步骤六：验证插入更新</p>
+      <p>修改student.xls文件，在其中添加ID为10，姓名为王菊3数据，并读入student.xls文件对kettle 数据库student表进行插入（查看kettle 数据库student表是否多王菊3数据）</p>
+      <p>1）Student.xls 添加10号王菊3数据，并把王菊改为女，并保存</p>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图17</p>
+      </div>
+      <p>2）新建转换文件并读取student.xls文件</p>
+      <p>参照步骤五读取student.xls</p>
+      <p>3）插入更新到kettle 数据库student表</p>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图18</p>
+      </div>
+      <p>4）运行转换并查看 kettle 数据库student表</p>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图19</p>
+      </div>
+      <p class="number">步骤七：验证删除</p>
+      <p>修改student.xls文件，只保留列头和王菊2，王菊3两条数据，并读入student.xls文件对kettle 数据库student表进行删除（查看kettle 数据库student表王菊2，王菊3是被删除）</p>
+      <p>1）student表删除1-8号数据，只保留只保留列头和王菊2，王菊3两条数据</p>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图20</p>
+      </div>
+      <p>2）新建转换文件并读取student.xls文件</p>
+      <p>参照步骤五读取student.xls</p>
+      <p>3）拖拽“删除”并进行设置</p>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图21</p>
+      </div>
+      <p>4）运行并查看kettle数据student表</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图22</p>
+      </div>
+      <a name="case3">
+      </a>
+      <h2>3 串讲转换（上）</h2>
+      <h3>3.1 问题：</h3>
+      <p>通过01_kettle快速体验.csv实现如下内容</p>
+      <p>1）把sex的0，1 转为女，男。 新列名sex_hanzi</p>
+      <p>2）为每个人年龄加10岁</p>
+      <p>3）年龄和性别(男女)进行连接</p>
+      <p>4）把连接结果再次拆开</p>
+      <p>5）把名字中的a 替换为x</p>
+      <p>6）剪切姓名的前两个字母，位置从0开始。</p>
+      <p>7）姓名固定长度为10，不足长度左侧补充*</p>
+      <p>8）过滤数据男生信息存储到Excel文件中，女生信息存储到文本文件中</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：新建转换，拖拽CSV文件输入控件，并读取01_kettle快速体验.csv数据</p>
+      <div class="image">
+        <img src="index.files/image024.png" />
+        <p>图23</p>
+      </div>
+      <p class="number">步骤三：把sex的0，1 转为女，男。 新列名sex_hanzi</p>
+      <div class="image">
+        <img src="index.files/image025.png" />
+        <p>图24</p>
+      </div>
+      <p class="number">步骤四：为每个人年龄加10岁</p>
+      <p>1）先准备出常量值10</p>
+      <div class="image">
+        <img src="index.files/image026.png" />
+        <p>图25</p>
+      </div>
+      <p>2）实现年龄加10岁</p>
+      <div class="image">
+        <img src="index.files/image027.png" />
+        <p>图26</p>
+      </div>
+      <p class="number">步骤五：年龄和性别(男女)进行连接</p>
+      <div class="image">
+        <img src="index.files/image028.png" />
+        <p>图27</p>
+      </div>
+      <p class="number">步骤六：把连接结果再次拆开</p>
+      <div class="image">
+        <img src="index.files/image029.png" />
+        <p>图28</p>
+      </div>
+      <p class="number">步骤七：把名字中的a 替换为x</p>
+      <div class="image">
+        <img src="index.files/image030.png" />
+        <p>图29</p>
+      </div>
+      <p class="number">步骤八:剪切姓名的前两个字母，位置从0开始。</p>
+      <div class="image">
+        <img src="index.files/image031.png" />
+        <p>图30</p>
+      </div>
+      <p class="number">步骤九：姓名固定长度为10，不足长度左侧补充*</p>
+      <div class="image">
+        <img src="index.files/image032.png" />
+        <p>图31</p>
+      </div>
+      <p class="number">步骤十：过滤数据男生信息存储到Excel文件中，女生信息存储到文本文件中</p>
+      <p>1）过滤数据</p>
+      <div class="image">
+        <img src="index.files/image033.png" />
+        <p>图32</p>
+      </div>
+      <p>2）性别数据分流</p>
+      <div class="image">
+        <img src="index.files/image034.png" />
+        <p>图33</p>
+      </div>
+      <p>3）各性别数据存储</p>
+      <div class="image">
+        <img src="index.files/image035.png" />
+        <p>图34</p>
+      </div>
+      <a name="case4">
+      </a>
+      <h2>4 串讲转换（下）</h2>
+      <h3>4.1 问题：</h3>
+      <p>利用 输入 09_列转行.xlsx 文件 实现以下功能</p>
+      <p>1）以星期分组，张三李四显示为两列数据</p>
+      <p>2）产生员工姓名列内容为张三，李四，把两人的工时放入新建“工作小时”列（行转列）</p>
+      <p>3）在第一个步骤读取数据上以复制形式做列转行（以姓名分组，产生周一~周日7列数据）</p>
+      <p>4）两个复制步骤中（列转行）的结果只要存储周一到周五的数据（保存到文本文件中)，六日的不要</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：新建转换，拖拽Excel输入控件，并读取09_列转行.xlsx数据</p>
+      <div class="image">
+        <img src="index.files/image036.png" />
+        <p>图35</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image037.png" />
+        <p>图36</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image038.png" />
+        <p>图37</p>
+      </div>
+      <p class="number">步骤二：以星期分组，张三李四显示为两列数据</p>
+      <div class="image">
+        <img src="index.files/image039.png" />
+        <p>图38</p>
+      </div>
+      <p class="number">步骤三：产生员工姓名列内容为张三，李四，把两人的工时放入新建“工作小时”列（行转列）</p>
+      <div class="image">
+        <img src="index.files/image040.png" />
+        <p>图39</p>
+      </div>
+      <p class="number">步骤四：在第一个步骤读取数据上以复制形式做列转行（以姓名分组，产生周一~周日7列数据）</p>
+      <p>1）以姓名分组，升降序均可</p>
+      <div class="image">
+        <img src="index.files/image041.png" />
+        <p>图40</p>
+      </div>
+      <p>2）对排序后的数据进行以姓名列转行</p>
+      <div class="image">
+        <img src="index.files/image042.png" />
+        <p>图41</p>
+      </div>
+      <p class="number">步骤五：两个复制步骤中（列转行）的结果只要存储周一到周五的数据（保存到文本文件中)，六日的不要</p>
+      <p>1）对星期分组的列转行进行分流保存</p>
+      <p>添加过滤条件 星期in list 周六; 周日</p>
+      <div class="image">
+        <img src="index.files/image043.png" />
+        <p>图42</p>
+      </div>
+      <p>对不是周六日的数据送到Excel，是周六日数据送到写日志</p>
+      <div class="image">
+        <img src="index.files/image044.png" />
+        <p>图43</p>
+      </div>
+      <p>设置Excel输出对周一到周五的数据进行保存，并设置“写日志”</p>
+      <div class="image">
+        <img src="index.files/image045.png" />
+        <p>图44</p>
+      </div>
+      <p>2）对姓名分组的列转行进行分流保存</p>
+      <p>删掉周六日两列数据</p>
+      <div class="image">
+        <img src="index.files/image046.png" />
+        <p>图45</p>
+      </div>
+      <p>对周一至周五数据进行保存</p>
+      <div class="image">
+        <img src="index.files/image047.png" />
+        <p>图46</p>
+      </div>
+    </div>
+  </body>
+</html>

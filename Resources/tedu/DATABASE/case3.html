@@ -1,0 +1,380 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATABASE DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">Select子句</a>
+        </li>
+        <li>
+          <a href="#case2">联合查询</a>
+        </li>
+        <li>
+          <a href="#case3">子查询</a>
+        </li>
+        <li>
+          <a href="#case4">聚合查询</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 Select子句</h2>
+      <h3>1.1 问题</h3>
+      <p>按出版社升序</p>
+      <p>按作者降序，作者相同按id降序</p>
+      <p>机械工业出版社图书，按价格升序，只显示书名、作者、价格</p>
+      <p>最贵的3本书</p>
+      <p>第三四贵的书</p>
+      <p>第2,3,4 便宜的书</p>
+      <p>中国文学出版社第二贵的书，只显示书名 价格</p>
+      <p>大于 50 的图书中 第3，4 便宜的书</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：按出版社升序</p>
+      <pre class="code">#方法1
+select  * from books order by press asc ,price asc;
+#方法2
+select  * from books order by press,price;
+</pre>
+      <p class="number">步骤二：按作者降序，作者相同按id降序</p>
+      <pre class="code">select  * from books order by author desc,id desc;
+</pre>
+      <p class="number">步骤三：机械工业出版社图书，按价格升序，只显示书名、作者、价格</p>
+      <pre class="code">select bname ,author ,price 
+from books
+where press ="机械工业出版社"
+order by price asc;
+</pre>
+      <p class="number">步骤四：最贵的3本书</p>
+      <pre class="code">select * from books order by price desc limit 3;
+</pre>
+      <p class="number">步骤五：第三四贵的书</p>
+      <pre class="code">select * from books  order by price desc  limit 2,2;
+</pre>
+      <p class="number">步骤六：第2,3,4 便宜的书</p>
+      <pre class="code">#方法1
+select * from books order by price limit 1,3;
+#方法2
+select * from books order by price limit 3 offset 1;
+</pre>
+      <p class="number">步骤七：中国文学出版社第二贵的书，只显示书名 价格</p>
+      <pre class="code">select bname,price  
+from books 
+where press="中国文学出版社"
+order by price desc
+limit 1,1;
+</pre>
+      <p class="number">步骤八：大于 50 的图书中 第3，4 便宜的书</p>
+      <pre class="code">select  * from books 
+where price&gt;50
+order by price
+limit 2,2;
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 联合查询</h2>
+      <h3>2.1 问题</h3>
+      <p>按出版社升序</p>
+      <p>按作者降序，作者相同按id降序</p>
+      <p>机械工业出版社图书，按价格升序，只显示书名、作者、价格</p>
+      <p>最贵的3本书</p>
+      <p>第三四贵的书</p>
+      <p>第2,3,4 便宜的书</p>
+      <p>中国文学出版社第二贵的书，只显示书名 价格</p>
+      <p>大于 50 的图书中 第3，4 便宜的书</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：找到老舍 或 中国文学出版社的图书信息（不能使用or)</p>
+      <pre class="code">#1先找到老舍的
+select * from books where author ="老舍"
+#2找到中国文学出版社的
+union  #只做合并，union是合并并去重
+select * from books where press ="中国文学出版社";
+</pre>
+      <p class="number">步骤二：bname两个字的或价格大于50的图书,书名,价格,作者(不能使用or)不能有重复记录,并且按价格降序排序</p>
+      <pre class="code">select bname,price,author from books
+where LENGTH(bname)/3 =2 
+union 
+select bname,price,author from books
+where price&gt;50
+order by price desc;
+</pre>
+      <p class="number">步骤三：每个出版社最贵的书名，价格，出版社</p>
+      <pre class="code">(select bname,price,press from books 
+where press ="中国文学出版社"
+order by price desc
+limit 1)
+union
+(select bname,price,press from books 
+where press ='机械工业出版社'
+order by price desc
+limit 1)
+union
+(select bname,price,press from books 
+where press ='人民教育出版社' 
+order by price desc
+limit 1);
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 子查询</h2>
+      <h3>3.1 问题</h3>
+      <p>计算每本书与最贵的价格差</p>
+      <p>计算每本书与呐喊的价格之差</p>
+      <p>找到比机械工业出版社最贵的书还贵的图书信息</p>
+      <p>数据准备</p>
+      <p>找到张三老师所教的课程考试的成绩</p>
+      <p>赵雷的所有成绩</p>
+      <p>查看孙风的语文成绩</p>
+      <p>王五老师所教的课程名称</p>
+      <p>机械工业出版社大于50元书（不能用and)</p>
+      <p>价格在[40,60]之间（不能用and或between and）</p>
+      <p>计算每本书与其出版社最贵价格差</p>
+      <p>计算每本书与其作者最便宜的价格差</p>
+      <p>找到每个出版社最贵的书</p>
+      <p>每个出版社最贵的前两本</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算每本书与最贵的价格差</p>
+      <pre class="code">#最贵的价格
+select price from books
+order by price DESC
+limit 1;
+​
+#查询并计算价格差
+select *,(select price from books
+          order by price DESC
+         limit 1) - price as 价格差 
+from books;
+</pre>
+      <p class="number">步骤二：计算每本书与呐喊的价格之差</p>
+      <pre class="code">#呐喊价格
+select price from books where bname="呐喊";
+​
+#查询并计算价格差
+select *,abs(price - (select price from books
+                 where bname="呐喊")) as 价格差 
+from books;
+</pre>
+      <p class="number">步骤三：找到比机械工业出版社最贵的书还贵的图书信息</p>
+      <pre class="code">select * from  books 
+where price &gt;(select price from books
+                where press="机械工业出版社"
+                order by price desc limit 1);
+</pre>
+      <p class="number">数据准备</p>
+      <pre class="code">use exercise;
+CREATE TABLE `student` (
+  `s_id` int(11) DEFAULT NULL,
+  `s_name` varchar(50) DEFAULT NULL,
+  `s_birth` date DEFAULT NULL,
+  `s_sex` varchar(50) DEFAULT NULL
+);
+INSERT INTO `student` VALUES (1,'赵雷','1990-01-01','男'),(2,'钱电','1990-12-21','男'),(3,'孙风','1990-05-20','男'),(4,'李云','1990-08-06','男'),(5,'周梅','1991-12-01','女'),(6,'吴兰','1992-03-01','女'),(7,'郑竹','1989-07-01','女'),(8,'王菊','1990-01-20','女'),(9,'王菊2','1991-12-01','女');
+​
+CREATE TABLE `course` (
+  `c_id` int(11) DEFAULT NULL,
+  `c_name` varchar(50) DEFAULT NULL,
+  `t_id` int(11) DEFAULT NULL
+);
+INSERT INTO `course` VALUES (1,'语文',2),(2,'数学',1),(3,'英语',3);
+​
+CREATE TABLE `score` (
+  `s_id` int(11) DEFAULT NULL,
+  `c_id` int(11) DEFAULT NULL,
+  `s_score` int(11) DEFAULT NULL
+);
+INSERT INTO `score` VALUES (1,1,80),(1,2,90),(1,3,99),(2,1,70),(2,2,60),(2,3,80),(3,1,80),(3,2,80),(3,3,80),(4,1,50),(4,2,50),(4,3,50),(5,1,76),(5,2,87),(6,1,50),(6,3,50),(7,2,89),(7,3,98);
+​
+​
+CREATE TABLE `teacher` (
+  `t_id` int(11) DEFAULT NULL,
+  `t_name` varchar(50) DEFAULT NULL
+);
+INSERT INTO `teacher` VALUES (1,'张三'),(2,'李四'),(3,'王五');
+</pre>
+      <p class="number">步骤四：找到张三老师所教的课程考试的成绩</p>
+      <pre class="code">use exercise;
+select * 
+from score 
+where c_id = (select c_id 
+              from course 
+              where t_id=(select t_id 
+                          from teacher 
+                          where t_name="张三"));
+</pre>
+      <p class="number">步骤五：赵雷的所有成绩</p>
+      <pre class="code">select * from score
+where s_id = (select  s_id 
+              from student 
+             where s_name = "赵雷");
+</pre>
+      <p class="number">步骤六：查看孙风的语文成绩</p>
+      <pre class="code">select * from score 
+WHERE c_id =(select c_id from course where c_name ="语文") 
+and s_id=(select  s_id 
+            from student 
+            where s_name = "孙风");
+</pre>
+      <p class="number">步骤七：王五老师所教的课程名称</p>
+      <pre class="code">select t_id from teacher where t_name="王五";
+select * from course where t_id = 3;
+​
+#合并
+select * from course 
+where t_id = (select t_id from teacher where t_name="王五");
+</pre>
+      <p class="number">步骤八：机械工业出版社大于50元书（不能用and)</p>
+      <pre class="code">select * from (
+                select * from books
+                where press="机械工业出版社")
+              as 屏幕上表
+where price &gt; 50;
+</pre>
+      <p class="number">步骤九：价格在[40,60]之间（不能用and或between and）</p>
+      <pre class="code">select * from (
+            select * from books 
+            where price &gt;= 40) as 屏幕上表
+where price&lt;=60;
+</pre>
+      <p class="number">步骤十：计算每本书与其出版社最贵价格差</p>
+      <pre class="code">select  *,
+    (select  price from books as sub 
+     where sub.press = zhu.press
+     order by price desc limit 1
+    ) - price as 与本出版社最贵差
+from books as zhu;
+</pre>
+      <p class="number">步骤十一：计算每本书与其作者最便宜的价格差</p>
+      <pre class="code">select *,price-(
+            select price from books as sub
+            where sub.author = zhu.author 
+            order by price 
+            limit 1
+) as diff
+from books as zhu;
+</pre>
+      <p class="number">步骤十二：找到每个出版社最贵的书</p>
+      <pre class="code">select * from books as zhu 
+where price = (select price from books as sub
+               where sub.press =zhu.press 
+               order by price desc limit 1);
+</pre>
+      <p class="number">步骤十三：每个出版社最贵的前两本</p>
+      <pre class="code">#方法1
+select * from books zhu
+where (select count(bname) from books as sub
+       where sub.press = zhu.press  #本出版社
+       and sub.price&gt;zhu.price #比我贵
+       )&lt;=1;
+#方法2
+select * from books zhu
+where price &gt;=(select price from books as sub
+       where sub.press = zhu.press  #本出版社
+       order by price desc
+       limit 1,1
+       );
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 聚合查询</h2>
+      <h3>4.1 问题</h3>
+      <p>books表图书数量</p>
+      <p>books表作者数量</p>
+      <p>books图书最高价，最低价，均值,总价</p>
+      <p>books表图书最早的时间</p>
+      <p>books表图书平均出版时间（天数）</p>
+      <p>books表各出版社图书数量</p>
+      <p>books表各作者图书数量</p>
+      <p>books表各出版社图书最高价，最低价，均值,总价</p>
+      <p>books表统计各作者的图书名称 显示为作者，图书名称字符串</p>
+      <p>图书均价大于40的作者、图书数量、均价</p>
+      <p>图书数量大于2的出版社、图书名，数量</p>
+      <p>统计出版过大于50元图书的作者及出版图书数量</p>
+      <p>统计小于40和大于等于40的图书数量</p>
+      <p>统计各书名长度，图书数量，均价，作者名称</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：books表图书数量</p>
+      <pre class="code">select count(bname) from books;
+</pre>
+      <p class="number">步骤二：books表作者数量</p>
+      <pre class="code">select count(distinct author) from books;
+</pre>
+      <p class="number">步骤三：books图书最高价，最低价，均值,总价</p>
+      <pre class="code">select max(price) as 最高价 ,min(price) as 最低价, 
+avg(price) as 均价，sum(price) as 总价
+from books
+</pre>
+      <p class="number">步骤四：books表图书最早的时间</p>
+      <pre class="code">select min(p_time) from books;
+</pre>
+      <p class="number">步骤五：books表图书平均出版时间（天数）</p>
+      <pre class="code">select datediff(current_date(), p_time) as 出版天数 from books;
+</pre>
+      <p class="number">步骤六：books表各出版社图书数量</p>
+      <pre class="code">select press,count(bname) from books
+group by press;
+</pre>
+      <p class="number">步骤七：books表各作者图书数量</p>
+      <pre class="code">select author,count(bname) from books
+group by author;
+</pre>
+      <p class="number">步骤八：books表各出版社图书最高价，最低价，均值,总价</p>
+      <pre class="code">select press,max(price) as 最高价, min(price) as 最低价,
+avg(price) as 均值,sum(price) as 总价
+from books
+group by press;
+</pre>
+      <p class="number">步骤九：books表统计各作者的图书名称 显示为作者，图书名称字符串</p>
+      <pre class="code">select author,group_concat(bname)
+from books
+group by author;
+</pre>
+      <p class="number">步骤十：图书均价大于40的作者、图书数量、均价</p>
+      <pre class="code">select author,count(bname) as 数量,avg(price) as 均价
+from books
+group by author
+having 均价&gt;40;
+</pre>
+      <p class="number">步骤十一：图书数量大于2的出版社、图书名，数量</p>
+      <pre class="code">select press,group_concat(bname) as 书名,  count(bname) as 数量
+from books
+group by press
+having 数量&gt;2;
+</pre>
+      <p class="number">步骤十二：统计出版过大于50元图书的作者及出版图书数量</p>
+      <pre class="code">select if(price&lt;40,"&lt;40","&gt;=40") as zu,
+count(bname) from books
+group by zu; 
+</pre>
+      <p class="number">步骤十三：统计小于40和大于等于40的图书数量</p>
+      <pre class="code">select author, count(bname) as 数量
+from books
+group by author
+having max(price)&gt;50;
+</pre>
+      <p class="number">步骤十四：统计各书名长度，图书数量，均价，作者名称</p>
+      <pre class="code">select LENGTH(bname)/3,count(bname),avg(price),
+group_concat(author) 
+from books 
+group by LENGTH(bname)/3;
+</pre>
+    </div>
+  </body>
+</html>

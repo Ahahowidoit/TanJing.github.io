@@ -1,0 +1,183 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATA_WAREHOUSE DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">Hive 分桶表</a>
+        </li>
+        <li>
+          <a href="#case2">Hive 外部表</a>
+        </li>
+        <li>
+          <a href="#case3">Hive练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 Hive 分桶表</h2>
+      <h3>1.1 问题</h3>
+      <p>根据data.txt 文件格式创建一个分桶表stu_cluster，分桶字段为stu_class,分桶数为4</p>
+      <p>向stu_cluster表中加载data.txt数据并验证是否实现分桶</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据data.txt 文件格式创建一个分桶表，分桶字段为stu_class,分桶数为4</p>
+      <pre class="code">create table stu_cluster (
+stu_id string comment '学生ID',
+stu_name string comment '学生姓名',
+stu_class string comment '学生班级',
+stu_score map&lt;string,float&gt; comment '学生成绩',
+stu_zhiwu array&lt;string&gt; comment '学生职务',
+stu_info struct&lt;age:int,sex:string,city:string&gt; comment '学生基本信息')
+clustered by(stu_class) into 4 buckets 
+row format delimited
+fields terminated by '|'
+collection items terminated by ','
+map keys terminated by ':';
+</pre>
+      <p class="number">步骤二：向stu_cluster表中加载data.txt数据并验证是否实现分桶</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/data.txt'  overwrite  into table stu_cluster;
+#根据提示打开分桶开关和改为非安全模式
+set hive.mapred.mode = "nonstrict"
+set hive.strict.checks.bucketing=false;
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 Hive 外部表</h2>
+      <h3>2.1 问题</h3>
+      <p>根据data.txt 文件格式创建一个外部表stu_external，location指定为/datas/stu_external</p>
+      <p>向stu_external表中加载data.txt数据</p>
+      <p>删除stu_external 和 stu_pt 两个表查看差异</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据data.txt 文件格式创建一个外部表stu_external，location指定为/datas/stu_external</p>
+      <pre class="code">create external table stu_external (
+stu_id string comment '学生ID',
+stu_name string comment '学生姓名',
+stu_class string comment '学生班级',
+stu_score map&lt;string,float&gt; comment '学生成绩',
+stu_zhiwu array&lt;string&gt; comment '学生职务',
+stu_binfu struct&lt;age:int,sex:string,city:string&gt; comment '学生基本信息')
+row format delimited
+fields terminated by '|'
+collection items terminated by ','
+map keys terminated by ':'
+location '/datas/stu_external'; -- hdsf 下的路径
+</pre>
+      <p class="number">步骤二：向stu_external表中加载data.txt数据</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/data.txt' into table  stu_external;
+</pre>
+      <p class="number">步骤三：删除stu_external 和 stu_pt 两个表查看差异</p>
+      <pre class="code">drop  table  stu_external;#删除外部表时,HDFS的表数据文件还存在
+drop  table  stu_pt;#删除普通表时,HDFS的表数据文件也被删除
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 Hive练习</h2>
+      <h3>3.1 问题</h3>
+      <p>1）查询stu表中有职务的人，职务数大于1的人</p>
+      <p>2）查询stu表的学委信息</p>
+      <p>3）找到所有男生数据</p>
+      <p>4）找所有北京人</p>
+      <p>5）语文成绩及格的人</p>
+      <p>6）数学成绩不及格的人</p>
+      <p>7）北京语文及格的人</p>
+      <p>8）职位名字包含“委”的人</p>
+      <p>9）职位名字包含“代”的人（扩展题,包含“委”的职位）</p>
+      <p>10）各城市人员名单（ 城市， 人名_以逗号分割）</p>
+      <p>11）各性别的人都来源于哪个城市</p>
+      <p>12）查看每人第一个录入的成绩是？</p>
+      <p>13）三科成绩都及格的</p>
+      <p>14）每科第一名</p>
+      <p>15）提取所有成绩排序的前10名(union all 和 lateral 分别实现）</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：查询stu表中有职务的人，职务数大于1的人</p>
+      <pre class="code">select * from stu where size(stu_zhiwu)&gt;0
+</pre>
+      <p>或</p>
+      <pre class="code">select stu_name,stu_zhiwu from stu where size(stu_zhiwu)&gt;0
+</pre>
+      <p class="number">步骤二：查询stu表的学委信息</p>
+      <pre class="code">select * from stu where array_contains(stu_zhiwu,"学委")
+</pre>
+      <p>或</p>
+      <pre class="code">select stu_name,stu_zhiwu from stu where array_contains(stu_zhiwu,"学委")
+</pre>
+      <p class="number">步骤三：找到所有男生数据</p>
+      <pre class="code">select stu_name,stu_binfu from  stu where stu_binfu.sex="男"
+</pre>
+      <p class="number">步骤四：找所有北京人</p>
+      <pre class="code">select stu_name,stu_binfu from  stu where stu_binfu.city="北京"
+</pre>
+      <p class="number">步骤五：语文成绩及格的人</p>
+      <pre class="code">select sut_name, stu_score from stu where stu_score["语文"]&gt;=60
+</pre>
+      <p class="number">步骤六：数学成绩不及格的人</p>
+      <pre class="code">select stu_name,stu_score from  stu where stu_score["数学"]&lt;60
+</pre>
+      <p class="number">步骤七：北京语文及格的人</p>
+      <pre class="code">select stu_name,stu_score,stu_binfu from  stu where stu_score["语文"]&gt;=60 and stu_binfu.city="北京";
+</pre>
+      <p class="number">步骤八：职位名字包含“委”的人</p>
+      <pre class="code">select * from (select stu_id,stu_name,zhiwu from stu lateral view explode(stu_zhiwu) xinibiao as zhiwu) as sub where zhiwu rlike "委";
+</pre>
+      <p class="number">步骤九：职位名字包含“代”的人（扩展题,包含“委”的职位）</p>
+      <pre class="code">select * from (select stu_id, stu_name,sample_zhiwu  from stu lateral view explode(stu_zhiwu) xunibiaoming  as sample_zhiwu) as sub where sample_zhiwu rlike "代"
+
+#扩展题,包含“委”的职位
+select * from (select explode(stu_zhiwu) sample_zhiwu from stu) as sub where sample_zhiwu rlike "委"
+</pre>
+      <p class="number">步骤十：各城市人员名单（ 城市， 人名_以逗号分割）</p>
+      <pre class="code">select stu_binfu.city,collect_list(stu_name) from stu group by stu_binfu.city;
+</pre>
+      <p class="number">步骤十一：各性别的人都来源于哪个城市</p>
+      <pre class="code">select stu_binfu.sex,collect_set(stu_binfu.city) as city from stu group by stu_binfu.sex;
+</pre>
+      <p class="number">步骤十二：查看每人第一个录入的成绩是？</p>
+      <pre class="code">select stu_score,map_keys(stu_score)[0] from stu;
+</pre>
+      <p class="number">步骤十三：三科成绩都及格的</p>
+      <pre class="code">select  * from stu where stu_score["数学"]&gt;=60 and stu_score["语文"]&gt;=60　and stu_score["英语"]&gt;=60;
+</pre>
+      <p class="number">步骤十四：每科第一名</p>
+      <pre class="code">(select * from stu order by stu_score["数学"] desc limit 1) 
+union all 
+(select * from stu order by stu_score["语文"] desc limit 1) 
+union all 
+(select * from stu order by stu_score["英语"] desc limit 1) ;
+</pre>
+      <p class="number">步骤十五：提取所有成绩排序的前10名（union all 和 lateral 分别实现）</p>
+      <pre class="code">select  * from (
+select stu_id,stu_name,stu_score["数学"] as score,"数学" from stu
+union all
+select stu_id,stu_name,stu_score["语文"] as score,"语文" from stu
+union all
+select stu_id,stu_name,stu_score["英语"] as score,"英语" from stu) as sub
+order by score desc
+limit 10;
+#用lateral 进行炸开后排序
+select * from (
+select stu_id,stu_score,score_key,score_value  from stu
+lateral view  explode(stu_score) t1 as  score_key,score_value) as sub
+order by score_value desc
+limit 10 ;
+</pre>
+    </div>
+  </body>
+</html>

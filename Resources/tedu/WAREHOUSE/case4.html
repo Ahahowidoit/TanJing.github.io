@@ -1,0 +1,194 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME DATAHOUSE DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">合并控件应用</a>
+        </li>
+        <li>
+          <a href="#case2">日志表增量同步</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 合并控件应用</h2>
+      <h3>1.1 问题</h3>
+      <p>把mysql 的kettle 数据库中student、score、course、teacher4个表连接为宽表</p>
+      <p>为成绩设置优、良、中，及格，不及格,缺考等级别</p>
+      <p>统计每人的总分并排名次</p>
+      <p>每个科目的数据分别存入都单独的表中</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：把mysql 的kettle 数据库中student、score、course、teacher4个表连接为宽表</p>
+      <p>1）新建转换，拖拽表输入并读取kettle数据库的student表</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图1</p>
+      </div>
+      <p>2）拖拽表输入并读取kettle数据库的score表</p>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图2</p>
+      </div>
+      <p>3）拖拽记录集连接控件，连接student、score两个表</p>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图3</p>
+      </div>
+      <p>4）拖拽表输入读取course表，并用记录集连接控件进行连接</p>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图4</p>
+      </div>
+      <p>5）对student、score合并结果集以c_id进行升序排序</p>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图5</p>
+      </div>
+      <p>排序结果与corese表做关联。</p>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图6</p>
+      </div>
+      <p>6）拖拽表输入读取teacher表，并用记录集连接控件进行连接</p>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-7</p>
+      </div>
+      <p class="number">步骤二：为成绩设置优、良、中，及格，不及格,缺考等级别</p>
+      <p>1）筛选出不及格的数据，此类数据增加常量列“分数段”值为“不及格”</p>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-8</p>
+      </div>
+      <p>2）成绩大于等于60的数据进行值范围划分</p>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图9</p>
+      </div>
+      <p>3）通过合并记录控件，合并1,2步产生的数据集</p>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图10</p>
+      </div>
+      <p>4）通过字段选择删掉重复列及合并记录的标记列</p>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图11</p>
+      </div>
+      <p class="number">步骤三：统计每人的总分并排名次后存入mingci表中</p>
+      <p>1）统计各学生的总分</p>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图12</p>
+      </div>
+      <p>2）以总分做名次编号</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图13</p>
+      </div>
+      <p>3）存到mingci表中</p>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图14</p>
+      </div>
+      <p>步骤四：统计每科的人数、平均分、最高分、最低分并存入stats 表中</p>
+      <p>1）按c_id 进行排序，并统计各指标</p>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图15</p>
+      </div>
+      <p>2）将统计结果保存到stats表</p>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图16</p>
+      </div>
+      <p>步骤五：每个科目的数据分别存入都单独的表中</p>
+      <p>1）把3科目数据分流</p>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图17</p>
+      </div>
+      <p>2）把3科加缺考数据保存到kettle 数据库</p>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图18</p>
+      </div>
+      <p>3）按2保存其他几科目数据</p>
+      <a name="case2">
+      </a>
+      <h2>2 日志表增量同步</h2>
+      <h3>2.1 问题</h3>
+      <p>1）构造日志数据，及同步情况记录数据</p>
+      <p>2）从同步情况记录数据里获取上次同步时间</p>
+      <p>3）获取上次同步时间之后的增量数据进行数据同步</p>
+      <p>4）记录本次同步情况</p>
+      <p>5）设置3分钟同步一次</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：构造日志数据，及同步情况记录数据</p>
+      <p>1）把pro_1.csv 文件数据导入到mysql的kettle 数据库</p>
+      <p>2）构建 Pro_update_log 表，记录更新日志</p>
+      <pre class="code">CREATE TABLE `pro_update_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tablename` varchar(20) ,
+  `update_time` datetime ,
+  `update_count` float ,
+  PRIMARY KEY (`id`)
+)；
+</pre>
+      <p class="number">步骤二：从同步情况记录数据里获取上次同步时间</p>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图19</p>
+      </div>
+      <p class="number">表输入代码如下</p>
+      <pre class="code">select if(max(update_time) is null ,date_sub(current_date(),interval 1 day ) ,max(update_time)) as Pro_Time
+From Pro_update_log;
+</pre>
+      <p class="number">步骤三：获取上次同步时间之后的增量数据进行数据同步</p>
+      <p>表输入获取同步数据，插入/更新像Pro_Bak中备份数据</p>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图20</p>
+      </div>
+      <p class="number">步骤四：记录本次同步情况</p>
+      <p>通过执行SQL脚本语句实现。</p>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图21</p>
+      </div>
+      <p>SQL 脚本如下：</p>
+      <pre class="code">insert into Pro_update_log(tablename, update_time ,update_count)
+values ("pro",current_time(),(select count(*) FROM pro
+where `date` &gt; ${PRO_TIME}));
+</pre>
+      <p class="number">步骤五：设置3分钟同步一次</p>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图22</p>
+      </div>
+      <p>根据顺序设置对应的转换</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图23</p>
+      </div>
+    </div>
+  </body>
+</html>

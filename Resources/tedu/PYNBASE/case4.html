@@ -1,0 +1,113 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNBASE DAY04</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">统计字频</a>
+        </li>
+        <li>
+          <a href="#case2">函数练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 统计字频</h2>
+      <h3>1.1 问题</h3>
+      <p>写一个程序，输入一大段文字，统计每一种文字出现的次数</p>
+      <p>如:</p>
+      <p>请输入: 北京欢迎北方的欢欢</p>
+      <p>打印:</p>
+      <p>北：2次</p>
+      <p>京：1次</p>
+      <p>欢：3次</p>
+      <p>迎：1次</p>
+      <p>方：1次</p>
+      <p>的：1次</p>
+      <h3>1.2 方案</h3>
+      <p>此问题是统计用户输入的文字中每个文字出现的次数。使用字典可以记录出现的字和文字的次数，如：'北'出现两次，可以用字典记录为 {'北': 2}，即字典的键为出现的字，值则为此文字出现的次数，如果字典中没有这个键说明这个文字没有出现过。</p>
+      <p>方法是，先应以一个统计字频的空词典如f_dict，然后遍历所有的字，如果字没有存在于字典f_dict 的键中，说明此字是第一次出现，此时需要加入字典中，并记录此字出现的频率是1。如果字存在于字典f_dict的键中，则说明以前出现过这个字，此时只要将字典中的这个字对应的次数做加1操作即可。</p>
+      <p>最后f_dict 绑定的字典中，键为出现的字，值就是这个字出现的次数了。</p>
+      <h3>1.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog1.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p class="number">按如下示例编写文件</p>
+      <pre class="code">sentence = input('请输入:')  # 读入用户输入的一句话
+
+f_dict = {}  # 创建一个字典用变量f_dict 绑定，用于记录字和次数
+
+# 使用for 语句遍历每一个字
+for word in sentence:
+    if word in f_dict:  # word 对应的字已经出现过
+        # 增加word 这个字对应的计数
+        f_dict[word] += 1
+    else:
+        # word 这个字是第一个出现，增加这个字，记录次数为1
+        f_dict[word] = 1
+
+# 遍历f_dict 打印出字的频率
+for word in f_dict:
+    print(word, ':', f_dict[word], '次')
+</pre>
+      <p class="number">步骤三：运行程序myprog1.py</p>
+      <p>在PyCharm 中右键点击myprog1.py 文件，选择 Run 'myprog1' 运行程序，示例如下:</p>
+      <pre class="code">请输入:北京欢迎北方的欢欢
+北 : 2 次
+京 : 1 次
+欢 : 3 次
+迎 : 1 次
+方 : 1 次
+的 : 1 次
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 函数练习</h2>
+      <h3>2.1 问题</h3>
+      <p>写一个函数 myadd, 此函数传入两个参数， x, y</p>
+      <p>此函数的功能是打印  x + y 的和，示例代码如下，完善myadd 函数的编写。</p>
+      <pre class="code">def myadd(...):
+     ...
+
+myadd(100, 200)   # 300
+myadd('ABC', '123')  # ABC123
+</pre>
+      <h3>2.2 方案</h3>
+      <p>根据函数创建的def 语句的语法规则，函数名为myadd, 后面括号部分内部应当放入两个自定义名字的变量，这里定义为x,y；则函数的定义部分可以写成 def myadd(x, y):。</p>
+      <p>函数的功能是打印传入的实参相加的值，可以使用 print(x + y) 来打印，根据上述想法我们就可以完善myadd函数了。</p>
+      <h3>2.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog2.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p>按如下示例编写文件</p>
+      <pre class="code">def myadd(x, y):
+    print(x + y)
+
+myadd(100, 200)  # 300
+myadd('ABC', '123')  # ABC123
+</pre>
+      <p class="number">步骤三：运行程序myprog2.py</p>
+      <p>在PyCharm 中右键点击myprog2.py 文件，选择 run ‘myprog2’ 运行程序，示例如下:</p>
+      <pre class="code">300
+ABC123
+</pre>
+    </div>
+  </body>
+</html>

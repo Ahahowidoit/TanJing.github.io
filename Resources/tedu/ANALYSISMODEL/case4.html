@@ -1,0 +1,314 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>ANALYSISMODEL DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">excel实现描述性统计分析——集中趋势</a>
+        </li>
+        <li>
+          <a href="#case2">Excel实现描述性统计分析——离散程度</a>
+        </li>
+        <li>
+          <a href="#case3">常见数据分析方法——分组分析</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 excel实现描述性统计分析——集中趋势</h2>
+      <h3>1.1 问题</h3>
+      <p>计算捐款金额的众数</p>
+      <p>计算捐款金额的中位数</p>
+      <p>计算捐款金额的平均数</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算捐款金额的众数</p>
+      <pre class="code">=Mode(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p class="number">步骤二：计算捐款金额的中位数</p>
+      <pre class="code">=Median(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p class="number">步骤三：计算捐款金额人平均数</p>
+      <pre class="code">Average(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-3</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 Excel实现描述性统计分析——离散程度</h2>
+      <h3>2.1 问题</h3>
+      <p>计算捐款金额的异众比</p>
+      <p>计算金额的极差</p>
+      <p>计算金额的四分位差</p>
+      <p>计算捐款金额的总体方差（利用公式计算并用函数验证）</p>
+      <p>计算金额的总体标准差(利用公式计算并用函数验证)</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算捐款金额的异种比</p>
+      <pre class="code">=1- countif(B:B, mode(B:B))/count(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-4</p>
+      </div>
+      <p class="number">步骤二：计算金额的极差</p>
+      <pre class="code">=MAX(B:B)-MIN(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-5</p>
+      </div>
+      <p class="number">步骤三：计算捐款金额的四分位数及四分位差</p>
+      <pre class="code">n=80 所以四分位数位置都用 81作为分子
+</pre>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-6</p>
+      </div>
+      <p class="number">步骤四：计算捐款金额的总体方差（利用公式计算并用函数验证）</p>
+      <p>1）计算每个捐款金额与捐款平均值的差距</p>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-7</p>
+      </div>
+      <p>2）计算每个差值的平方</p>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-8</p>
+      </div>
+      <p>3）计算所有差值平方的和</p>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图-9</p>
+      </div>
+      <p>4）消除观测个数的影响</p>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图-10</p>
+      </div>
+      <p>5）函数验证</p>
+      <pre class="code">=VAR.P(B:B)
+</pre>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图-11</p>
+      </div>
+      <p class="number">步骤五：计算金额的总体标准差(利用公式计算并用函数验证)</p>
+      <p>1）对方差进行开平方</p>
+      <pre class="code">=SQRT(F4)
+</pre>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图-12</p>
+      </div>
+      <p>2）函数验证</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图-13</p>
+      </div>
+      <a name="case3">
+      </a>
+      <h2>3 常见数据分析方法——分组分析</h2>
+      <h3>3.1 问题</h3>
+      <p>根据业务特性把销售人员分为三组 工具器人(扫量), 一般销售(联系意向量并推销), 销冠(攻单)</p>
+      <p>对8个事件通过重要程度和紧急程度进行象限分析</p>
+      <p>利用对窗口期为2个月的2万多条数据进行RFM分析</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据业务特性把销售人员分为三组 工具器人(扫量), 一般销售(联系意向量并推销), 销冠(攻单)</p>
+      <p>1）收集数据刻画销售人员指标</p>
+      <p>2）根据月均销量进行计算等距分组的组距，组距有小数可直接向上取整</p>
+      <pre class="code">=(MAX(B:B)-MIN(B:B))/3
+</pre>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图-14</p>
+      </div>
+      <pre class="code">=ROUNDUP(F22,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图-15</p>
+      </div>
+      <p>3）根据组距设计三组的上下限</p>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图-16</p>
+      </div>
+      <p>4）根据上限不在内经验为每组统计销售人员数量</p>
+      <pre class="code">=COUNTIFS(B:B,"&gt;="&amp;F26,B:B,"&lt;"&amp;G26)
+</pre>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图-17</p>
+      </div>
+      <p>5）为每位销售人员指定组别</p>
+      <pre class="code">=VLOOKUP(B2,$F$25:$I$28,4,1)
+</pre>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图-18</p>
+      </div>
+      <p>1）计算重要程度和紧急程度的均值</p>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图-19</p>
+      </div>
+      <p>2）对重要程度和紧急程度进行二分类</p>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图-20</p>
+      </div>
+      <pre class="code">=D3&amp;E3
+</pre>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图-21</p>
+      </div>
+      <p>3）统计各类分类人数</p>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图-22</p>
+      </div>
+      <p>4）选择“重要程度" ”紧急程度" 数据，选择"插入"菜单"散点图"</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图-23</p>
+      </div>
+      <p>5 选中蓝色点右键“添加数据标签”，选中数据标签右键“设置数据标签格式"</p>
+      <div class="image">
+        <img src="index.files/image024.png" />
+        <p>图-24</p>
+      </div>
+      <p>6）去掉网格线</p>
+      <div class="image">
+        <img src="index.files/image025.png" />
+        <p>图-25</p>
+      </div>
+      <p>6）设置Y轴与X轴的交汇点及X轴的坐标轴范围</p>
+      <div class="image">
+        <img src="index.files/image026.png" />
+        <p>图-26</p>
+      </div>
+      <p>7）设置X轴与Y轴的交汇点为均值</p>
+      <div class="image">
+        <img src="index.files/image027.png" />
+        <p>图-27</p>
+      </div>
+      <p>8）取消坐标轴刻度标签</p>
+      <div class="image">
+        <img src="index.files/image028.png" />
+        <p>图-28</p>
+      </div>
+      <p>9）给坐标轴加箭头</p>
+      <div class="image">
+        <img src="index.files/image029.png" />
+        <p>图-29</p>
+      </div>
+      <p>10）添加坐标轴标题（表示X,Y轴含义），双击可编辑坐标轴，选中可移动坐标轴</p>
+      <div class="image">
+        <img src="index.files/image030.png" />
+        <p>图-30</p>
+      </div>
+      <p>1）数据太多运行不动，只保留2000行</p>
+      <div class="image">
+        <img src="index.files/image031.png" />
+        <p>图-31</p>
+      </div>
+      <p>2）通过高级筛选，选出所有用户</p>
+      <div class="image">
+        <img src="index.files/image032.png" />
+        <p>图-32</p>
+      </div>
+      <p>3）统计每个用户的RFM 指标</p>
+      <pre class="code">R指标计算如下（L10的2019/1/12为分析日期）
+=$L$10-MAX(IF((A:A)=I15,B:B)) 
+</pre>
+      <div class="image">
+        <img src="index.files/image033.png" />
+        <p>图-33</p>
+      </div>
+      <pre class="code">F指标计算如下
+=COUNTIF(A:A,I15)
+</pre>
+      <div class="image">
+        <img src="index.files/image034.png" />
+        <p>图-34</p>
+      </div>
+      <pre class="code">=SUMIF(A:A,I15,D:D)
+</pre>
+      <div class="image">
+        <img src="index.files/image035.png" />
+        <p>图-35</p>
+      </div>
+      <p>4）计算各指标的均值</p>
+      <div class="image">
+        <img src="index.files/image036.png" />
+        <p>图-36</p>
+      </div>
+      <p>5）对各指标进行二分类</p>
+      <pre class="code">RS指标公式
+=IF(J15&gt;$J$13,"远","近")
+FS指标公式
+=IF(K15&gt;K$13,"高","低")
+Ms指标公式
+=IF(L15&gt;L$13,"高","低")
+</pre>
+      <div class="image">
+        <img src="index.files/image037.png" />
+        <p>图-37</p>
+      </div>
+      <p>6）组合3个二分类指标</p>
+      <pre class="code">=M15&amp;N15&amp;O15
+</pre>
+      <div class="image">
+        <img src="index.files/image038.png" />
+        <p>图-38</p>
+      </div>
+      <p>7）根据组合指标获取用户类型</p>
+      <pre class="code">=VLOOKUP(P15,$J$1:$K$9,2,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image039.png" />
+        <p>图-39</p>
+      </div>
+      <p>8）统计各类型用户的人数</p>
+      <pre class="code">=COUNTIF($Q$14:$Q$1963,K2)
+</pre>
+      <div class="image">
+        <img src="index.files/image040.png" />
+        <p>图-40</p>
+      </div>
+      <p>9）计算各类用户占比并绘制饼图</p>
+      <div class="image">
+        <img src="index.files/image041.png" />
+        <p>图-40</p>
+      </div>
+    </div>
+  </body>
+</html>

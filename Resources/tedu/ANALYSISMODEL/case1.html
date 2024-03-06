@@ -1,0 +1,261 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>ANALYSISMODEL DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">自动填充</a>
+        </li>
+        <li>
+          <a href="#case2">地址引用</a>
+        </li>
+        <li>
+          <a href="#case3">条件格式</a>
+        </li>
+        <li>
+          <a href="#case4">数据验证</a>
+        </li>
+        <li>
+          <a href="#case5">删除重复值</a>
+        </li>
+        <li>
+          <a href="#case6">数据替换</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 自动填充</h2>
+      <h3>1.1 问题</h3>
+      <p>填充从1开始填充编号列</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量”</p>
+      <p>“日期”列从 2014/1/1~ 2014/12/31以天为单位进行列填充</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：填充从1开始填充编号列</p>
+      <p>先在A2输入1,A3输入2 选中A2:A3后鼠标移动到右下角变为加号双击</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p class="number">步骤二：计算“销售金额” ，计算公式为“单价”*“数量”</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量” （填写好公式后，选中后鼠标移动到右下角变为加号双击）</p>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p class="number">步骤二：“日期”列从 2014/1/1~ 2014/12/31以天为单位进行列填充</p>
+      <p>输入起始日期后,开始菜单——填充下拉列表序列选项——日期</p>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-3</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 地址引用</h2>
+      <h3>2.1 问题</h3>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量”</p>
+      <p>为数量做调整即为此表格新加一列“数量调整”= “数量” +“数量增加”</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算“销售金额” ，计算公式为“单价”*“数量”</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量” （填写好公式后，选中后鼠标移动到右下角变为加号双击）</p>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-4</p>
+      </div>
+      <p class="number">步骤二：为数量做调整即为此表格新加一列“数量调整”= “数量” +“数量增加”</p>
+      <p>书写公式 =D3+J3,并且鼠标停留在J3上按F4(笔记本按Fn+F4) ,回车后鼠标停留在此单元格右下角（变为加号时双击或拖拽到最后）</p>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-5</p>
+      </div>
+      <p class="number">步骤三：为单价做调整即为此表格新加一列“单价调整”= “单价” +“单价增加”要求借助“数量调整”的公式进行拖拽实现</p>
+      <p>数量调整的公式改为 =D3+J$3,回车后鼠标停留在此单元格右下角（变为加号时双击或拖拽到最后）</p>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-6</p>
+      </div>
+      <a name="case3">
+      </a>
+      <h2>3 条件格式</h2>
+      <h3>3.1 问题</h3>
+      <p>“高考分数(数据条)” 列根据数值大小标注上数据黄色渐变色</p>
+      <p>“身份证号码(重复值)”列标注重复值</p>
+      <p>“高考分数(色阶)” 列用绿色色阶实现</p>
+      <p>复制高考分数列，400分以上的红色背景，300-400的蓝色背景</p>
+      <p>复制高考分数列，分数（高）前3名背景红色，后3名背景色蓝色</p>
+      <p>“一阶差分”列标蓝色数据条</p>
+      <p>“一阶差分1”列标注箭头图标，大于0为上涨，小于0为下跌，等于0为持平</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：“高考分数(数据条)” 列根据数值大小标注上数据黄色渐变色</p>
+      <p>选中D列——&gt;开始菜单——&gt;条件格式——&gt;数据条</p>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-7</p>
+      </div>
+      <p class="number">步骤二：“身份证号码(重复值)”列标注重复值</p>
+      <p>选中E列——&gt;开始菜单——&gt;条件格式——&gt;突出显示单元格规则——&gt;重复值</p>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-8</p>
+      </div>
+      <p class="number">步骤三：“高考分数(色阶)” 列用绿色色阶实现</p>
+      <p>选中F列——&gt;开始菜单——&gt;条件格式——&gt;色阶</p>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图-9</p>
+      </div>
+      <p class="number">步骤四：复制高考分数列，400分以上的红色背景，300-400的蓝色背景</p>
+      <p>1） 选中D列——&gt;Ctrl+C复制——&gt;选中E列右键——&gt;插入复制的单元格</p>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图-10</p>
+      </div>
+      <p>2）选中E列——&gt;开始菜单——&gt;条件格式——&gt;突出显示——&gt;大于——&gt;输入399.999, 并自定义格式里填充色设置为红色</p>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图-11</p>
+      </div>
+      <p>3) 选中E列——&gt;开始菜单——&gt;条件格式——&gt;突出显示——&gt;介于——&gt;输入300,399.999, 并自定义格式里填充色设置为蓝色 介于是包含上下限的</p>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图-12</p>
+      </div>
+      <p class="number">步骤五：复制高考分数列，分数（高）前3名背景红色，后3名背景色蓝色</p>
+      <p>1） 选中D列——&gt;Ctrl+C复制——&gt;选中F列右键——&gt;插入复制的单元格</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图-13</p>
+      </div>
+      <p>2) 选中F列——&gt;开始菜单——&gt;条件格式——&gt;最前/最后规则——&gt;前10项，输入3并自定义填充色为红色</p>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图-14</p>
+      </div>
+      <p>3） 选中F列——&gt;开始菜单——&gt;条件格式——&gt;最前/最后规则——&gt;后10项，输入3并自定义填充色为蓝色</p>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图-15</p>
+      </div>
+      <p class="number">步骤六：“一阶差分”列标蓝色数据条</p>
+      <p>1） 选中“一阶差分”列——&gt;开始菜单——&gt;条件格式——&gt;数据条</p>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图-16</p>
+      </div>
+      <p class="number">步骤六：“一阶差分1”列标注箭头图标，大于0为上涨，小于0为下跌，等于0为持平</p>
+      <p>1）选中“一阶差分1”列——&gt;开始菜单——&gt;条件格式——&gt;图标集</p>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图-17</p>
+      </div>
+      <p>2）设置正数为向上箭头，0为像右箭头， 负数为向下箭头，选中“一阶差分1”列——&gt;开始菜单——&gt;条件格式——&gt;管理规则</p>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图-18</p>
+      </div>
+      <p>条件规则管理对话框中选中要编辑的规则并点击“编辑规则”</p>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图-19</p>
+      </div>
+      <p>设置图标对应关系</p>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图-20</p>
+      </div>
+      <a name="case4">
+      </a>
+      <h2>4 数据验证</h2>
+      <h3>4.1 问题</h3>
+      <p>年龄是18~60岁</p>
+      <p>学历只能是本科,专科,研究生,博士</p>
+      <p>身高在170~190之间的小数并设置为警告模式，提示为“数据范围是170-190cm请确定”。</p>
+      <p>学号的长度是5位</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：年龄是18~60岁</p>
+      <p>选中A列——&gt; 数据菜单——&gt;数据验证下拉按钮数据验证选项——&gt;整数介于18-60</p>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图-21</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图-22</p>
+      </div>
+      <p class="number">步骤二：学历只能是本科,专科,研究生,博士</p>
+      <p>选中B列——&gt; 数据菜单——&gt;数据验证下拉按钮数据验证选项——&gt;选择序列并输入本科,专科,研究生,博士</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图-23</p>
+      </div>
+      <p class="number">步骤三：身高在170~190之间的小数并设置为警告模式，提示为“数据范围是170-190cm请确定”</p>
+      <p>选中C列——&gt; 数据菜单——&gt;数据验证下拉按钮数据验证选项——&gt;小数介于170-190</p>
+      <div class="image">
+        <img src="index.files/image024.png" />
+        <p>图-24</p>
+      </div>
+      <p class="number">步骤四：学号的长度是5位</p>
+      <p>选中D列——&gt; 数据菜单——&gt;数据验证下拉按钮数据验证选项——&gt;字符串长度等于5。</p>
+      <div class="image">
+        <img src="index.files/image025.png" />
+        <p>图-25</p>
+      </div>
+      <a name="case5">
+      </a>
+      <h2>5 删除重复值</h2>
+      <h3>5.1 问题</h3>
+      <p>以姓名、性别相同对数据进行去重</p>
+      <h3>5.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：以姓名、性别相同对数据进行去重</p>
+      <div class="image">
+        <img src="index.files/image026.png" />
+        <p>图-26</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image027.png" />
+        <p>图-27</p>
+      </div>
+      <a name="case6">
+      </a>
+      <h2>6 数据替换</h2>
+      <h3>6.1 问题</h3>
+      <p>去掉身高的单位cm . 体重的单位kg</p>
+      <p>替换掉单元格为“赤峰”的数据</p>
+      <h3>6.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：去掉身高的单位cm . 体重的单位kg</p>
+      <div class="image">
+        <img src="index.files/image028.png" />
+        <p>图-28</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image029.png" />
+        <p>图-29</p>
+      </div>
+      <p class="number">步骤一：替换掉单元格为“赤峰”的数据<p></p></p>
+      <div class="image">
+        <img src="index.files/image030.png" />
+        <p>图-30</p>
+      </div>
+    </div>
+  </body>
+</html>

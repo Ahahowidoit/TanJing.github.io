@@ -1,0 +1,268 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATABASE DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">数据库管理</a>
+        </li>
+        <li>
+          <a href="#case2">数据表管理</a>
+        </li>
+        <li>
+          <a href="#case3">表数据基本操作</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 数据库管理</h2>
+      <h3>1.1 问题</h3>
+      <p>查看已有库创建stu 数据库</p>
+      <p>打开stu 数据库</p>
+      <p>删除stu 数据库</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：查看已有库</p>
+      <pre class="code">show databases;
+</pre>
+      <p class="number">步骤二：创建stu 数据库</p>
+      <pre class="code">#e.g. 创建stu数据库，可指定 编码为utf8
+create database stu;
+#或
+create database stu character set utf8;
+#或
+create database stu charset=utf8;
+</pre>
+      <p class="number">步骤三：打开stu 数据库</p>
+      <pre class="code">e.g. 使用stu数据库
+use stu;
+</pre>
+      <p class="number">步骤四：删除stu 数据库</p>
+      <pre class="code">e.g. 删除stu数据库
+drop database stu;
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 数据表管理</h2>
+      <h3>2.1 问题</h3>
+      <p>创建classs数据表（字段为id、name、age、sex、score）</p>
+      <p>创建于class结构一样的表名为 class1</p>
+      <p>按导入向导入sales.csv 文件</p>
+      <p>在class1 表最后插入city 列，类型为 int</p>
+      <p>在class1 表第一列插入country列 ，类型为 varchar(20)</p>
+      <p>在class1 表sex 后插入level列 类型 int</p>
+      <p>把class1 表的level 列删除</p>
+      <p>把class1 表city列类型改为varchar(10)</p>
+      <p>把class1 表sex列名改为 gender</p>
+      <p>删除class1表</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：创建classs数据表（字段为id、name、age、sex、score）</p>
+      <pre class="code">#建立class表
+create table class (
+id int,
+name varchar(30),
+age int,
+sex varchar(2),
+score float
+);
+​
+#查看class表是否存在
+shows tables;
+</pre>
+      <p class="number">步骤二：创建于class结构一样的表名为 class1</p>
+      <pre class="code">#建立class1 表，表结构与class
+create table class1  like  class; 
+#查看表结构是否一致
+desc  class;
+desc  class1;
+</pre>
+      <p class="number">步骤三：按导入向导入sales.csv 文件</p>
+      <p>1 通过数据库名右键——导入数据-导入向导  导入sales.csv 文件并是以新建表的形式可以修改字段类型，可以修改字段名</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-3</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-4</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-5</p>
+      </div>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-6</p>
+      </div>
+      <p class="number">步骤四：在class1 表最后插入city 列，类型为 int</p>
+      <pre class="code">alter table class1  add city int;
+</pre>
+      <p class="number">步骤五：在class1 表第一列插入country列 ，类型为 varchar(20)</p>
+      <pre class="code">alter table class1  add country varchar(20) first;
+</pre>
+      <p class="number">步骤六：在class1 表sex 后插入level列 类型 int</p>
+      <pre class="code">alter table class1 add level int after sex;
+</pre>
+      <p class="number">步骤七：把class1 表的level 列删除</p>
+      <pre class="code">alter table class1 drop level;
+</pre>
+      <p class="number">步骤八：把class1 表city列类型改为varchar(10)</p>
+      <pre class="code">alter table class1 modify city varchar(10);
+</pre>
+      <p class="number">步骤九：把class1 表sex列名改为 gender</p>
+      <pre class="code">alter table class1 change sex  gender varchar(5)
+</pre>
+      <p class="number">步骤十：删除class1表</p>
+      <pre class="code">drop table class1;
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 表数据基本操作</h2>
+      <h3>3.1 问题</h3>
+      <p>像class表中插入  【1,"Lily",18,'f',89】，【2,"Lucy",18,'f',76】，【3,"Tom",17,'m',83】3条记录</p>
+      <p>像class表中插入 【"Levi",18,'m',86】，【"Sunny",17,'m',91】，【"Eva",17,'f',71】</p>
+      <p>通过指令像class 表中添加记录</p>
+      <p>创建一个数据库  exercise</p>
+      <p>创建一个数据表  books  类型自己设计字段名如下</p>
+      <p>插入如下6条记录</p>
+      <p>插入如下两条记录</p>
+      <p>把Lily改成19岁</p>
+      <p>每人分数加5分</p>
+      <p>Sunny 性别为 f  分数为85</p>
+      <p>删除class里score大于90并sex为m</p>
+      <p>将呐喊的价格修改为45元</p>
+      <p>增加一个字段出版时间 类型为 date 放在价格后面</p>
+      <p>修改所有老舍的作品出版时间为 2018-10-1</p>
+      <p>修改所有中国文学出版社出版的但是不是老舍的作品出版时间为 2020-1-1</p>
+      <p>修改所有出版时间为Null的图书出版时间为2019-10-1</p>
+      <p>所有鲁迅的图书价格增加5元</p>
+      <p>删除所有价格超过70元或者不到40元的图书</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：像class表中插入 【1,"Lily",18,'f',89】，【2,"Lucy",18,'f',76】，【3,"Tom",17,'m',83】3条记录</p>
+      <pre class="code">insert into class values
+(1,"Lily",18,'f',89),
+(2,"Lucy",18,'f',76),
+(3,"Tom",17,'m',83);
+</pre>
+      <p class="number">步骤二：像class表中插入 【"Levi",18,'m',86】，【"Sunny",17,'m',91】，【"Eva",17,'f',71】</p>
+      <pre class="code">#方法1
+insert into class
+(name,age,sex,score)
+values
+("Levi",18,'m',86),
+("Sunny",17,'m',91),
+("Eva",17,'f',71);
+#方法2
+insert into class
+values
+(null,"Levi",18,'m',86),
+(null,"Sunny",17,'m',91),
+(null,"Eva",17,'f',71);
+</pre>
+      <p class="number">步骤三：通过指令像class 表中添加记录</p>
+      <pre class="code">#第一步： 查看secure_file_priv参数的文件路径
+show global variables like '%secure_file_priv%';
+#第二步： 把class_add.csv 文件复制到 secure_file_priv 参数的路径下
+#第三步： 关闭selinux服务【企业中不用管】
+setenforce 0
+#第四步： load数据
+load data infile "/var/lib/mysql-files/class_add.csv" into table class 
+fields terminated by ','  #字段分隔符是， 
+OPTIONALLY  ENCLOSED BY '\"'  #文本类型可以有引号
+lines terminated by '\r\n'  #行分隔符是回车换行
+IGNORE 1 lines  #忽略第一行
+</pre>
+      <p class="number">步骤四：创建一个数据库 exercise</p>
+      <pre class="code">create database exercise ;
+</pre>
+      <p class="number">步骤五：创建一个数据表 books 类型自己设计字段名如下</p>
+      <pre class="code">#打开数据库
+use exercise;
+​create table books(
+id int primary key auto_increment,
+bname varchar(50) not null,
+author  varchar(30) default "佚名",
+press varchar(128),
+price float unsigned,
+comment text
+);
+</pre>
+      <p class="number">步骤六:插入如下6条记录</p>
+      <pre class="code">insert into books
+(bname,author,press,price,comment)
+values
+("边城","沈从文","机械工业出版社",36,"小城故事多"),
+("骆驼祥子","老舍","机械工业出版社",43,"你是祥子么？"),
+("茶馆","老舍","中国文学出版社",55,"老北京"),
+("呐喊","鲁迅","人民教育出版社",71,"最后的声音"),
+("朝花夕拾","鲁迅","中国文学出版社",53,"好时光"),
+("围城","钱钟书","中国文学出版社",44,"你心中的围城是什么");
+</pre>
+      <p class="number">步骤七：插入如下两条记录</p>
+      <pre class="code">insert into books
+(bname,author,press,price)
+values
+("林家铺子","茅盾","机械工业出版社",51),
+("子夜","茅盾","人民教育出版社",47);
+</pre>
+      <p class="number">步骤八：步把Lily改成19岁</p>
+      <pre class="code">update class set age=19 where name="Lily";
+</pre>
+      <p class="number">步骤九：每人分数加5分</p>
+      <pre class="code">update class set score=score+5 ;
+</pre>
+      <p class="number">步骤十：Sunny 性别为 f 分数为85</p>
+      <pre class="code">update class set sex="f",score=85 where name="Sunny";
+</pre>
+      <p class="number">步骤十一：删除class里score大于90并sex为m</p>
+      <pre class="code">delete from class where score&gt;90 and sex='m';
+</pre>
+      <p class="number">步骤十二：将呐喊的价格修改为45元</p>
+      <pre class="code">update books set price=45 where bname="呐喊";
+</pre>
+      <p class="number">步骤十三：增加一个字段出版时间 类型为 date 放在价格后面</p>
+      <pre class="code">alter table books add p_time date after price;
+</pre>
+      <p class="number">步骤十四：修改所有老舍的作品出版时间为 2018-10-1</p>
+      <pre class="code">update books set p_time="2018-10-1" where author="老舍";
+</pre>
+      <p class="number">步骤十五：修改所有中国文学出版社出版的但是不是老舍的作品出版时间为 2020-1-1</p>
+      <pre class="code">update books set p_time="2020-1-1"  where press="中国文学出版社" and author!="老舍";
+</pre>
+      <p class="number">步骤十六：修改所有出版时间为Null的图书出版时间为2019-10-1</p>
+      <pre class="code">update books set p_time="2019-10-1" where p_time is null;
+</pre>
+      <p class="number">步骤十七：所有鲁迅的图书价格增加5元</p>
+      <pre class="code">update books set price=price+5  where author="鲁迅";
+</pre>
+      <p class="number">步骤十八：删除所有价格超过70元或者不到40元的图书</p>
+      <pre class="code">delete from books where price not between 40 and 70;
+</pre>
+    </div>
+  </body>
+</html>

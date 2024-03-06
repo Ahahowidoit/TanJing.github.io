@@ -1,0 +1,443 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME EMPLOYMENT DAY04</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">淘宝用户行为分析</a>
+        </li>
+        <li>
+          <a href="#case2">跨境电商数据分析</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 淘宝用户行为分析</h2>
+      <h3>1.1 问题</h3>
+      <p>2014年是阿里巴巴集团移动电子商务业务快速发展的一年。例如，2014年11月11日的移动销售中的移动终端商品总销售额（GMV）占总GMV的42.6％。与PC时代相比，移动终端可以随时随地访问网络。此外，他们还拥有更丰富的背景数据，例如用户的位置信息，访问时间的规律性等。该数据基于阿里巴巴M-Commerce平台上的真实用户商品行为数据。同时，它提供了移动时代典型的位置信息</p>
+      <p>用户研究是产品设计的第一步，其中以大量数据为支撑的用户行为分析尤为重要，这个项目我们采用淘宝“百万级”用户数据，深度分析用户行为，主要包含基本用户购物情况数据统计，复购率分析，获客分析，留存分析，从时间维度分析每天用户行为，各环节转换率分析，指导运营人员及时调整运营策略。</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>读取数据</p>
+      <p>数据描述性分析</p>
+      <p>数据探索性分析</p>
+      <p>获客分析，转化率，留存分析</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import warnings
+warnings.filterwarnings("ignore")
+import matplotlib.pyplot as plt
+plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['font.sans-serif']=['SimHei']  #显示中文标签
+import numpy as np
+import seaborn as sns
+
+# 存储的user.csv文件
+import matplotlib.pyplot as plt
+import pandas as pd
+plt.rcParams['axes.unicode_minus'] = False
+plt.rcParams['font.sans-serif']=['SimHei']  #显示中文标签
+data=pd.read_csv('user.csv')
+
+data.head()
+
+data.info()
+
+# 删除地理位置
+data.drop(labels='user_geohash',axis=1,inplace=True)
+
+data.head()
+
+data.info()
+
+# 修改日期类型
+data['time']=pd.to_datetime(data['time'])
+
+data['date']=data['time'].dt.date
+data['hour']=data['time'].dt.hour
+
+data.info()
+
+data['date']=pd.to_datetime(data['date'])
+
+#1. behavior_type 数据为1234  对应修改为 pv浏览 cart加购物车 collect收藏 buy购买
+#2. 统计pv 浏览量有多少
+#3. 统计uv 独立访客数量有多少
+#4. 有购买行为的用户数有多少
+#5. 计算复购率  购买2次及以上的用户/有购买行为的用户数
+
+data['behavior_type'].unique()
+
+behavior_map={1:'pv',2:'cart',3:'collect',4:'buy'}
+data['behavior_type']=data['behavior_type'].map(behavior_map)
+
+data['behavior_type'].unique()
+
+# 2. 统计pv 浏览量有多少 942150
+data['behavior_type'].value_counts()
+
+# 3. 统计uv 独立访客数量有多少 9924
+data.groupby('user_id')['behavior_type'].count()
+
+data['user_id'].nunique()
+
+# 4. 有购买行为的用户数有多少  4522
+data_buy=data[data['behavior_type']=='buy']
+data_buy['user_id'].nunique()
+
+# 复购率
+# 有复购行为的用户数/有购买行为的用户数
+# 复购：一天内多次购买不算复购 
+
+data_rebuy=data_buy.groupby('user_id')['date'].nunique()
+data_rebuy[data_rebuy&gt;=2].count()/4522
+
+#1. 活跃分析：按日期，按星期，按一天中的不同时间段 可视化
+#2. 转化率分析：得到各个环节的转化率
+#3. 获客分析：得到每一天新增多少用户 可视化
+
+# 每周的用户行为数量变化分析
+data.head()
+
+data['date'].min()
+
+data['date'].max()
+
+# 新增一列 星期
+data['week']=data['date'].dt.weekday
+data['week']=data['week']+1
+
+data.head()
+
+df_week=data.groupby('week')['behavior_type'].count()
+df_week
+# 可视化
+plt.figure(figsize=(10,4),dpi=100)
+df_week.plot()
+plt.title('每周用户行为数量变化趋势',fontsize=18)
+plt.show()
+
+# 每天pv变化趋势分析
+data_pv=data[data['behavior_type']=='pv']
+data_pv1=data_pv.groupby(by='date')['behavior_type'].count()
+
+# 可视化
+plt.figure(figsize=(10,4),dpi=100)
+data_pv1.plot()
+plt.title('每天pv变化趋势分析',fontsize=18)
+plt.show()
+
+# 一天中不同时间段分析
+data_hour=data.groupby('hour')['behavior_type'].count()
+data_hour
+
+# 可视化
+plt.figure(figsize=(10,4),dpi=100)
+data_hour.plot()
+plt.title('一天中不同时间段活跃分析',fontsize=18)
+plt.xticks(np.arange(0,24))
+plt.show()
+
+# 获客分析
+# 每天新增多少用户  可视化
+# 每一个用户 第一次访问的日期
+new_visitor=data.groupby('user_id')['date'].min()
+new_visitor1=new_visitor.value_counts()
+new_visitor1
+
+plt.figure(figsize=(10,4),dpi=100)
+new_visitor1.plot()
+plt.title('每天新增用户数量趋势分析',fontsize=18)
+plt.show()
+
+# 转化率分析
+data['behavior_type'].value_counts()
+
+# 购买转化率
+9771/942150
+
+# 加购物车转化率
+19837/942150
+
+# 留存率分析
+# 日期最小的一天开始，计算次日留存率 7日留存率
+# 第一天 1000人
+# 次日 500  次日留存率 50%
+# 七天 100人  七日留存率 10%
+
+# 第一天 用户有多少次行为的数据
+first_user=data[data['date']==data['date'].min()]
+first_data=first_user.groupby('user_id')['behavior_type'].count().reset_index()
+first_data
+
+np.timedelta64(1,'D')
+
+# 第二天 哪些用户 行为数据
+second_user=data[data['date']==data['date'].min()+np.timedelta64(1,'D')]
+second_user
+
+second_data=second_user.groupby('user_id')['behavior_type'].count().reset_index()
+second_data
+
+# 合并数据
+data_date=pd.merge(first_data,second_data,on='user_id',how='left')
+data_date
+
+# 删除缺失值所在的行
+data_date.dropna(axis=0,inplace=True)
+
+3288/4768 
+
+# 七日留存率
+seven_user=data[data['date']==data['date'].min()+np.timedelta64(6,'D')]
+seven_user
+
+seven_data=seven_user.groupby('user_id')['behavior_type'].count().reset_index()
+seven_data
+
+# 主键合并
+data_seven=pd.merge(first_data,seven_data,how='left',on='user_id')
+data_seven.dropna(axis=0,inplace=True)
+
+data_seven
+# 七日留存率
+3055/4768 
+
+thirty_user=data[data['date']==data['date'].min()+np.timedelta64(29,'D')]
+thirty_user
+
+thirty_data=thirty_user.groupby('user_id')['behavior_type'].count().reset_index()
+thirty_data
+
+data_thirty=pd.merge(first_data,thirty_data,on='user_id',how='left')
+data_thirty.dropna(axis=0,inplace=True)
+
+data_thirty
+
+2910/4768
+
+# 产品运营过程  涉及指标  AARRR模型
+# Acquisition、Activation、Retention、Revenue、Referral，
+
+# 假设  app
+
+# 指标：描述某个业务环节的具体情况  进行管控和监督
+# Acquisition：获取用户 渠道转化率 获客成本 下载成功率 注册成功率
+# Activation：激活用户 日活  活跃率衡量产品健康程度 活跃人数 市场体量
+# Retention：留存  持续活跃  留存率
+# Revenue：获得收益 付费人数占比 平均付费金额 付费总金额
+# Referral：自传播  分享率   推荐转化率
+
+data.head()
+
+# 窗口期结束时间
+end_date=data['date'].max()
+end_date
+
+# 定义现有客户  活跃度分析
+
+# 窗口期结束时间-最后一次日期  时间间隔
+
+# 流失用户  时间间隔&gt;2周  
+
+# 睡眠用户  未活跃  &gt;1周  &lt;2周
+
+# 正常用户    课堂练习  10分钟  10：40上课
+
+# 得到每个用户 最大活跃日期
+AU_date=data.groupby('user_id')['date'].max().reset_index()
+AU_date
+
+AU_date['几天没来']=(end_date-AU_date.date).dt.days
+AU_date['用户状态']=np.where(AU_date['几天没来']&gt;14,'流失',
+                        np.where(AU_date['几天没来']&gt;7,'睡眠','正常'))
+
+AU_date['用户状态'].value_counts().plot(kind='pie',
+                                   autopct='%.2f%%')
+
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 跨境电商数据分析</h2>
+      <h3>2.1 问题</h3>
+      <p>该数据来源于kaggle，是一家注册在英国的电子商务网站的2010年12月份-2011年12月份之间的交易数据，探索其运营情况</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>导入数据</p>
+      <p>描述性分析及数据处理</p>
+      <p>探索性分析</p>
+      <p>不同维度分析</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import pandas as pd
+import numpy as np 
+import datetime
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+
+# 设置中文及符号正常显示
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['font.family'] = ['sans-serif']
+
+# 设置过滤警告
+warnings.filterwarnings('ignore')
+
+data = pd.read_csv('data_electricity.csv')
+data.head()
+
+data.info()
+
+# 数值型数据描述分析
+data.describe()
+
+1. 数量存在负数 50%的数据2-12之间
+2. 单价 考虑存在异常 50%数据 1.25-3.75之间 单位英镑
+
+# 类别型数据描述分析
+data.select_dtypes('object').describe()
+
+# 3684种产品 销售给37个国家 英国本地比较多
+
+data[data['Quantity']&lt;0].shape
+
+# 订单取消率
+8905/data.shape[0]
+
+# 订单小于0的部分去掉  分析异常
+index0=data[data['Quantity']&lt;0].index
+data.drop(labels=index0,axis=0,inplace=True)
+
+# 查看单价为0的数据
+index1=data[data['UnitPrice']==0].index
+data.drop(labels=index1,axis=0,inplace=True)
+
+data.describe()
+
+# 分析数量是否存在异常值
+data['Quantity'].mean()+3*data['Quantity'].std()
+
+# 盖帽法 保留99.99%的数据
+data['Quantity'].quantile(q=0.9999)
+
+# 盖帽法 保留99.99%的数据
+data['UnitPrice'].quantile(q=0.9999)
+
+data=data[(data['Quantity']&lt;1600)&amp;(data['UnitPrice']&lt;600)]
+data.shape
+
+data.describe()
+
+data.head()
+
+# 新增一列 金额
+data['金额']=data['Quantity']*data['UnitPrice']
+data.head()
+
+data.info()
+
+data['InvoiceDate']=pd.to_datetime(data['InvoiceDate'])
+
+data['month']=data['InvoiceDate'].dt.month
+data['weekday']=data['InvoiceDate'].dt.weekday
+data['hour']=data['InvoiceDate'].dt.hour
+
+data['InvoiceDate'].min()
+
+data['InvoiceDate'].max()
+
+# data.info()
+
+data.columns
+
+data.groupby('month')['金额'].sum().plot()
+
+data_week=data.groupby('weekday')['金额'].sum()
+data_week.index=[1,2,3,4,5,7]
+data_week.plot(kind='line')
+
+data.groupby('hour')['金额'].sum().plot()
+
+#1. 时间维度分析：按月份，按照星期，按照时辰 统计销售金额变化情况
+#2. 地区维度分析：各个地区(国家)销售情况 找到top5
+#3. 产品维度分析：有多少种产品，找到top5
+
+data['Country'].unique()
+
+data.groupby('Country')['金额'].sum().sort_values(ascending=False).head()
+
+data['Description'].nunique()
+
+data.groupby('Description')['金额'].sum().sort_values(ascending=False).head()
+
+# 分析客户维度
+# 1.得到每个客户的消费情况：花了多少钱，买了多少件商品，
+# 购买的种类数目
+
+# 2.客户一年的总销售额和总数量进行散点图分析，得到客户消费能力
+# 3.根据客户贡献分析 验证二八法则(20%客户 贡献80%销售额)
+# 写项目总结
+
+data.columns
+
+# 1.得到每个客户的消费情况：花了多少钱，买了多少件商品，
+# 购买的种类数目
+data_Customer=data.groupby('CustomerID').agg({'金额':'sum',
+                                'Quantity':'sum',
+                                'StockCode':'nunique'})
+# data_Customer
+
+# 客户消费能力
+plt.figure(figsize=(8,6),dpi=100)
+plt.scatter(data_Customer.Quantity,
+           data_Customer.金额)
+plt.xlabel('Quantity')
+plt.ylabel('金额')
+plt.title('客户一年的总销售额和总数量散点图')
+plt.show()
+
+# 客户贡献分析 验证二八法则 20%客户贡献80%营业额
+data_Customer.sort_values(by='金额',ascending=False,
+                         inplace=True)
+# 新增一列 按照金额累加 
+# [1 2 3 4 5] [1 3 6 10 15]
+data_Customer['cum']=data_Customer['金额'].cumsum()
+data_Customer
+# 累计百分比
+data_Customer['percent']=data_Customer['cum']/8491230.764
+data_Customer.reset_index(inplace=True)
+
+data_Customer
+
+data_Customer[data_Customer['percent']&lt;=0.8]
+
+data_Customer.shape
+
+1179/4334
+
+# 27%客户贡献了80%的营业额
+
+plt.figure(figsize=(8,6),dpi=100)
+data_Customer['percent'].plot(kind='line')
+plt.title('客户贡献度分析')
+plt.ylabel('客户贡献度')
+plt.show()
+</pre>
+    </div>
+  </body>
+</html>

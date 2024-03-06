@@ -1,0 +1,190 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNANALYSIS DAY05</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">查看谁没有下单</a>
+        </li>
+        <li>
+          <a href="#case2">判断是否有不符合数据约束的记录</a>
+        </li>
+        <li>
+          <a href="#case3">把user 数据框Name 为d的改为a</a>
+        </li>
+        <li>
+          <a href="#case4">判断user 表中是否有重复数据，判断条件为 Name 和 gender</a>
+        </li>
+        <li>
+          <a href="#case5">删除重复数据，要求保留最新一行</a>
+        </li>
+        <li>
+          <a href="#case6">把age &gt; 30的 age设置为 缺失值</a>
+        </li>
+        <li>
+          <a href="#case7">把name=b的 gender设置为缺失值</a>
+        </li>
+        <li>
+          <a href="#case8">删除age,gender 全空的数据</a>
+        </li>
+        <li>
+          <a href="#case9">删除整行中任意值为空的数据</a>
+        </li>
+        <li>
+          <a href="#case10">order 数据框 orderid =2的sales数据，设置为970</a>
+        </li>
+        <li>
+          <a href="#case11">通过3倍标准差 和 1.5IQR 方式确定order 数据框 sales 是否有异常值</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 查看谁没有下单</h2>
+      <h3>1.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":[1,2,3,4],"Name":list("abcd"),"age":np.random.randint(18,60,4),"gender":np.random.randint(0,2,4) })
+
+order = pd.DataFrame({"orderid":[1,2,3,4],"userid":[2,3,4,5],"sales":np.random.randint(10,100,4)})
+</pre>
+      <p>统计出查看谁没有下单</p>
+      <h3>1.2 步骤</h3>
+      <pre class="code">user[~user.ID.isin(order.userid)] 
+#或 
+kuangbiao = user.merge(order,how="left",left_on="ID",right_on="userid") 
+kuangbiao[kuangbiao.orderid.isna()] 
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 判断是否有不符合数据约束的记录</h2>
+      <h3>2.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":[1,2,3,4],"Name":list("abcd"),"age":np.random.randint(18,60,4),"gender":np.random.randint(0,2,4) })
+order = pd.DataFrame({"orderid":[1,2,3,4],"userid":[2,3,4,5],"sales":np.random.randint(10,100,4)})
+</pre>
+      <p>提示：下单的人，一定存在于用户表，如果下单的人在用户表，那么就是不符合数据约束的。</p>
+      <h3>2.2 步骤</h3>
+      <pre class="code">order[~order.userid.isin(user.ID)] 
+#或 
+kuanbiao = user.merge(order,how="right",left_on="ID",right_on="userid") 
+kuanbiao[kuanbiao.ID.isna()]
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 把user 数据框Name 为d的改为a</h2>
+      <h3>3.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>要求把user 数据框Name 为d的改为a</p>
+      <h3>3.2 步骤</h3>
+      <pre class="code">user.loc[user.Name=="d","Name"] = "a"
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 判断user 表中是否有重复数据，判断条件为 Name 和 gender</h2>
+      <h3>4.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>判断user 表中是否有重复数据，判断条件为 Name 和 gender</p>
+      <h3>4.2 步骤</h3>
+      <pre class="code">user.duplicated(["Name","gender"]).sum()
+</pre>
+      <a name="case5">
+      </a>
+      <h2>5 删除重复数据，要求保留最新一行</h2>
+      <h3>5.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>删除user中的重复数据，要求保留最新一行</p>
+      <h3>5.2 步骤</h3>
+      <pre class="code">user.drop_duplicates(["Name","gender"],keep="last",inplace=True)
+</pre>
+      <a name="case6">
+      </a>
+      <h2>6 把age &gt; 30的 age设置为 缺失值</h2>
+      <h3>6.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>把age &gt; 30的 age设置为 缺失值</p>
+      <h3>6.2 步骤</h3>
+      <pre class="code">user.loc[user.age&gt;30,"age"] = np.nan
+</pre>
+      <a name="case7">
+      </a>
+      <h2>7 把name=b的 gender设置为缺失值</h2>
+      <h3>7.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+把name=b的 gender设置为缺失值
+</pre>
+      <h3>7.2 步骤</h3>
+      <pre class="code">user.loc[user.Name =="b","gender"] = np.nan
+</pre>
+      <a name="case8">
+      </a>
+      <h2>8 删除age,gender 全空的数据</h2>
+      <h3>8.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>删除user中age,gender 全空的数据</p>
+      <h3>8.2 步骤</h3>
+      <pre class="code">user.dropna(how="all",subset=["age","gender"])
+</pre>
+      <a name="case9">
+      </a>
+      <h2>9 删除整行中任意值为空的数据</h2>
+      <h3>9.1 问题</h3>
+      <pre class="code">user = pd.DataFrame({"ID":np.arange(1,5),"Name":list("abcd"),"age":[20,25,35,26], "gender":[1,0,0,1]})
+</pre>
+      <p>删除user中整行中任意值为空的数据</p>
+      <h3>9.2 步骤</h3>
+      <pre class="code">user.dropna(how="any")
+</pre>
+      <a name="case10">
+      </a>
+      <h2>10 order 数据框 orderid =2的sales数据，设置为970</h2>
+      <h3>10.1 问题</h3>
+      <pre class="code">np.random.seed(123)
+order = pd.DataFrame({"orderid":np.arange(1,9),"userid":np.random.randint(1,5,8),"sales":np.random.randint(1,300,8)})
+</pre>
+      <p>要求将order 数据框 orderid =2的sales数据，设置为970</p>
+      <h3>10.2 步骤</h3>
+      <pre class="code">order.loc[order.orderid ==2,"sales"] = 970
+</pre>
+      <a name="case11">
+      </a>
+      <h2>11 通过3倍标准差 和 1.5IQR 方式确定order 数据框 sales 是否有异常值</h2>
+      <h3>11.1 问题</h3>
+      <pre class="code">np.random.seed(123)
+order = pd.DataFrame({"orderid":np.arange(1,9),"userid":np.random.randint(1,5,8),"sales":np.random.randint(1,300,8)})
+</pre>
+      <p>要求通过3倍标准差 和 1.5IQR 方式确定order 数据框 sales 是否有异常值</p>
+      <h3>11.2 步骤</h3>
+      <pre class="code">#3σ
+xiaxian = order.sales.mean() - 3 * order.sales.std()
+shangxian = order.sales.mean() +  3 * order.sales.std()
+print(xiaxian,shangxian)
+order[(order.sales&gt;shangxian) | (order.sales&lt;xiaxian) ]
+
+#1.5IQR
+Q3 = order.sales.quantile(0.75)
+Q1 =  order.sales.quantile(0.25)
+IQR = Q3-Q1
+shangxian = Q3 + 1.5 * IQRs
+xiaxian = Q1 -1.5 * IQR
+print(xiaxian,shangxian)
+</pre>
+    </div>
+  </body>
+</html>

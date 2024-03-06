@@ -1,0 +1,50 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNANALYSIS DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">柱状图绘图练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 柱状图绘图练习</h2>
+      <h3>1.1 问题</h3>
+      <p>现给出一组电影票房数据，请用横向柱状图进行绘制</p>
+      <h3>1.2 步骤</h3>
+      <pre class="code">from matplotlib import pyplot as plt
+
+plt.rcParams['font.sans-serif'] = 'SimHei'
+plt.rcParams.update({'font.size': 20})
+
+movies = ["变形金刚5:最后的骑士","速度与激情8","功夫瑜伽","西游伏妖篇","战狼2","摔跤吧！爸爸","加勒比海盗5：死无对证","金刚：骷髅岛","极限特工：终极回归","生化危机6：终章","乘风破浪","神偷奶爸3","智取威虎山","大闹天竺","金刚狼3：殊死一战","蜘蛛侠：英雄归来","悟空传","银河护卫队2","情圣","新木乃伊"]
+moneys = [20.01,26.94,17.53,16.49,56.45,12.96,11.8,11.61,11.28,11.12,10.49,10.3,8.75,14.55,7.32,6.99,6.88,8.86,6.58,13.23]
+
+#通过化柱状图发现几点问题:1.画布太小需要调整  2.竖着画效果不是很好
+plt.figure(figsize=(20,15))
+#plt.bar()竖的柱状图
+#plt.barh()横的柱状图
+plt.barh(movies,moneys,color='orange')
+
+for movie,money in zip(movies,moneys):
+    plt.text(x=money,y=movie,s='票房为%.2f亿'%(money))
+</pre>
+    </div>
+  </body>
+</html>

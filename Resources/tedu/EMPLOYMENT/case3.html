@@ -1,0 +1,106 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME EMPLOYMENT DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">ABtest</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 ABtest</h2>
+      <h3>1.1 问题</h3>
+      <p>希望通过对于一次AB测试数据的分析判断新旧两版页面在用户转化上是否有显著区别，帮助公司决定是应当采用新的页面，还是保留老的页面。</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>建立零假设和备选假设</p>
+      <p>分析流量分配比例</p>
+      <p>计算旧版、新版转化用户数，转化率</p>
+      <p>得到结果后，对结果进行假设检验</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt 
+import seaborn as sns
+
+#导入数据：ab_data
+ABtest=pd.read_csv('ab_data.csv')
+ABtest.head()
+
+ABtest.info()
+
+&lt;img src='img/1.png'&gt;
+
+#我们需要明确分析的问题，建立零假设和备选假设，判断样本的抽样分布类型和检测方式，最后根据得到的P值，判断实验性的显著性水平，得出结论。
+
+#流量分配比例：看到新页面的用户占比多少
+zb=ABtest[ABtest.landing_page=="new_page"].shape[0]/ABtest.shape[0]
+print('看到新页面的用户占比：','%.2f%%'%(zb*100))
+
+# 看到新页面和老页面的用户各占50%左右，流量分配相对均衡
+
+n_old=ABtest[ABtest['group']=='control'].shape[0]
+n_new=ABtest[ABtest['group']=='treatment'].shape[0]
+
+n_old
+
+n_new
+
+# 旧版、新版转化用户数
+convert_old = ABtest.query('group=="control" &amp; converted==1').shape[0]
+convert_new = ABtest.query('group=="treatment" &amp; converted==1').shape[0]
+
+convert_old
+
+convert_new
+
+# 旧版、新版转化率
+p_old = convert_old / n_old
+p_new = convert_new / n_new
+
+p_old
+
+p_new
+
+# 得到结果后，我们需要对结果进行假设检验
+
+#记旧页面的转化率为 p1，新页面的转化率为 p2
+
+零假设 ： p1=p2 没有显著差异&lt;br&gt;
+备择假设 ：p1&lt;p2&lt;br&gt;
+
+
+z = ((p_old - p_new)-0)/ np.sqrt(p_old*(1-p_old)/n_old+p_new*(1-p_new)/n_new)
+from scipy.stats import norm
+# 理论z值  小概率的临界值
+z_alpha1 = norm.isf(0.05)
+z_alph2=norm.isf(0.975)
+print(z_alpha1,z_alph2)
+print('旧版总受试用户数:', n_old, '旧版转化用户数:', convert_old, '旧版转化率:', p_old)
+print('新版总受试用户数:', n_new, '新版转化用户数:', convert_new,
+      '新版转化率:', p_new)
+print('检验统计量z:', z)
+# # 样本统计量z值与理论z值比较。
+result = "落入拒绝域，拒绝零假设" if (z &gt; z_alpha1)|(z&lt;z_alph2) else "接受零假设"
+print(result)
+</pre>
+    </div>
+  </body>
+</html>

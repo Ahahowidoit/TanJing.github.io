@@ -1,0 +1,214 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME STATISTICS DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">假设检验-双侧检验</a>
+        </li>
+        <li>
+          <a href="#case2">假设检验-单侧检验</a>
+        </li>
+        <li>
+          <a href="#case3">方差分析</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 假设检验-双侧检验</h2>
+      <h3>1.1 问题</h3>
+      <p>一种罐装饮料采用自动生产线生产，每罐的容量是２５５ｍｌ，标准差为５ｍｌ为检验每罐容量是否符合要求，质检人员在某天生产的饮料中随机抽取了４０罐进行检验，测得每罐平均容量为２５５.８ｍｌ。取显著性水平α＝０.０５，检验该天生产的饮料容量是否符合标准要求？</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <ol class="list">
+        <li>原假设：零假设  一般认为是错误的假设  mu=255
+</li>
+        <li>备择假设：备选假设  一般认为其是正确的假设 mu！=255
+</li>
+        <li>选择统计量：用样本统计量检验总体参数  确定是样本平均值
+</li>
+        <li>样本统计量理论分布：Xbar~N(总体均值，总体标准差/sqrt(n))
+</li>
+        <li>确定小概率：一般0.05 0.01
+</li>
+        <li>确定检验方向：双侧 单侧 
+</li>
+        <li>用样本统计量在理论分布中的位置决定接受还是拒绝零假设
+</li>
+      </ol>
+      <h3>1.3 代码</h3>
+      <pre class="code">import numpy as np
+import pandas as pd
+import seaborn as sns
+import scipy.stats
+import warnings
+warnings.filterwarnings('ignore')
+# 样本均值 理论分布
+# xbar~N(总体均值，总体标准差/sqrt(n))
+# xbar~N(255，总体标准差/sqrt(n))
+mu=255
+# 标准误差
+sigma=4/np.sqrt(40)
+sigma
+# 样本均值理论分布 绘制
+data=np.random.normal(loc=255,
+                     scale=sigma,
+                     size=10000)
+data
+sns.distplot(data)
+scipy.stats.norm(loc=mu
+                 ,scale=sigma).isf(0.025)
+scipy.stats.norm(loc=mu
+                 ,scale=sigma).isf(0.975)
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 假设检验-单侧检验</h2>
+      <h3>2.1 问题</h3>
+      <p>一种机床加工的零件尺寸绝对平均误差为１.３５ｍｍ。生产厂家现采用一种新的机床进行加工以期进一步降低误差。为检验新机床加工的零件平均误差与旧机床相比是否有显著降低。从某天生产的零件中随机抽取５０个进行检验。利用这些样本数据，检验新机床加工的零件尺寸的平均误差与旧机床相比是否有显著降低？（σ＝０.0１）</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <ol class="list">
+        <li>新建一个文件 Test of hypothesis02.ipynb
+</li>
+        <li>原假设：零假设  一般认为是错误的假设  新机床误差&gt;=1.35
+</li>
+        <li>备择假设：备选假设  一般认为其是正确的假设 新机床误差&lt;1.35
+</li>
+        <li>选择统计量：用样本统计量检验总体参数  确定是样本平均值
+</li>
+        <li>样本统计量理论分布：Xbar~N(总体均值，总体标准差/sqrt(n))
+</li>
+        <li>确定小概率  一般0.05 0.01
+</li>
+        <li>确定检验方向：单侧 
+</li>
+        <li>用样本统计量在理论分布中的位置决定接受还是拒绝零假设
+</li>
+      </ol>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+import pandas as pd
+import scipy.stats
+# 样本量  n=50
+# 随机种子 123
+np.random.seed(123)
+ar=1+np.random.rand(50)-np.random.rand(50)
+ar.min()
+# 确定零假设
+# mu&gt;=1.35   
+# 确定备择假设  新机床的误差比旧机床的小  
+# mu&lt;1.35   
+# 确定小概率  预测精度高  小概率值小  数据质量高
+alpha=0.01
+# 检验方向  单侧    拒绝域在左边
+# 样本统计量  样本均值
+xbar=ar.mean()
+xbar
+# 样本均值理论分布xbar~N(总体均值，总体标准差/sqrt(n))
+s=pd.Series(ar).std()
+s
+# xbar~N(1.35,s/sqrt(n))
+zuo=scipy.stats.norm(loc=1.35,scale=s/np.sqrt(50)).isf(1-0.99)
+zuo
+# 决策
+np.where(xbar&lt;zuo,'拒绝原假设','接受原假设')
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 方差分析</h2>
+      <h3>3.1 问题</h3>
+      <p>分析三个班级学生成绩是否存在显著性差异</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <ol class="list">
+        <li>新建一个文件Estimation of parameters.ipynb
+</li>
+        <li>计算各班级的均值
+</li>
+        <li>计算总平均值
+</li>
+        <li>计算总误差平方和
+</li>
+        <li>计算组间平方和
+</li>
+        <li>计算组内平方和
+</li>
+        <li>计算各自的均方差
+</li>
+        <li>计算F值
+</li>
+        <li>进行方差检验代码
+</li>
+      </ol>
+      <h3>3.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># python实现方差分析
+import pandas as pd
+import numpy as np
+import scipy.stats
+np.random.seed(123)
+data = pd.DataFrame([np.random.randint(10,100,40)
+                     ,np.random.randint(20,90,40)
+                     ,np.random.randint(20,100,40)]).T
+data.columns = list("ABC")
+data
+# 列：ABC三个班级
+# 行：40个学生成绩
+# 分析：三个班级学生成绩是否存在显著性差异
+# 调用f分布函数
+alpha=0.05
+scipy.stats.f_oneway(data.A,data.B,data.C)
+# f值：4.2
+# p值：f值右侧概率 0.017
+# 手动计算实现
+# 每组数据均值
+zu_mean=data.mean(axis=0)
+zu_mean
+# 总平均值
+xbarbar=data.values.mean()
+xbarbar
+# 总误差平方和
+SST=((data.values-xbarbar)**2).sum()
+SST
+# 计算组间误差平方和
+SSA=((zu_mean-xbarbar)**2*40).sum()
+SSA
+# 组内误差平方和
+SSE=SST-SSA
+SSE
+# 组间方差  df=k-1  3-1 =2
+MSA=SSA/2
+MSA
+# 组内方差 df=n-k  120-3=117
+MSE=SSE/117
+MSE
+# 计算统计量F
+F=MSA/MSE
+F
+# 计算小概率的临界值  isf右侧概率对应的临界值  
+# 自由度 k-1 n-k
+scipy.stats.f.isf(0.05,2,117)
+# 计算p值 统计量对应的右侧概率是多少
+# cdf:&lt;=某个值的概率
+1-scipy.stats.f.cdf(F,2,117)
+</pre>
+    </div>
+  </body>
+</html>

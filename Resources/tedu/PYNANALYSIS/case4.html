@@ -1,0 +1,69 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNANALYSIS DAY04</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">部门人数统计练习</a>
+        </li>
+        <li>
+          <a href="#case2">部门离职率计算练习</a>
+        </li>
+        <li>
+          <a href="#case3">薪资统计练习</a>
+        </li>
+        <li>
+          <a href="#case4">员工满意度提取练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 部门人数统计练习</h2>
+      <h3>1.1 问题</h3>
+      <p>统计有哪些部门,每个部门人数是多少</p>
+      <h3>1.2 步骤</h3>
+      <pre class="code">hr_data['部门'].value_counts()
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 部门离职率计算练习</h2>
+      <h3>2.1 问题</h3>
+      <p>计算离职情况-离职 未离职人数分别是多少？离职率是多少</p>
+      <h3>2.2 步骤</h3>
+      <pre class="code">hr_data['是否离职'].value_counts()/len(hr_data)
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 薪资统计练习</h2>
+      <h3>3.1 问题</h3>
+      <p>统计出薪资情况-几种等级，各自占比</p>
+      <h3>3.2 步骤</h3>
+      <pre class="code">hr_data['薪水'].value_counts()/len(hr_data)
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 员工满意度提取练习</h2>
+      <h3>4.1 问题</h3>
+      <p>提取出员工满意度取出0.01 和1的数据</p>
+      <h3>4.2 步骤</h3>
+      <pre class="code">hr_data[hr_data['员工满意度']==0.01]
+hr_data[hr_data['员工满意度']==1]
+</pre>
+    </div>
+  </body>
+</html>

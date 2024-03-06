@@ -1,0 +1,112 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNBASE DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">字符串练习</a>
+        </li>
+        <li>
+          <a href="#case2">列表练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 字符串练习</h2>
+      <h3>1.1 问题</h3>
+      <ol class="list">
+        <li>写程序，输入一个字符， 打印字符串的如下内容
+</li>
+        <li>1. 打印这个字符串的第一个字符
+</li>
+        <li>2. 打印这个字符串的最后一个字符
+</li>
+        <li>3. 如果这个字符串的长度是 奇数，则打印中间这个字符
+</li>
+        <li>   注：用 len(x) 求字符串的长度
+</li>
+      </ol>
+      <h3>1.2 方案</h3>
+      <p>使用字符串的索引0 可以获取第一个字符；</p>
+      <p>使用字符串的反向索引-1 可以获取最后一个字符；</p>
+      <p>使用len() 函数可以获取字符串的长度，用 如果长度为技术，则长度对 2 求余数结果一定为1,再用长度除以2 就可以计算出中间字符串的索引了。因为除法的结果是小数，而字符串的索引必须为正数，此时需要使用int 函数将小数转化为整数后再求中间字符的索引。</p>
+      <h3>1.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p class="number">打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog1.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p class="number">按如下示例编写文件</p>
+      <pre class="code">s = input('请输入文字：')
+print('第一个字符是:', s[0])
+print('最后一个字符是:', s[-1])
+length = len(s)  # 计算用户输入字符串的长度，用变量 length 绑定
+if length % 2 == 1:  #  判断是奇数
+    print('中间一个字符是:', s[int(length / 2)])
+</pre>
+      <p class="number">步骤三：运行程序myprog1.py</p>
+      <p class="number">在PyCharm 中右键点击myprog1.py 文件，选择 run ‘myprog1’ 运行程序，示例如下:</p>
+      <pre class="code">请输入文字：北京欢迎你
+第一个字符是: 北
+最后一个字符是: 你
+中间一个字符是: 欢
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 列表练习</h2>
+      <h3>2.1 问题</h3>
+      <p>写一个程序myprog2.py, 用列表保存用户输入的数据</p>
+      <p>1）让用户输入4个任意的整数，放入列表</p>
+      <p>2）在第三个整数前面插入一个100</p>
+      <p>3）删除列表中的第4个整数</p>
+      <p>4）将之前输入的第二个整数加上1 后放回原处</p>
+      <p>5）打印现在的列表</p>
+      <h3>2.2 方案</h3>
+      <p>这是一个列表的基本操作，使用.append()方法可以向列表的末尾添加数据。使用.insert() 方法可以向某个索引位置之前插入数据，使用del 语句可以删除列表中的某个索引位置的数据。使用索引可以获取某个位置的数据，和修改某个位置的数据。使用上述方法可以实现这些功能。</p>
+      <h3>2.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog2.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p>按如下示例编写文件</p>
+      <pre class="code"># 1. 让用户输入4个任意的整数，放入列表
+numbers = []
+for n in range(1, 5):  # n 用来表示第几个数。
+    prompt = '请输入第' + str(n) + '个数：'  # 拼接字符串组成提示语
+    x = int(input(prompt))
+    numbers.append(x)
+# 2. 在第三个整数前面插入一个100
+numbers.insert(2, 100)
+# 3. 删除列表中的第4个整数
+del numbers[3]
+# 4. 将之前输入的第二个整数加上1 后放回原处
+numbers[1] = numbers[1] + 1
+# 5. 打印现在的列表
+print(numbers)
+
+</pre>
+      <p class="number">步骤三：运行程序myprog2.py</p>
+      <p>在PyCharm 中右键点击myprog2.py 文件，选择 run ‘myprog2’ 运行程序，示例如下:</p>
+      <pre class="code">请输入第1个数：11
+请输入第2个数：22
+请输入第3个数：33
+请输入第4个数：44
+[11, 23, 100, 44]
+<p></p><p></p></pre>
+    </div>
+  </body>
+</html>

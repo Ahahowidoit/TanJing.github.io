@@ -1,0 +1,153 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME STATISTICS DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">用excel验证均值抽样分布</a>
+        </li>
+        <li>
+          <a href="#case2">用python验证均值抽样分布</a>
+        </li>
+        <li>
+          <a href="#case3">参数估计</a>
+        </li>
+        <li>
+          <a href="#case4">样本量确定</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 用excel验证均值抽样分布</h2>
+      <h3>1.1 问题</h3>
+      <p>用excel验证均值抽样分布。</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：假设总体数据假设总体数据为1234，计算总体均值，总体方差，总体标准差</p>
+      <p>总体数据为1234，计算均值采用AVERAGE函数，计算总体方差采用VAR.P函数，计算总体标准差采用STDEV.P函数。</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p class="number">步骤二：计算样本分布情况</p>
+      <p>抽样n个，n=2，得到一组数据，计算样本均值采用AVERAGE函数，样本方差VAR.S函数，样本标准差采用STDEV.P函数</p>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p class="number">步骤三：分析样本均值的分布情况</p>
+      <p>得到n=2的全部抽样结果，计算每组抽样数据的均值，标准差，观察样本平均值的分布情况。</p>
+      <a name="case2">
+      </a>
+      <h2>2 用python验证均值抽样分布</h2>
+      <h3>2.1 问题</h3>
+      <p>用python验证均值抽样分布。</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>新建一个文件，命名：Mean sampling distribution</p>
+      <p>生成一个总体数据 包含1234</p>
+      <p>计算总体均值 总体标准差</p>
+      <p>得到n=2 所有可能抽样结果，放入Datafrane里</p>
+      <p>得到样本均值分布情况 计算均值 标准差</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+import pandas as pd
+ar=pd.Series([1,2,3,4])
+ar
+ar.mean()
+# 总体标准差
+np.std(ar)
+# 样本标准差
+ar.std()
+# n=2 所有可能的抽样
+L1=[]
+for i in ar:
+    for j in ar:
+        L1.append([i,j])
+print(L1)
+df=pd.DataFrame(L1)
+df['均值']=(df[0]+df[1])/2
+# df
+# 样本均值分布
+df['均值'].plot(kind='kde')
+df['均值'].mean()
+np.std(df['均值'])
+# 总体标准差
+np.std(ar)/np.sqrt(2)
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 参数估计</h2>
+      <h3>3.1 问题</h3>
+      <p>用python验证均值抽样分布一家食品生产企业以生产袋装食品为主，为对产量质量进行监测，企业质检部门经常要进行抽检，以分析每袋重量是否符合要求。现从某天生产的一批食品中随机抽取了100袋，测得每袋重量,对外公布产品重量公布标准差为10g。试估计该批产品平均重量的置信区间，置信水平为９５％。估计某天生产的一批食品重量的区间（一批食品的平均重量）样本数据，随机种子为123。</p>
+      <pre class="code">n=100
+zhongliang = np.random.uniform(100,120,100)
+</pre>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1）新建一个文件，命名Estimation of parameters.ipynb</p>
+      <p>2）根据样本数据，计算样本统计量</p>
+      <p>3）根据标准误差和统计量及置信水平，进行参数估计</p>
+      <h3>3.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+import pandas as pd
+# 样本量
+n=100
+# 一组样本结果 
+np.random.seed(123)
+zhongliang=np.random.uniform(100,120,
+                            100)
+# zhongliang
+# 总体标准差 10g
+
+# 样本统计量  样本均值
+xbar=zhongliang.mean()
+xbar
+# 标准误差  总体标准差/sqrt(n)
+error=10/np.sqrt(100)
+error
+# 指定右侧概率，计算右侧临界值
+import scipy.stats
+# 导入scipy的统计模块，标准正态分布下
+beishu=scipy.stats.norm.isf(0.025)
+beishu
+print(xbar-beishu*error,xbar+beishu*error)
+
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 样本量确定</h2>
+      <h3>4.1 问题</h3>
+      <p>拥有工商管理学士学位的大学毕业生年薪的标准差大约为２０００元，假定想要估计年薪,９５％的置信区间，希望边际误差为４００元，应抽取多大的样本容量？</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1）新建一个文件，命名Estimation of parameters.ipynb</p>
+      <p>2）根据倍数，总体标准差，误差</p>
+      <p>3）求n</p>
+      <h3>4.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import scipy.stats
+beishu=scipy.stats.norm.isf(0.025)
+beishu
+((beishu*2000)/400)**2
+</pre>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DataBase DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">Select子句</a>
+        </li>
+        <li>
+          <a href="#case2">Where子句</a>
+        </li>
+        <li>
+          <a href="#case3">常用日期函数</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 Select子句</h2>
+      <h3>1.1 问题</h3>
+      <p>计算 10*5的结果</p>
+      <p>查看books 表所有数据</p>
+      <p>提取books 表书名和出版社</p>
+      <p>提取books 表的作者和书名</p>
+      <p>查看book表的书名，价格，8折后价格</p>
+      <p>查看books表的书名，价格，价格对2取余的结果</p>
+      <p>查看books表的书名，价格，价格对3整除的结果</p>
+      <p>查看books表的书名，作者，价格，折后价格(作者为老舍的8折，其他九折)</p>
+      <p>查看books表的书名，作者，作者，折后价格(作者为老舍的8折，鲁迅的7折，矛盾9折，其作者6折)</p>
+      <p>查看books表的书名，价格，价格奇偶数判断</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算 10*5的结果</p>
+      <pre class="code">select 10*5;
+</pre>
+      <p class="number">步骤二：查看books 表所有数据</p>
+      <pre class="code">select * from books;
+</pre>
+      <p class="number">步骤三：提取books 表书名和出版社</p>
+      <pre class="code">select bname,press from books;
+</pre>
+      <p class="number">步骤四：提取books 表的作者和书名</p>
+      <pre class="code">select author,bname from books;
+</pre>
+      <p class="number">步骤五：查看book表的书名，价格，8折后价格</p>
+      <pre class="code">select bname,price,price *0.8 from books;
+</pre>
+      <p class="number">步骤六：查看books表的书名，价格，价格对2取余的结果</p>
+      <pre class="code">select bname,price, price % 2 from books;
+</pre>
+      <p class="number">步骤七：查看books表的书名，价格，价格对3整除的结果</p>
+      <pre class="code">select bname,price, price div 3 from books;
+</pre>
+      <p class="number">步骤八：查看books表的书名，作者，价格，折后价格(作者为老舍的8折，其他九折)</p>
+      <pre class="code">select bname,author,price,if(author="老舍",price*0.8,price*0.9) from books;
+</pre>
+      <p class="number">步骤九：查看books表的书名，作者，作者，折后价格(作者为老舍的8折，鲁迅的7折，矛盾9折，其作者6折)</p>
+      <pre class="code">#if 实现
+select bname,author,price,if(author="老舍",price*0.8, if(author="矛盾",price*0.9,price*0.6))  from books;
+​
+#case when
+select bname,author,price,
+case 
+when author="老舍" then price*0.8
+when author="矛盾" then price*0.9
+else price*0.6 
+end
+from books;
+</pre>
+      <p class="number">步骤十：查看books表的书名，价格，价格奇偶数判断</p>
+      <pre class="code">#if
+select bname,price,if(price %2=0,"偶数","奇数") from books;
+#case when
+select bname,price,case when price %2=0 then "偶数" else "奇数" end  from books;
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 Where子句</h2>
+      <h3>2.1 问题</h3>
+      <p>图书价格&gt;50的图书所有信息</p>
+      <p>图书价格不等于41的图书所有信息</p>
+      <p>备注为空的图书</p>
+      <p>备注不为空的图书</p>
+      <p>图书价格40-60元的图书（and 和 between and分别实现）</p>
+      <p>鲁迅或老舍的图书（or 和 in 分别实现）</p>
+      <p>价格不在40-60元的图书（or 和 not between and 分别实现）</p>
+      <p>不是鲁迅或老舍的图书（and 和 not in 分别实现）</p>
+      <p>查找30多元的图书</p>
+      <p>查找人民教育出版社出版的图书</p>
+      <p>查找老舍写的，中国文学出版社出版的图书</p>
+      <p>查找备注不为空的图书</p>
+      <p>查找价格超过60元的图书，只看书名和价格</p>
+      <p>查找鲁迅写的或者老舍写的图书</p>
+      <p>作者是两个字的图书信息</p>
+      <p>作者姓钱的图书信息</p>
+      <p>备注以?号结尾的图书信息</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：图书价格&gt;50的图书所有信息</p>
+      <pre class="code">select * from books where price &gt; 50;
+</pre>
+      <p class="number">步骤二：图书价格不等于41的图书所有信息</p>
+      <pre class="code">select * from books where price != 41;
+</pre>
+      <p class="number">步骤三：备注为空的图书</p>
+      <pre class="code">select * from books where comment is null;
+</pre>
+      <p class="number">步骤四：图书价格40-60元的图书（and 和 between and分别实现）</p>
+      <pre class="code"># and
+select * from books where price&gt;=40 and price&lt;=60;
+# between and 
+select * from books where price between 40 and 60;
+</pre>
+      <p class="number">步骤五：鲁迅或老舍的图书（or 和 in 分别实现）</p>
+      <pre class="code"># or
+select * from books where author = "鲁迅" or author="老舍";
+# in 
+select * from books where author in("鲁迅","老舍");
+</pre>
+      <p class="number">步骤六：价格不在40-60元的图书（or 和 not between and 分别实现）</p>
+      <pre class="code">#or
+select * from books where price &lt;40 or price &gt;60;
+#not between and
+select * from books  where price not between 40 and 60;
+</pre>
+      <p class="number">步骤七：不是鲁迅或老舍的图书（and 和 not in 分别实现）</p>
+      <pre class="code"># and
+select * from books where author != "鲁迅" and author != "老舍";
+# not between and
+select * from books where author not in("鲁迅","老舍");
+</pre>
+      <p class="number">步骤八：查找30多元的图书</p>
+      <pre class="code"># and
+select * from books  where price &gt;=30 and price&lt;40;
+# between and
+select * from books where price between 30 and 39.9999999;
+</pre>
+      <p class="number">步骤九：查找人民教育出版社出版的图书</p>
+      <pre class="code">select * from books where press = "人民教育出版社";
+</pre>
+      <p class="number">步骤十：查找老舍写的，中国文学出版社出版的图书</p>
+      <pre class="code">select * from books where author="老舍"  and press="中国文学出版社"
+</pre>
+      <p class="number">步骤十一：查找备注不为空的图书</p>
+      <pre class="code">select * from books where comment  is not null;
+</pre>
+      <p class="number">步骤十二：查找价格超过60元的图书，只看书名和价格</p>
+      <pre class="code">select bname,price from books  where price &gt;60 
+</pre>
+      <p class="number">步骤十三：查找鲁迅写的或者老舍写的图书</p>
+      <pre class="code"># or
+select * from books  where author="鲁迅" or author="老舍";
+# in
+select * from books  where author in ("鲁迅" ,"老舍");
+</pre>
+      <p class="number">步骤十四：作者是两个字的图书信息</p>
+      <pre class="code">select * from books where author like "__";
+</pre>
+      <p class="number">步骤十五：作者姓钱的图书信息</p>
+      <pre class="code">select * from books where author like "钱%";
+</pre>
+      <p class="number">步骤十六：备注以?号结尾的图书信息</p>
+      <pre class="code">select * from books where common  like "%?";
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 常用日期函数</h2>
+      <h3>3.1 问题</h3>
+      <p>计算每个人报名比赛的年龄 (比赛日期-生日)</p>
+      <p>找到上个月过生日的人（当前月-1 = 出生月）</p>
+      <p>未来15天内过生日的人</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：计算每个人报名比赛的年龄 (比赛日期-生日)</p>
+      <pre class="code">#方法1
+select *,year(r_time)-year(birthday) as 比赛时年龄 from marathon;
+#方法2
+select *,timestampdiff(year,birthday,r_time) as 比赛时年龄diff from marathon;
+</pre>
+      <p class="number">步骤二：找到上个月过生日的人（当前月-1 = 出生月）</p>
+      <pre class="code">#方法1
+select * from marathon where month(birthday) = month(current_date())-1;
+#方法2
+select * from marathon 
+where month(birthday) = month(date_sub(current_date(),INTERVAL 1 month));
+</pre>
+      <p class="number">步骤三：未来15天内过生日的人</p>
+      <pre class="code">select * from marathon
+where 
+date(concat_ws("/",year(CURRENT_DATE()),month(birthday),day(birthday))) 
+BETWEEN CURRENT_DATE() and date_add(CURRENT_DATE(),interval 15 day);
+</pre>
+    </div>
+  </body>
+</html>

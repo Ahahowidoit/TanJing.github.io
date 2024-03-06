@@ -1,0 +1,91 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME MACHLEARNING DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">线性回归</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 线性回归</h2>
+      <h3>1.1 问题</h3>
+      <p>通过sklearn API实现线性回归</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1）导入需要的环境库</p>
+      <p>2）导入输入集和输出集</p>
+      <p>3）创建线性回归器</p>
+      <p>4）用已知输入、输出数据集训练回归器</p>
+      <p>5）根据训练模型预测输出系数，截距</p>
+      <p>6）可视化回归曲线</p>
+      <p>7）评价模型</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 利用LinearRegression实现线性回归
+import numpy as np
+import sklearn.linear_model as lm  # 线性模型# 线性模型
+import sklearn.metrics as sm  # 模型性能评价模块
+import matplotlib.pyplot as plt
+
+train_x = np.array([[0.5], [0.6], [0.8], [1.1], [1.4]])  # 输入集
+train_y = np.array([5.0, 5.5, 6.0, 6.8, 7.0])  # 输出集
+
+# 创建线性回归器
+model = lm.LinearRegression()
+# 用已知输入、输出数据集训练回归器
+model.fit(train_x, train_y)
+# 根据训练模型预测输出
+pred_y = model.predict(train_x)
+
+print("coef_:", model.coef_)  # 系数
+print("intercept_:", model.intercept_)  # 截距
+
+# 可视化回归曲线
+plt.figure('Linear Regression', facecolor='lightgray')
+plt.title('Linear Regression', fontsize=20)
+plt.xlabel('x', fontsize=14)
+plt.ylabel('y', fontsize=14)
+plt.tick_params(labelsize=10)
+plt.grid(linestyle=':')
+
+# 绘制样本点
+plt.scatter(train_x, train_y, c='blue', alpha=0.8, s=60, label='Sample')
+
+# 绘制拟合直线
+plt.plot(train_x,  # x坐标数据
+        pred_y,  # y坐标数据
+        c='orangered', label='Regression')
+
+plt.legend()
+plt.show()
+
+# 平均绝对误差：误差的绝对值的平均值
+sm.mean_absolute_error(train_y,pred_y)
+# 均方误差 误差的平方的平均值
+sm.mean_squared_error(train_y,pred_y)
+# 中位数绝对偏差  误差的中位数
+sm.median_absolute_error(train_y,pred_y)
+# 拟合系数
+sm.r2_score(train_y,pred_y)    
+
+</pre>
+    </div>
+  </body>
+</html>

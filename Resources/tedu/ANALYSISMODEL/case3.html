@@ -1,0 +1,136 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>ANALYSISMODEL DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">统计函数——技术</a>
+        </li>
+        <li>
+          <a href="#case2">统计函数——求和</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 统计函数——技术</h2>
+      <h3>1.1 问题</h3>
+      <p>高考分数个数</p>
+      <p>高考人数</p>
+      <p>女生个数</p>
+      <p>女生且高考分数大于300的人数</p>
+      <p>大于400分的人数</p>
+      <p>男生且分数小于300</p>
+      <p>学号01结尾的人数</p>
+      <p>姓曹的女生人数</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：高考分数个数</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量” （填写好公式后，选中后鼠标移动到右下角变为加号双击）</p>
+      <pre class="code">=COUNT(D:D)
+</pre>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p class="number">步骤二：高考人数</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量” （填写好公式后，选中后鼠标移动到右下角变为加号双击）</p>
+      <pre class="code">=counta(A:A)-1
+</pre>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p class="number">步骤三：女生个数</p>
+      <pre class="code">=COUNTIF(C:C,"女")
+</pre>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-3</p>
+      </div>
+      <p class="number">步骤四：女生且高考分数大于300的人数</p>
+      <pre class="code">=COUNTIFS(C:C,"女",D:D,"&gt;300")
+</pre>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-4</p>
+      </div>
+      <p class="number">步骤五：大于400分的人数</p>
+      <pre class="code">=COUNTIF(D:D,"&gt;400")
+</pre>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-5</p>
+      </div>
+      <p class="number">步骤六：男生且分数小于300</p>
+      <pre class="code">=COUNTIFS(C:C,"男",D:D,"&lt;300")
+</pre>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-6</p>
+      </div>
+      <p class="number">步骤七：学号01结尾的人数</p>
+      <pre class="code">=COUNTIF(B:B,"*02")
+</pre>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-7</p>
+      </div>
+      <p class="number">步骤八：姓曹的女生人数</p>
+      <pre class="code">=COUNTIF(A:A,"曹*")
+</pre>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-8</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 统计函数——求和</h2>
+      <h3>2.1 问题</h3>
+      <p>高考分数总和</p>
+      <p>女生分数总和</p>
+      <p>女生且姓名三字的分数总和</p>
+      <p>分数小于300的合计</p>
+      <p>男生学号02结尾的分数合计</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：高考分数总和</p>
+      <pre class="code">=SUM(D:D)
+</pre>
+      <p class="number">步骤二：女生分数总和</p>
+      <pre class="code">=SUMIF(C:C,"=女",D:D)
+</pre>
+      <p class="number">步骤三：女生且姓名三字的分数总和</p>
+      <pre class="code">=SUMIFS(D:D,C:C,"=女",A:A,"???")
+</pre>
+      <p class="number">步骤四：分数小于300的合计</p>
+      <pre class="code">=SUMIF(D:D,"&lt;300")
+</pre>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图-9</p>
+      </div>
+      <p class="number">步骤五：男生学号02结尾的分数合计</p>
+      <pre class="code">=SUMIFS(D:D,C:C,"男",B:B,"*02")
+</pre>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图-10</p>
+      </div>
+    </div>
+  </body>
+</html>

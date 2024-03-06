@@ -1,0 +1,429 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME EMPLOYMENT DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">朝阳医院2018年销售数据分析</a>
+        </li>
+        <li>
+          <a href="#case2">优衣库数据分析</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 朝阳医院2018年销售数据分析</h2>
+      <h3>1.1 问题</h3>
+      <p>本项目数据集为医院在2018年某时间段的药房销售数据。业务方需要通过对销售数据进行分析，得出月均消费次数、月均消费金额、客单价以及消费趋势，从而实现对药品销售更好的管理</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1）导入需要的环境库</p>
+      <p>2）导入医院数据</p>
+      <p>3）数据处理</p>
+      <p>4）业务指标构建</p>
+      <p>5）趋势分析</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import pandas as pd
+salesDf = pd.read_excel('朝阳医院2018年销售数据.xlsx',dtype = str)
+salesDf
+
+salesDf.drop(labels=['Unnamed: 7','Unnamed: 8','Unnamed: 9'],axis=1,inplace=True)
+
+salesDf.head()
+
+## 一、描述性统计分析
+
+salesDf.info()
+
+salesDf.describe()
+
+salesDf.columns
+
+## 二、数据处理
+
+#1. 购药时间修改为销售时间  修改列名称
+#2. 删除列（销售时间，社保卡号）中为空值的行  对原数据生效
+#3. 核对并转换数据类型 
+#4. 销售时间分为两列：分别是销售日期，星期
+#5. 删除销售时间这一列
+#6. 销售日期处理为日期类型，删除异常日期数据
+#7. 按销售日期进行升序排列，重新设置行索引（index)
+#8. 删除销售数量为负数的数据
+
+# 1. 购药时间修改为销售时间  修改列名称
+salesDf.rename(columns={'购药时间':'销售时间'},
+              inplace=True)
+
+# 2. 删除列（销售时间，社保卡号）中为空值的行  对原数据生效
+salesDf.info()
+
+salesDf.dropna(subset=['销售时间','社保卡号'],how='any',
+              inplace=True)
+
+salesDf.shape
+
+# 3. 核对并转换数据类型
+salesDf['销售数量']=salesDf['销售数量'].astype('float')
+salesDf['应收金额']=salesDf['应收金额'].astype('float')
+salesDf['实收金额']=salesDf['实收金额'].astype('float')
+# salesDf.dtypes
+
+salesDf.info()
+
+# 4. 销售时间分为两列：分别是销售日期，星期
+salesDf['销售日期']=salesDf['销售时间'].apply(lambda x:x.split()[0])
+salesDf['星期']=salesDf['销售时间'].apply(lambda x:x.split()[1])
+# salesDf
+
+salesDf.info()
+
+# 数据中存在2018-02-29
+out_rangeid=salesDf[salesDf['销售日期']=='2018-02-29'].index
+out_rangeid
+
+# 删除异常数据所在的行
+salesDf.drop(labels=out_rangeid,axis=0,inplace=True)
+
+# 将日期字段修改为日期类型
+salesDf['销售日期']=pd.to_datetime(salesDf['销售日期'])
+
+salesDf.info()
+
+# 5. 删除销售时间这一列
+del salesDf['销售时间']
+
+# 7. 按销售日期进行升序排列，重新设置行索引（index)
+salesDf.sort_values(by='销售日期',ascending=True
+                    ,inplace=True)
+
+salesDf.reset_index(drop=True,inplace=True)
+
+salesDf
+
+# 8. 删除销售数量为负数的数据
+salesDf.describe()
+
+salesDf=salesDf[salesDf['销售数量']&gt;0]
+salesDf.describe()
+
+## 三、业务指标构建及趋势分析
+
+#1. 月均消费次数
+#2. 月均消费金额
+#3. 客单价
+
+
+# 对于简单的分析，我们分析一些业务指标，
+# 通常分析到最后会给出一些落地性的结论
+# 而对于复杂的分析，则需要用到机器学习的算法来训练模型，
+# 关于机器学习模型的训练，需要专门进行学习
+
+
+# 指标1：月均消费次数
+# 计算思路：月均消费次数=总消费次数/月份数
+# 第一步，计算总消费次数，我们知道，在电商行业，同一天内，
+# 同一个人发生的所有消费通常算作一次消费，
+# 那么我们按'销售时间','社保卡号'这两个字段进行去重，
+# 然后查看df.shape()属性，取元组的第一个值，就是总的消费次数了
+
+kpil_Df=salesDf.drop_duplicates(subset=['销售日期','社保卡号'])
+total_num=kpil_Df.shape[0]
+print('总消费次数',total_num)
+
+startTime=kpil_Df['销售日期'].min()
+
+endTime=kpil_Df['销售日期'].max()
+
+# 天数
+days=(endTime-startTime).days
+month=days//30
+month
+
+# 业务指标
+# 月均消费次数=总消费次数/月份数
+total_num/month
+
+# 指标2：月均消费金额
+# 计算思路：月均消费金额=总消费金额/月份数
+# 对于总消费金额，我们直接对数据表中'实收金额'字段进行.sum()的聚合运算即可算出，
+# 月份数上面已经给出，直接套入即可
+
+# 月均消费金额=总消费金额/月份数
+total_sum=salesDf['实收金额'].sum()
+total_sum/month
+
+# 指标3：客单价
+
+# 计算思路：客单价=总消费金额/总消费次数
+
+total_sum/total_num
+
+# 4. 新建字段为月份，统计每个月的销售金额  分析趋势 绘制折线图
+# 5. 分析各商品销量，销售额
+
+# 月销售趋势
+import matplotlib.pyplot as plt
+plt.rcParams['font.family'] = 'SimHei'
+plt.rcParams['axes.unicode_minus'] = False
+
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+
+salesDf['月份']=salesDf['销售日期'].apply(lambda x:x.month)
+sales_month=salesDf.groupby('月份')['实收金额'].sum()
+del sales_month[7]
+plt.figure(figsize=(10,4),dpi=100)
+sales_month.plot()
+plt.ylabel('总销售额')
+plt.title('朝阳医院按月统计药品销售额趋势图')
+plt.show()
+
+salesDf.columns
+
+# 5. 分析各商品销量，销售额
+salesDf.groupby('商品名称')['销售数量'].sum().sort_values(ascending=False)
+
+salesDf.groupby('商品名称')['实收金额'].sum().sort_values(ascending=False)
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 优衣库数据分析</h2>
+      <h3>2.1 问题</h3>
+      <p>优衣库是日本迅销公司的核心品牌，建立于1984年。当年是一家销售西服的小服装店，现已成为国际知名服装品牌，从分析2W余条商品、用户以及销售数据，探索用户购买偏好以及不同产品的盈利情况。</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1）导入需要的环境库</p>
+      <p>2）导入优衣库数据</p>
+      <p>3）数据描述性分析</p>
+      <p>4）探索性分析</p>
+      <p>5）目标额分配</p>
+      <p>6）品类爆款数据分析</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 利用LinearRegression实现线性回归
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+
+# 显示中文
+plt.rcParams['font.sans-serif']='SimHei'
+
+
+# 读取数据
+
+# utf-8  通用
+# gbk
+# gb2312
+
+df=pd.read_csv('unique.csv')
+df
+
+# 一.数据描述性统计分析
+
+# 查看数据完整性
+df.info()
+
+# 数值型数据描述分析
+df.describe()
+
+#1. 销售金额为负数 存在异常值
+#2. 产品成本 9-99
+#3. 单价为0 -299
+
+# 查看销售金额为负数
+index0=df[df['销售金额']&lt;0].index
+df.drop(labels=index0,axis=0,inplace=True)
+
+# 查看销售金额为0
+index1=df[df['销售金额']==0].index
+df.drop(labels=index1,axis=0,inplace=True)
+
+df.describe()
+
+df[df['销售金额']==12538]
+
+# 箱线图分析  大于QU+1.5IQR
+175+1.58*(175-66)
+
+# 热依达法则
+df['销售金额'].mean()+3*df['销售金额'].std()
+
+# 盖帽法
+df['销售金额'].quantile(q=0.99)
+
+# df[df['销售金额']&gt;1009.0]
+
+# df['销售金额'].plot(kind='box')
+
+df
+
+#1. 产品成本范围分析，不同产品成本是多少
+#2. 产品单价售价区间
+#3. 有哪些城市 top5的营业额
+#4. 主要的销售渠道是什么
+#5. 客户画像：主要客户群体
+#6. 有哪些产品，热销产品是什么，营业额最好的
+#7. 利润分布范围
+#8. 不同产品利润分析
+
+df['产品成本'].value_counts()
+
+df.groupby('产品类别')['产品成本'].mean()
+
+df
+
+# 2. 产品单价售价区间
+df['产品单价'].plot(kind='kde')
+
+# 3. 有哪些城市 top5的营业额
+df['城市'].unique()
+df.groupby('城市')['销售金额'].sum().sort_values(ascending=False)
+
+# 4. 主要的销售渠道是什么
+df['销售渠道'].value_counts().plot(kind='pie',
+                              autopct='%.2f%%')
+
+df['性别'].value_counts()
+
+# 118: 女75 男43
+
+# 5. 客户画像：主要客户群体
+df.loc[df['性别']=='Unkown','性别']='Female'
+
+sns.countplot(df['性别'])
+
+df['性别'].value_counts().plot(kind='bar',
+                            rot=0)
+
+
+# 年龄段
+df['年龄段'].value_counts()
+df.loc[df['年龄段']=='Unkown','年龄段']='30-34'
+
+df['年龄段'].value_counts().plot(kind='bar',
+                            rot=0)
+
+# 6. 有哪些产品，热销产品是什么，营业额最好的
+df['产品类别'].unique()
+
+df.groupby('产品类别')['购买数量'].sum().sort_values(ascending=False)
+
+df.groupby('产品类别')['销售金额'].sum().sort_values(ascending=False)
+
+# 7. 利润分布范围
+df['单件利润']=df['产品单价']-df['产品成本']
+df['单件利润'].plot(kind='kde')
+
+sns.kdeplot(df['单件利润'])
+
+sns.boxplot(y=df['产品类别'],x=df['单件利润'])
+
+# 8. 不同产品利润分析
+df.groupby('产品类别')['单件利润'].describe()
+
+# 分析销售额变化情况 随着时间变化
+df.info()
+
+# 修改数据类型
+df['购买时间']=pd.to_datetime(df['购买时间'])
+
+# df.info()
+
+df['购买时间'].min()
+
+df['购买时间'].max()
+
+df['月份']=df['购买时间'].dt.month
+df
+# 销售金额随着月份的变化趋势
+df.groupby('月份')['销售金额'].sum().plot(kind='line')
+
+
+
+# 十月份销售总金额
+df['销售金额'][df.月份==10].sum()
+
+1. 定义总目标 11月在10月基础上提升20%
+2. 为各个城市分配任务  按照每个城市销售额贡献率
+3. 为各个门店分配任务，按照每个门店销售额贡献率
+
+mubiao_11=333094.43000000005*1.2
+mubiao_11
+
+# 计算每个城市销售额贡献率
+temp=df.groupby('城市')['销售金额'].sum()/df['销售金额'].sum()
+# temp
+
+# 每个城市11月需要完成的目标
+city_obj=mubiao_11*temp
+city_obj
+
+# 每个城市的目标 分配给各个门店
+# 每个城市销售总金额
+city_sales=df.groupby('城市',as_index=False)['销售金额'].sum()
+city_sales
+
+# 各个城市 各个门店 销售总金额
+temp_city=df.groupby(by=['城市','门店ID'],as_index=False)['销售金额'].sum()
+temp_city
+
+# 新增一列 门店贡献率
+temp_city['门店贡献率']=temp_city.apply(lambda x:x[2]/(city_sales['销售金额'][x[0]==city_sales['城市']].sum()),
+                                  axis=1)
+# temp_city.groupby('城市')['门店贡献率'].sum()
+temp_city['11月目标']=temp_city.apply(lambda x:x[3]*city_obj[x[0]==city_obj.index].sum(),
+                                 axis=1)
+# temp_city.groupby('城市')['门店金额'].sum()
+
+temp_city[temp_city['城市']=='上海']['11月目标'].sum()
+
+#1. 不同城市 不同产品 售价分析
+#2. 得到每个城市 每个门店 品类爆款第一名对应的平均售价
+#3. 写项目总结
+
+df.columns
+
+pinlei_quanty=df.groupby(by=['城市','门店ID','产品类别'],as_index=False).agg({'购买数量':'sum',
+                                                     '产品单价':'mean'})
+pinlei_quanty
+
+# 增加名次
+pinlei_quanty['名次']=pinlei_quanty.groupby(by=['城市','门店ID'])['购买数量'].rank(method='first',
+                                                    ascending=False)
+# pinlei_quanty[pinlei_quanty['门店ID']==135]
+
+baokuan=pinlei_quanty[pinlei_quanty['名次']==1]
+baokuan
+
+pd.pivot_table(data=df,index='城市',columns='产品类别',
+              values='产品单价',aggfunc='mean')
+
+pd.crosstab(index=df.销售渠道,columns=df.城市)
+
+</pre>
+    </div>
+  </body>
+</html>

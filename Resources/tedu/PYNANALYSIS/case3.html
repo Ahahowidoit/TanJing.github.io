@@ -1,0 +1,181 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNANALYSIS DAY03</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">众数练习</a>
+        </li>
+        <li>
+          <a href="#case2">次要众数练习</a>
+        </li>
+        <li>
+          <a href="#case3">取值个数练习</a>
+        </li>
+        <li>
+          <a href="#case4">去重练习</a>
+        </li>
+        <li>
+          <a href="#case5">记录判断练习</a>
+        </li>
+        <li>
+          <a href="#case6">空值赋值练习</a>
+        </li>
+        <li>
+          <a href="#case7">缺失值填充练习</a>
+        </li>
+        <li>
+          <a href="#case8">缺失值个数统计练习</a>
+        </li>
+        <li>
+          <a href="#case9">查值数量练习</a>
+        </li>
+        <li>
+          <a href="#case10">查值占比练习</a>
+        </li>
+        <li>
+          <a href="#case11">缺失数据占比练习</a>
+        </li>
+        <li>
+          <a href="#case12">异常数据练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 众数练习</h2>
+      <h3>1.1 问题</h3>
+      <pre class="code">s = pd.Series(list("abcdeabaaefgh"))
+</pre>
+      <p>求s中的众数</p>
+      <h3>1.2 步骤</h3>
+      <pre class="code">s.mode()
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 次要众数练习</h2>
+      <h3>2.1 问题</h3>
+      <pre class="code">s = pd.Series(list("abcdeabaaefgh"))
+</pre>
+      <p>求s的次要众数</p>
+      <h3>2.2 步骤</h3>
+      <pre class="code">s.value_counts().index[1] 
+s1 = s.value_counts() 
+s1.sort_values(ascending=False).index[1]
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 取值个数练习</h2>
+      <h3>3.1 问题</h3>
+      <pre class="code">s = pd.Series(list("abcdeabaaefgh"))
+</pre>
+      <p>求s的取值个数</p>
+      <h3>3.2 步骤</h3>
+      <pre class="code">s.nunique()
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 去重练习</h2>
+      <h3>4.1 问题</h3>
+      <p>s = pd.Series(list("abcdeabaaefgh"))</p>
+      <p>求s都有哪些取值</p>
+      <h3>4.2 步骤</h3>
+      <pre class="code">s.unique() 
+</pre>
+      <a name="case5">
+      </a>
+      <h2>5 记录判断练习</h2>
+      <h3>5.1 问题</h3>
+      <pre class="code">s = pd.Series(list("abcdeabaaefgh"))
+</pre>
+      <p>s元素在 ”defgh”中的记录</p>
+      <h3>5.2 步骤</h3>
+      <pre class="code">s[s.isin(list("defgh"))] 
+</pre>
+      <a name="case6">
+      </a>
+      <h2>6 空值赋值练习</h2>
+      <h3>6.1 问题</h3>
+      <pre class="code">s = pd.Series(list("abcdeabaaefgh"))
+</pre>
+      <p>s 元素为a,c 的赋值为np.nan 或 None</p>
+      <h3>6.2 步骤</h3>
+      <pre class="code">s[(s=="a") | (s=="c")] = None 
+</pre>
+      <a name="case7">
+      </a>
+      <h2>7 缺失值填充练习</h2>
+      <h3>7.1 问题</h3>
+      <p>接上一题的结果。计算s 的缺失值个数，并对缺失值进行众数补充</p>
+      <h3>7.2 步骤</h3>
+      <pre class="code">s.isna().sum() 
+s.fillna(s.mode()[0],inplace=True)  
+</pre>
+      <a name="case8">
+      </a>
+      <h2>8 缺失值个数统计练习</h2>
+      <h3>8.1 问题</h3>
+      <pre class="code">data_info= pd.Series(['经理', '本科', '经理 ', '初中', np.nan, '博士', '专科', '专科', '博士', '博士', '本科','专科', '本科', '专科', '本科'],name="学历")
+</pre>
+      <p>查看学历字段是否有缺失数值,缺失数据数量</p>
+      <h3>8.2 步骤</h3>
+      <pre class="code">data_info.isnull().sum()
+</pre>
+      <a name="case9">
+      </a>
+      <h2>9 查值数量练习</h2>
+      <h3>9.1 问题</h3>
+      <pre class="code">data_info= pd.Series(['经理', '本科', '经理 ', '初中', np.nan, '博士', '专科', '专科', '博士', '博士', '本科','专科', '本科', '专科', '本科'],name="学历")
+</pre>
+      <p>查看各学历人数</p>
+      <h3>9.2 步骤</h3>
+      <pre class="code">data_info.value_counts()
+</pre>
+      <a name="case10">
+      </a>
+      <h2>10 查值占比练习</h2>
+      <h3>10.1 问题</h3>
+      <pre class="code">data_info= pd.Series(['经理', '本科', '经理 ', '初中', np.nan, '博士', '专科', '专科', '博士', '博士', '本科','专科', '本科', '专科', '本科'],name="学历")
+</pre>
+      <p>查看各学历的占比</p>
+      <h3>10.2 步骤</h3>
+      <pre class="code">data_info.value_counts()/data_info.size 
+</pre>
+      <a name="case11">
+      </a>
+      <h2>11 缺失数据占比练习</h2>
+      <h3>11.1 问题</h3>
+      <pre class="code">data_info= pd.Series(['经理', '本科', '经理 ', '初中', np.nan, '博士', '专科', '专科', '博士', '博士', '本科','专科', '本科', '专科', '本科'],name="学历")
+</pre>
+      <p>计算缺失数据占比</p>
+      <h3>11.2 步骤</h3>
+      <pre class="code">data_info.isnull().sum()/data_info.size
+</pre>
+      <a name="case12">
+      </a>
+      <h2>12 异常数据练习</h2>
+      <h3>12.1 问题</h3>
+      <pre class="code">data_info= pd.Series(['经理', '本科', '经理 ', '初中', np.nan, '博士', '专科', '专科', '博士', '博士', '本科','专科', '本科', '专科', '本科'],name="学历")
+</pre>
+      <p>删除学历字段异常数据</p>
+      <h3>12.2 步骤</h3>
+      <pre class="code">data_info = data_info[~data_info.isna()] 
+data_info = data_info[~data_info.str.contains("经理")]
+</pre>
+    </div>
+  </body>
+</html>

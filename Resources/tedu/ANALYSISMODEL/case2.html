@@ -1,0 +1,437 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>ANALYSISMODEL DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">缺失值填充</a>
+        </li>
+        <li>
+          <a href="#case2">数据排序</a>
+        </li>
+        <li>
+          <a href="#case3">数据筛选</a>
+        </li>
+        <li>
+          <a href="#case4">数据提取——日期提取</a>
+        </li>
+        <li>
+          <a href="#case5">数据提取——从文本中提取信息</a>
+        </li>
+        <li>
+          <a href="#case6">数据提取——数值数据</a>
+        </li>
+        <li>
+          <a href="#case7">数据提取——关联表</a>
+        </li>
+        <li>
+          <a href="#case8">数据提取——if条件</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 缺失值填充</h2>
+      <h3>1.1 问题</h3>
+      <p>对年龄列补充缺失数据为平均你年龄</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：对年龄列补充缺失数据为平均你年龄</p>
+      <p>选中所有要填充的单元格</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p>输入=18.95并按 ctrl+enter</p>
+      <div class="image">
+        <img src="index.files/image002.png" />
+        <p>图-2</p>
+      </div>
+      <p class="number">步骤二：计算“销售金额” ，计算公式为“单价”*“数量”</p>
+      <p>计算“销售金额” ，计算公式为“单价”*“数量” （填写好公式后，选中后鼠标移动到右下角变为加号双击）</p>
+      <div class="image">
+        <img src="index.files/image003.png" />
+        <p>图-2</p>
+      </div>
+      <a name="case2">
+      </a>
+      <h2>2 数据排序</h2>
+      <h3>2.1 问题</h3>
+      <p>按身高升序排序，身高相同按体重升序排序</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：按身高升序排序，身高相同按体重升序排序</p>
+      <div class="image">
+        <img src="index.files/image004.png" />
+        <p>图-3</p>
+      </div>
+      <a name="case3">
+      </a>
+      <h2>3 数据筛选</h2>
+      <h3>3.1 问题</h3>
+      <p>筛选出性别为男并且姓李的同学</p>
+      <p>筛选出性别为女或者年龄大于19岁的同学</p>
+      <p>筛选姓李的或者男生</p>
+      <p>获取所有地址信息</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：筛选出性别为男并且姓李的同学</p>
+      <p>找出男生数据</p>
+      <div class="image">
+        <img src="index.files/image005.png" />
+        <p>图-4</p>
+      </div>
+      <p>在男生的基础上，找出姓李的数据。</p>
+      <div class="image">
+        <img src="index.files/image006.png" />
+        <p>图-5</p>
+      </div>
+      <p>筛选结果如下。</p>
+      <div class="image">
+        <img src="index.files/image007.png" />
+        <p>图-6</p>
+      </div>
+      <p>Ctrl+A 复制全选结果，Ctrl+C后可以将结果放到其他sheet 中，或其他文件。</p>
+      <p>取消筛选。</p>
+      <div class="image">
+        <img src="index.files/image008.png" />
+        <p>图-7</p>
+      </div>
+      <p class="number">步骤二：筛选出性别为男并且姓李的同学</p>
+      <p>1）准备条件区域</p>
+      <div class="image">
+        <img src="index.files/image009.png" />
+        <p>图-8</p>
+      </div>
+      <p>2）对数据进行高级筛选</p>
+      <div class="image">
+        <img src="index.files/image010.png" />
+        <p>图-9</p>
+      </div>
+      <p>3）筛选结果如下</p>
+      <div class="image">
+        <img src="index.files/image011.png" />
+        <p>图-10</p>
+      </div>
+      <p class="number">步骤三：筛选姓李的或者男生</p>
+      <p>1）基本操作</p>
+      <div class="image">
+        <img src="index.files/image012.png" />
+        <p>图-11</p>
+      </div>
+      <p>2）结果展示</p>
+      <div class="image">
+        <img src="index.files/image013.png" />
+        <p>图-12</p>
+      </div>
+      <p class="number">步骤四：获取所有地址信息</p>
+      <div class="image">
+        <img src="index.files/image014.png" />
+        <p>图-13</p>
+      </div>
+      <a name="case4">
+      </a>
+      <h2>4 数据提取——日期提取</h2>
+      <h3>4.1 问题</h3>
+      <p>筛选姓李的或者男生提取“datetime” 字段的年、月、日、时、分、秒、周几的信息</p>
+      <p>当前sheet内任意单元格获取系统日期和时间</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：筛选姓李的或者男生提取“datetime” 字段的年、月、日、时、分、秒、周几的信息</p>
+      <p>1) 提取年 year(日期)</p>
+      <pre class="code">=year(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image015.png" />
+        <p>图-14</p>
+      </div>
+      <p>2）提取月 month(日期)</p>
+      <pre class="code">=month(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image016.png" />
+        <p>图-15</p>
+      </div>
+      <p>3）提取日 day(日期)</p>
+      <pre class="code">=DAY(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image017.png" />
+        <p>图-16</p>
+      </div>
+      <p>4）提取时 Hour(日期)</p>
+      <pre class="code">=Hour(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image018.png" />
+        <p>图-17</p>
+      </div>
+      <p>5）提取分 minute(日期)</p>
+      <pre class="code">=minute(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image019.png" />
+        <p>图-18</p>
+      </div>
+      <p>6）提取秒 second(日期)</p>
+      <pre class="code">=second(E3)
+</pre>
+      <div class="image">
+        <img src="index.files/image020.png" />
+        <p>图-19</p>
+      </div>
+      <p>7) 提取星期 weekday(日期，2)</p>
+      <pre class="code">=weekday(E3,2)
+</pre>
+      <div class="image">
+        <img src="index.files/image021.png" />
+        <p>图-20</p>
+      </div>
+      <p>8）获取系统日期，时间</p>
+      <pre class="code">=TODAY()
+=Now()
+</pre>
+      <div class="image">
+        <img src="index.files/image022.png" />
+        <p>图-21</p>
+      </div>
+      <a name="case5">
+      </a>
+      <h2>5 数据提取——从文本中提取信息</h2>
+      <h3>5.1 问题</h3>
+      <p>从身份证中提取省份(前2位）、城市(3-6位）、生日，性别(倒数第二位)位——利用分列实现</p>
+      <p>从身份证中提取省份(前2位）、城市(3-6位）、生日，性别(倒数第二位)位——利用函数实现</p>
+      <p>根据_位置提取”班级”列中的学校和班级信息</p>
+      <h3>5.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：从身份证中提取省份(前2位）、城市(3-6位）、生日，性别(倒数第二位)位——利用分列实现</p>
+      <p>1）选中身份证号列，选择”数据“菜单—&gt;"分列"选项，并设置固定宽度，下一步</p>
+      <div class="image">
+        <img src="index.files/image023.png" />
+        <p>图-22</p>
+      </div>
+      <p>2）确定省市生日性别分割线后下一步</p>
+      <div class="image">
+        <img src="index.files/image024.png" />
+        <p>图-23</p>
+      </div>
+      <p>3）设置类城市列类型为文本，并不提取倒数第1列和第三列</p>
+      <div class="image">
+        <img src="index.files/image025.png" />
+        <p>图-24</p>
+      </div>
+      <p>4）修改列名后，效果如下</p>
+      <div class="image">
+        <img src="index.files/image026.png" />
+        <p>图-25</p>
+      </div>
+      <p class="number">步骤二：从身份证中提取省份(前2位）、城市(3-6位）、生日，性别(倒数第二位)位——利用函数实现</p>
+      <p>1）从身份证号中提取省份</p>
+      <pre class="code">=LEFT(A2,2)
+</pre>
+      <div class="image">
+        <img src="index.files/image027.png" />
+        <p>图-26</p>
+      </div>
+      <p>2）从身份证中提取城市</p>
+      <pre class="code">=MID(A2,3,4)
+</pre>
+      <div class="image">
+        <img src="index.files/image028.png" />
+        <p>图-27</p>
+      </div>
+      <p>3）从身份证中提取性别位</p>
+      <pre class="code">=MID(A2,17,1)
+=LEFT(RIGHT(A2,2),1)
+</pre>
+      <div class="image">
+        <img src="index.files/image029.png" />
+        <p>图-28</p>
+      </div>
+      <p class="number">步骤三：根据_位置提取”班级”列中的学校和班级信息</p>
+      <p>1）分列实现</p>
+      <div class="image">
+        <img src="index.files/image030.png" />
+        <p>图-29</p>
+      </div>
+      <p>2）根据_位置提取B列中的学校信息</p>
+      <pre class="code">=LEFT(B2,FIND("_",B2)-1)
+</pre>
+      <div class="image">
+        <img src="index.files/image031.png" />
+        <p>图-30</p>
+      </div>
+      <p>3）从B列字符串里替换掉学校和_便是班级信息</p>
+      <pre class="code">=SUBSTITUTE(B2,L2&amp;"_","")
+=RIGHT(B2,LEN(B2)-FIND("_",B2))
+</pre>
+      <div class="image">
+        <img src="index.files/image032.png" />
+        <p>图-31</p>
+      </div>
+      <a name="case6">
+      </a>
+      <h2>6 数据提取——数值数据</h2>
+      <h3>6.1 问题</h3>
+      <p>“差分” 列取绝对值——利用函数实现</p>
+      <p>“高考分数” 列四舍五入保留一位小数点——利用函数实现</p>
+      <p>“高考分数”列向上取整保留零为小数点——利用函数实现</p>
+      <p>“高考分数”列向下取整保留零为小数点——利用函数实现</p>
+      <p>“差分” 列求平方</p>
+      <p>“差分” 开平方</p>
+      <p>“差分” 列对2取余数</p>
+      <h3>6.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：“差分” 列取绝对值——利用函数实现</p>
+      <pre class="code">=ABS(E2)
+</pre>
+      <div class="image">
+        <img src="index.files/image033.png" />
+        <p>图-32</p>
+      </div>
+      <p class="number">步骤二：“高考分数” 列四舍五入保留一位小数点——利用函数实现</p>
+      <pre class="code">=ROUND(D2,1)
+</pre>
+      <div class="image">
+        <img src="index.files/image034.png" />
+        <p>图-33</p>
+      </div>
+      <p class="number">步骤三：“高考分数”列向上取整保留零为小数点——利用函数实现</p>
+      <pre class="code">=ROUNDUP(D2,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image035.png" />
+        <p>图-34</p>
+      </div>
+      <p class="number">步骤四：“高考分数”列向下取整保留零为小数点——利用函数实现</p>
+      <pre class="code">=ROUNDDOWN(D2,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image036.png" />
+        <p>图-35</p>
+      </div>
+      <p class="number">步骤五：“差分”列求平方</p>
+      <pre class="code">=E2^2
+</pre>
+      <div class="image">
+        <img src="index.files/image037.png" />
+        <p>图-36</p>
+      </div>
+      <p class="number">步骤六：差分列开平方</p>
+      <pre class="code">=sqrt(E2)
+</pre>
+      <div class="image">
+        <img src="index.files/image038.png" />
+        <p>图-37</p>
+      </div>
+      <p class="number">步骤七：“差分” 列对2取余数</p>
+      <pre class="code">=MOD(E2,2)
+</pre>
+      <div class="image">
+        <img src="index.files/image039.png" />
+        <p>图-38</p>
+      </div>
+      <a name="case7">
+      </a>
+      <h2>7 数据提取——关联表</h2>
+      <h3>7.1 问题</h3>
+      <p>根据姓名从左侧全量数据中找学号</p>
+      <p>根据学号得高考分数</p>
+      <p>为32岁男士配比32小的最大年龄女士的编号</p>
+      <p>根据分数段划分规则为每个考生设定等级</p>
+      <p>Vlookup练习里求每个职工的年终奖</p>
+      <p>Vlookup练习里求每个业务员的年终奖</p>
+      <p>Vlookup练习里求每个店铺的佣金</p>
+      <h3>7.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据姓名从左侧全量数据中找学号</p>
+      <pre class="code">=vlookup(F3,A:B,2,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image040.png" />
+        <p>图-39</p>
+      </div>
+      <p class="number">步骤二：根据学号得高考分数</p>
+      <pre class="code">=vlookup(F9,B:D,3,0)
+</pre>
+      <div class="image">
+        <img src="index.files/image041.png" />
+        <p>图-40</p>
+      </div>
+      <p class="number">步骤三：根据分数段划分规则为每个考生设定等级</p>
+      <p>提出每个分数段的下限后，在D列写如下公式</p>
+      <pre class="code">=vlookup(D2,$I$2:$K$5,3,1)
+</pre>
+      <div class="image">
+        <img src="index.files/image042.png" />
+        <p>图-41</p>
+      </div>
+      <p class="number">步骤四：Vlookup练习里求每个职工的年终奖</p>
+      <pre class="code">=VLOOKUP(C10,$B$3:$C$7,2,0)*D10
+</pre>
+      <div class="image">
+        <img src="index.files/image043.png" />
+        <p>图-41</p>
+      </div>
+      <p class="number">步骤五：Vlookup练习里求每个业务员的年终奖</p>
+      <p>提出每个提成段的下限后并以下限升序排序，在D27单元格写如下公式</p>
+      <pre class="code">=VLOOKUP(C27,$A$18:$C$23,3,1)
+</pre>
+      <div class="image">
+        <img src="index.files/image044.png" />
+        <p>图-22</p>
+      </div>
+      <p class="number">步骤五：Vlookup练习里求每个店铺的佣金</p>
+      <p>提出每个佣金段的下限后并以下限升序排序，在k11单元格写如下公式</p>
+      <pre class="code">=VLOOKUP(J11,$H$2:$J$6,3,1)
+</pre>
+      <div class="image">
+        <img src="index.files/image045.png" />
+        <p>图-42</p>
+      </div>
+      <p>计算提成佣金</p>
+      <pre class="code">=J11*K11
+</pre>
+      <div class="image">
+        <img src="index.files/image046.png" />
+        <p>图-43</p>
+      </div>
+      <a name="case8">
+      </a>
+      <h2>8 数据提取——if条件</h2>
+      <h3>8.1 问题</h3>
+      <p>添加一性别列 条件性别位为奇数是男生，偶数是女生</p>
+      <p>省份编码小于50为南方否则为北方</p>
+      <h3>8.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：添加一性别列 条件性别位为奇数是男生，偶数是女生</p>
+      <pre class="code">=if(mod(F2,2)=0,"女","男")
+</pre>
+      <div class="image">
+        <img src="index.files/image047.png" />
+        <p>图-44</p>
+      </div>
+      <p class="number">步骤二：省份编码小于50为南方否则为北方</p>
+      <pre class="code">=if(c2&lt;50,“南”,“北”)
+</pre>
+      <div class="image">
+        <img src="index.files/image048.png" />
+        <p>图-45</p>
+      </div>
+    </div>
+  </body>
+</html>

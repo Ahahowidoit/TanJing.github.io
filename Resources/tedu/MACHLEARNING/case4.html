@@ -1,0 +1,531 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME MACHLEARNING DAY04</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">波士顿房价预测</a>
+        </li>
+        <li>
+          <a href="#case2">波士顿房价预测-adaBoosting算法</a>
+        </li>
+        <li>
+          <a href="#case3">波士顿房价预测-随机森林</a>
+        </li>
+        <li>
+          <a href="#case4">金融借贷数据分析</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 波士顿房价预测</h2>
+      <h3>1.1 问题</h3>
+      <p>将波士顿房价数据导入，适用线性回归，lasso回归，邻回归，决策树回归算法进行预测并评价模型</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>将波士顿数据导入，提取特征和标签</p>
+      <p>划分训练集和测试集</p>
+      <p>导入线性回归，lasso回归，邻回归，决策树回归算法进行训练模型</p>
+      <p>模型评价</p>
+      <p>得到特征重要性排序并进行可视化</p>
+      <p>找到决策树最优参数组合</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 决策树回归示例
+# 使用决策树预测波士顿房价
+# 导入环境库
+import sklearn.datasets as sd
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+import numpy as np
+import matplotlib.pyplot as plt
+# 读取数据
+boston=sd.load_boston()
+boston
+
+# 提取特征  506行 13列
+X=boston['data']
+X.shape
+
+# 特征名称
+feature_names=boston['feature_names']
+feature_names
+
+# 提取标签
+y=boston['target']
+# y
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2
+                                               ,random_state=123)
+# 导入算法
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
+from sklearn.tree import DecisionTreeRegressor
+# 导入评价模块
+import sklearn.metrics as sm
+# 线性回归
+model_LR=LinearRegression()
+# 训练
+model_LR.fit(X_train,y_train)
+# 预测
+pred_y_LR=model_LR.predict(X_test)
+# 评价
+sm.r2_score(y_test,pred_y_LR)
+# lasso回归
+model_lasso=Lasso()
+# 训练
+model_lasso.fit(X_train,y_train)
+# 预测
+pred_y_lasso=model_lasso.predict(X_test)
+# 评价
+sm.r2_score(y_test,pred_y_lasso)
+# 邻回归
+model_ridge=Ridge()
+# 训练
+model_ridge.fit(X_train,y_train)
+# 预测
+pred_y_ridge=model_ridge.predict(X_test)
+# 评价
+sm.r2_score(y_test,pred_y_ridge)
+# 决策树回归
+model_dtc=DecisionTreeRegressor(max_depth=7
+                                ,min_samples_leaf=12
+                                ,min_samples_split=27,
+                               random_state=123)
+# 训练
+model_dtc.fit(X_train,y_train)
+# 预测测试集
+pred_y_dtc=model_dtc.predict(X_test)
+# 评价
+sm.r2_score(y_test,pred_y_dtc)# 预测训练集
+pred_train=model_dtc.predict(X_train)
+sm.r2_score(y_train,pred_train)
+# 预测训练集
+pred_train=model_dtc.predict(X_train)
+sm.r2_score(y_train,pred_train)
+# 决策树  输出特征重要性排序
+fi=np.round(model_dtc.feature_importances_,2)
+fi
+# 数据从大到小 得到索引
+sort=fi.argsort()[::-1]
+sort
+feature=feature_names[sort]               
+feature
+feature_i=fi[sort]
+feature_i
+plt.figure(figsize=(8,6),dpi=100)
+plt.bar(feature,feature_i)
+plt.show()
+from sklearn.model_selection import GridSearchCV
+# GridSearchCV:网格搜索  作用就是找到最优参数组合
+# 1.有哪些参数
+# 2.参数取值范围
+# 3.各种参数组合
+# 4.找到最优参数组合 最优分数
+param={'max_depth':np.arange(2,9),
+       'min_samples_split':np.arange(2,40),
+       'min_samples_leaf':np.arange(10,20)}
+clf=DecisionTreeRegressor(random_state=123)
+# 各种参数以及取值范围 搭建模型
+GS=GridSearchCV(clf,param)
+# 训练 各种参数组合分别训练
+GS.fit(X_train,y_train)
+# 得到最优参数
+print(GS.best_params_)
+# 得到最优分数
+print(GS.best_score_)
+# 得到最优模型
+print(GS.best_estimator_)
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 波士顿房价预测-adaBoosting算法</h2>
+      <h3>2.1 问题</h3>
+      <p>将波士顿房价数据导入，适用2.adaBoosting算法进行预测并评价模型</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>将波士顿数据导入，提取特征和标签</p>
+      <p>划分训练集和测试集</p>
+      <p>导入adaBoosting算法进行训练模型</p>
+      <p>模型评价</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 导入环境库
+import sklearn.datasets as sd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+
+# 导入集成学习模块
+import sklearn.ensemble as se
+
+# 导入决策树回归算法
+from sklearn.tree import DecisionTreeRegressor
+
+# 导入评价模块
+import sklearn.metrics as sm
+# 读取数据
+boston=sd.load_boston()
+boston
+
+# 提取特征  506行 13列
+X=boston['data']
+X.shape
+
+# 特征名称
+feature_names=boston['feature_names']
+feature_names
+
+# 提取标签
+y=boston['target']
+# y
+
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2
+                                               ,random_state=123)
+# 决策树回归
+model_dtc=DecisionTreeRegressor(max_depth=7
+                                ,min_samples_leaf=12
+                                ,min_samples_split=27,
+                               random_state=123)
+# 训练
+model_dtc.fit(X_train,y_train)
+# 预测测试集
+pred_y_dtc=model_dtc.predict(X_test)
+# 评价
+sm.r2_score(y_test,pred_y_dtc)
+# 使用adaboost
+model_ab=se.AdaBoostRegressor(model_dtc
+                     ,n_estimators=100,
+                    random_state=123)
+model_ab
+
+# 训练
+model_ab.fit(X_train,y_train)
+
+# 预测
+pred_ab_y=model_ab.predict(X_test)
+
+# 评价
+print('平均绝对误差',sm.mean_absolute_error(y_test,pred_ab_y))
+print('r方值',sm.r2_score(y_test,pred_ab_y))
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 波士顿房价预测-随机森林</h2>
+      <h3>3.1 问题</h3>
+      <p>将波士顿房价数据导入，适用随机森林算法进行预测并评价模型</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>导入随机森林算法进行训练模型</p>
+      <p>模型评价</p>
+      <h3>3.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">## 构建随机森林回归模型
+model_rf=se.RandomForestRegressor(max_depth=7
+                         ,min_samples_leaf=12
+                        ,min_samples_split=27,
+                        random_state=123,
+                        n_estimators=500)
+model_rf
+# 训练
+model_rf.fit(X_train,y_train)
+
+# 预测
+pred_rf_y=model_rf.predict(X_test)
+
+# 评价
+print('平均绝对误差',sm.mean_absolute_error(y_test,pred_rf_y))
+print('r方值',sm.r2_score(y_test,pred_rf_y))
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 金融借贷数据分析</h2>
+      <h3>4.1 问题</h3>
+      <p>将波士顿房价数据导入，适用随机森林算法进行预测并评价模型</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>导入lendingclub数据</p>
+      <p>对数据进行描述分析</p>
+      <p>对数据进行处理</p>
+      <p>建立模型，训练并测试</p>
+      <p>评价模型</p>
+      <h3>4.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import pandas as pd
+import numpy as np
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+data=pd.read_csv('lendingclub_data.csv')
+data.head()
+data.info()
+#一、对数据进行描述性统计分析
+data.info()
+
+# 数据量足够大 删除缺失数据所在的行
+data.dropna(axis=0,inplace=True)
+
+data.info()
+
+# 数值型数据描述分析
+data_des=data.describe()
+# np.round(data_des['annual_inc'],2)
+np.round(data_des,2)
+
+#1. loan_amnt 借款金额 500-35000美金  小额借贷
+#2. annual_inc 客户年收入 最大值9500000美金 存在异常 
+#3. dti 每月债务收入比 最大380 存在异常
+#4. open_acc 征信中信用产品数 最大90.00 存在异常
+#5. total_acc 正在使用的信用产品数 最大值169.00  存在异常
+#6. pub_rec 不良记录数 最大值86 存在异常
+#7. delinq_2yrs 逾期总次数  39.00
+#8. installment：所欠月供
+#9. acc_now_delinq：拖欠债务 账户数目
+
+# 类别型数据描述分析
+data.select_dtypes('object').describe()
+
+#1. term:还款期限 36个月比较多
+#2. grade：给客户的评级 A最好 贷款利率低
+#3. emp_length:工作年限 10+ years多
+#4. home_ownership:住房 MORTGAGE 贷款买房比较多
+#5. loan_status:还款状态 Current正在还款的比较多
+
+for i in data.select_dtypes('object'):
+    print(i,data[i].unique())
+
+#二、数据预处理
+## loan_status   标签
+# 1. Fully Paid:全额付清          0
+# 2. Charged Off：坏账 要不回来了  1
+# 3. Current：正在还款 0
+# 4. Default：违约 1
+# 5. Late (31-120 days)：逾期 30-120天 1
+# 6. In Grace Period：在宽限期 1
+# 7. Late (16-30 days)：逾期 16-30天 1
+# 8. Issued:刚发放    
+
+data['loan_status'].value_counts()
+
+# Does not meet the credit policy. Status:Fully Paid 
+# Does not meet the credit policy. Status:Charged Off 
+# Issued                                                   
+
+# 1.以上三种情况不要 需要去掉
+
+# 2.把借贷状态进行二分 分为0 和 1
+
+
+# 1. Fully Paid:全额付清          0
+# 2. Charged Off：坏账 要不回来了  1
+# 3. Current：正在还款 0
+# 4. Default：违约 1
+# 5. Late (31-120 days)：逾期 30-120天 1
+# 6. In Grace Period：在宽限期 1
+# 7. Late (16-30 days)：逾期 16-30天 1
+
+# 1.以上三种情况不要 需要去掉
+data=data[data.loan_status!='Issued']
+data=data[data.loan_status!='Does not meet the credit policy. Status:Charged Off']
+data=data[data.loan_status!='Does not meet the credit policy. Status:Fully Paid']
+data['loan_status'].value_counts()
+
+# 2.把借贷状态进行二分 分为0 和 1
+# 0:没有违约
+# 1：违约
+dic_status={'Fully Paid':0,
+            'Charged Off':1,
+            'Late (31-120 days)':1,
+            'In Grace Period':1,
+            'Late (16-30 days)':1,
+            'Default':1,
+            'Current':0}
+
+data['loan_status']=data['loan_status'].map(dic_status)
+
+data['loan_status'].value_counts()
+
+# 数值型数据描述分析
+data_des=data.describe()
+# np.round(data_des['annual_inc'],2)
+np.round(data_des,2)
+
+# loan_amnt 贷款金额
+data['loan_amnt'].plot(kind='kde')
+
+# 用户年收入annual_inc
+data['annual_inc'].mean()+3*data['annual_inc'].std()
+
+data['annual_inc'].mean()-3*data['annual_inc'].std()
+
+np.round(data['annual_inc'].describe(),2)
+
+# 上边缘 QU+1.5*IQR
+90000+1.5*(90000-47000)
+
+# 定义阈值
+data=data[data['annual_inc']&lt;300000]
+data.describe()
+
+# dti 债务收入比  10000  4500    45
+
+# 箱线图 上边缘
+23.87+1.5*(23.87-11.95)
+
+data['dti'].mean()+3*data['dti'].std()
+
+data=data[data['dti']&lt;45]
+data.describe()
+
+# open_acc 征信记录的信用产品数
+data['open_acc'].mean()+3*data['open_acc'].std()
+
+# 上边缘
+14+1.5*(14-8)
+
+data=data[data['open_acc']&lt;30]
+data.describe()
+
+# total_acc 正在使用的信用产品数
+data['total_acc'].mean()+3*data['total_acc'].std()
+
+# 上边缘
+32+1.5*(32-17)
+
+data=data[data['total_acc']&lt;60]
+data.describe()
+
+# 不良记录数
+data=data[data['pub_rec']&lt;3]
+data.describe()
+
+data.head()
+
+# 类别型数据
+for i in data.select_dtypes('object'):
+    print(i,data[i].unique())
+
+#1. term 还款期限 去掉单位
+#2. grade 借贷评级 A-G 变为数字1-7
+#3. emp_length 工作年限 变为数值型  &lt; 1 year 0.5
+#4. home_ownership  RENT-1 OWN-3 MORTGAGE-2 OTHER-0 NONE-0 ANY-0
+#5. 删除member_id
+
+
+# 1. term 还款期限 去掉单位
+data['term']=data['term'].str.replace('months','')
+
+# 2. grade 借贷评级 A-G 变为数字1-7
+dic_grade={'A':1,'B':2,'C':3,
+          'D':4,'E':5,'F':6,'G':7}
+data['grade']=data['grade'].map(dic_grade)
+
+# 3. emp_length 工作年限 变为数值型  &lt; 1 year 0.5
+
+data['emp_length'].unique()
+
+data['emp_length'][data['emp_length']=='&lt; 1 year']='0.5 year'
+
+data['emp_length'].unique()
+
+data['emp_length']=data['emp_length'].str.replace('(year)|s|\+','')
+
+# 4. home_ownership  RENT-1 OWN-3 MORTGAGE-2 OTHER-0 NONE-0 ANY-0
+data['home_ownership'].unique()
+# RENT-1 OWN-3 MORTGAGE-2 OTHER-0 NONE-0 ANY-0
+
+dic_home={'RENT':1,'OWN':3,'MORTGAGE':2,'OTHER':0,
+         'NONE':0,'ANY':0}
+data['home_ownership']=data['home_ownership'].map(dic_home)
+
+del data['member_id']
+
+data.head()
+
+
+
+#三、客户画像分析
+
+# 数值型：统计指标  可视化(直方图，密度曲线图，箱线图)
+# 类别型：频数统计 可视化(柱形图 条形图 饼图)
+
+# 1. 客户年收入  数值型：
+data['annual_inc'].plot(kind='box')
+
+data['annual_inc'].describe()
+
+# 2. 工作年限 类别型
+data['emp_length'].value_counts().plot(kind='pie',
+                                      autopct='%.2f%%')
+
+# 3. 住房 类别型
+data['home_ownership'].value_counts().plot(kind='pie',
+                                      autopct='%.2f%%')
+
+# 4、贷款金额 数值型
+data['loan_amnt'].plot(kind='kde')
+
+#1. 特征和标签的选择
+#2. 划分训练集和测试集
+#3. 构建模型 并训练
+#4. 评价模型          
+
+data.shape
+
+# 构建特征
+X=data.iloc[:,0:14]
+X
+
+# 构建标签
+y=data['loan_status']
+# y
+
+from sklearn.model_selection import train_test_split
+
+X_train,X_test,y_train,y_test=train_test_split(X,y
+                                               ,test_size=0.2
+                                               ,random_state=123)
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import AdaBoostClassifier
+import sklearn.metrics as sm
+
+#  逻辑回归
+model_LR=LogisticRegression().fit(X_train,y_train)
+pred_y_LR=model_LR.predict(X_test)
+
+# knn
+model_knn=KNeighborsClassifier().fit(X_train,y_train)
+pred_y_knn=model_knn.predict(X_test)
+
+
+print('逻辑回归',sm.classification_report(y_test,pred_y_LR))
+print('knn',sm.classification_report(y_test,pred_y_knn))
+</pre>
+    </div>
+  </body>
+</html>

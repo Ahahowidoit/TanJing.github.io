@@ -1,0 +1,743 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME MACHLEARNING DAY05</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">财政收入预测</a>
+        </li>
+        <li>
+          <a href="#case2">二手房估价预测</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 财政收入预测</h2>
+      <h3>1.1 问题</h3>
+      <p>基于财政数据，找到影响特征，建立模型进行预测</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>将财政收入数据采用pandas读取</p>
+      <p>相关分析查看相关系数</p>
+      <p>根据lasso回归选择特征</p>
+      <p>导入支持向量机回归算法，训练模型</p>
+      <p>测试，并评价模型</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+#一、相关分析
+# 导入环境库
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 读取数据
+data=pd.read_csv('../data/data.csv')
+data
+
+# x1:x13 特征
+# 社会从业人数(x1)
+# 在岗职工工资总额(x2)
+# 社会消费品零售总额(x3)
+# 城镇居民人均可支配收入(x4)
+# 城镇居民人均消费性支出(x5)
+# 年末总人口(x6)
+# 全社会固定资产投资额(x7)
+# 地区生产总值(x8)：
+# 第一产业产值(x9)
+# 税收(x10)
+# 居民消费价格指数(x11)
+# 第三产业与第二产业产值比(x12)
+# 居民消费水平(x13)
+
+# y：财政收入
+
+# 选择特征 构建模型 预测财政收入
+
+# 通过对于特征的了解  
+# 需要进一步确认特征之间是否存在相关性
+
+# 得到相关系数
+corrmat=data.corr()
+corrmat
+# 将相关系数 保留两位小数
+corrmat=np.round(corrmat,2)
+corrmat
+
+# 特征之间存在严重的多重共线性问题
+
+# 各个特征之间存在很强的相关性，存在信息的重复
+
+# 导入高级可视化模块
+import seaborn as sns
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+
+# 生成热力图\
+# annot:True 作用是显示数值
+plt.figure(figsize=(8,6))
+sns.heatmap(corrmat,annot=True)
+
+# 二、选择特征
+# 导入lasso回归算法 帮助我们选择特征
+# from sklearn.linear_model import Lasso
+
+import sklearn.linear_model as sm
+# 忽略警告
+import warnings 
+warnings.filterwarnings('ignore')
+
+#1. 读取数据 定义名称为data
+#2. 选择特征及标签，使用模型进行训练
+#3. 输出特征系数
+#4. 得到特征系数不为0的数据，将其保存
+
+# 1. 读取数据 定义名称为data
+data=pd.read_csv('../data/data.csv')
+# data
+
+# 2. 选择特征及标签，使用模型进行训练
+# 特征 X
+X=data.iloc[:,0:13]
+# X
+
+# 标签 y
+y=data['y']
+# y
+
+# 训练模型
+# 1000:经验值  代表正则项力度
+lasso_model=sm.Lasso(1000)
+lasso_model.fit(X,y)
+# lasso_model=Lasso(1000).fit(X,y)
+# lasso_model
+
+# 3. 输出特征系数 返回每个特征的系数
+lasso_model.coef_
+
+# 4. 得到特征系数不为0的数据，
+# 5. 将其保存 保存到tmp中 文件名为new_reg_data
+
+# 特征系数不为0的数量有多少
+np.sum(lasso_model.coef_!=0)
+# True:1
+# False:0
+
+# 得到特征系数不为0的数据
+# 定义一个布尔数组
+mask=lasso_model.coef_!=0
+mask
+
+mask.shape
+
+# 特征选择：按照mask数组 取列  取True
+new_reg_data=X.loc[:,mask]
+new_reg_data
+
+# 存储数据
+new_reg_data.to_csv('../tmp/new_reg_data.csv',
+                   index=False)
+
+
+# 三、建模并预测
+import warnings
+warnings.filterwarnings('ignore')
+
+# 导入特征选择之后的数据
+new_reg_data=pd.read_csv('../tmp/new_reg_data.csv')
+# new_reg_data
+
+# 导入原数据
+data=pd.read_csv('../data/data.csv')
+# data
+
+# 数据来源 1994-2013年
+new_reg_data.index=range(1994,2014)
+new_reg_data
+
+
+# 目标：预测2014年，2015年 财政收入
+# 2014和2015年的特征没有  灰色预测算法 得到特征
+
+# 增加两行 2014 2015 空数据
+new_reg_data.loc[2014]=None
+new_reg_data.loc[2015]=None
+new_reg_data
+
+
+
+L=new_reg_data.columns
+L
+
+# 导入灰色预测函数
+# 第一个GM11：文件名
+# 第二个GM11：函数名
+from GM11 import GM11
+
+new_reg_data.loc[1994:2013,'x1'].values
+
+# 每一个特征 1994-2013的值
+# f:GM11返回的灰色预测函数 数据规律
+for i in L:
+    f=GM11(new_reg_data.loc[1994:2013,i].values)[0]
+    #预测2014年值
+    new_reg_data.loc[2014,i]=f(len(new_reg_data)-1)
+    #预测2015年值 
+    new_reg_data.loc[2015,i]=f(len(new_reg_data))
+
+new_reg_data
+
+y=list(data['y'].values)
+# y.append(np.nan)
+# y.append(np.nan)
+y.extend([np.nan,np.nan])
+y
+
+# 新增一列
+new_reg_data['y']=y
+new_reg_data
+
+1. 构建训练数据 data_train 
+   1994-2013 所有特征+标签
+
+2. 对数据进行标准差标准化
+
+3. 训练模型 评价模型
+
+new_reg_data.columns
+
+feature=['x1','x3','x4','x5','x6','x7','x8','x13']
+data_train=new_reg_data.loc[1994:2013,:]
+data_train
+
+
+# 对训练数据 进行标准化处理
+# data_mean:每一列的平均值
+data_mean=data_train.mean()
+data_mean
+
+# data_std：每一列的标准差
+data_std=data_train.std()
+data_std
+
+# 标准差标准化
+data_train_scaled=(data_train-data_mean)/data_std
+data_train_scaled
+
+#1. 调用支持向量机回归算法
+
+#2. 训练 data_train_scaled分为特征 标签 
+
+#3. 预测：谁是测试数据？
+  # (1)、2014，2015特征 放入模型 得到结果
+   #(2)、1994-2015全部数据作为测试集 得到结果 
+  # 评价模型(1994-2013的预测值和真实值)
+   
+   #测试数据训练之前需要做标准化
+  # 评价模型时需要把结果还原
+
+from sklearn.svm import LinearSVR
+
+feature
+
+# 生成特征 
+# 特征：影响因素
+
+x_train=data_train_scaled[feature].values
+x_train
+
+# 标签：结果 最终要进行预测的
+y_train=data_train_scaled['y'].values
+y_train
+
+# 训练模型
+linearsvr=LinearSVR()
+linearsvr.fit(x_train,y_train)
+
+# 评价模型
+
+# 构建一组测试数据  1994-2015年特征
+
+x_test=new_reg_data[feature]
+
+# 测试数据进行标准差标准化
+
+x_test_scale=(x_test-x_test.mean())/x_test.std()
+x_test_scale
+
+# 将测试数据放入训练好的模型中，进行预测
+y_pred=linearsvr.predict(x_test_scale)
+y_pred
+
+# y_pred:1994-2015年 财政收入值
+# 还原预测的数值
+# 预测的真实数据
+
+y_data_pred=y_pred*data_std['y']+data_mean['y']
+y_data_pred
+
+# 实际的真实值：1994-2013 
+y_true=data_train['y'].values
+y_true.shape
+
+new_reg_data['y_pred']=y_data_pred
+new_reg_data
+
+new_reg_data[['y','y_pred']].plot(style=['b-o'
+                                         ,'r-*'])
+
+# b-o
+
+# 折线图
+
+# color='b' linestyle='-' marker='o'
+# 颜色 线条类型 点的标记
+
+# 评价模型
+import sklearn.metrics as sm
+
+# 1994年-2013年 值
+y_data_pred_20=y_data_pred[:20]
+y_data_pred_20
+
+y_true
+
+# 决定系数
+sm.r2_score(y_true,y_data_pred_20)
+
+# 平均绝对误差
+sm.mean_absolute_error(y_true,y_data_pred_20)
+
+# 中位数绝对误差
+sm.median_absolute_error(y_true,y_data_pred_20)
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 二手房估价预测</h2>
+      <h3>2.1 问题</h3>
+      <p>对二手房估价预测</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>将房源数据，小区数据采用pandas读取</p>
+      <p>对数据进行合并</p>
+      <p>对数据进行处理，包含缺失值，重复值，异常值</p>
+      <p>选择特征和标签</p>
+      <p>划分训练集和测试集</p>
+      <p>选择不同的回归算法进行预测 线性回归 lasso回归 邻回归 决策树回归</p>
+      <p>评价模型</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">#一、数据读取
+    # 导入模块
+import numpy as np
+import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus']=False
+
+# 北京 主城区 二手房销售数据 链家 
+house = pd.read_csv("house.csv")
+house.head()
+
+house.info()
+
+# 读取小区详细信息
+community=pd.read_csv('community_describe.csv')
+community.head()
+
+# 数据合并
+# 主键合并  两张表有相同的列名
+# how：连接方式 left 左连接
+# on: 连接主键 
+data=pd.merge(house,community,how='left',
+        on='community')
+data.head()
+
+data.info()
+
+
+#二、数据预处理
+# 删除数据
+data.drop(labels=['index_x','index_y','id'],
+         axis=1,inplace=True)
+
+data.head()
+
+#1. years提取当前层 总楼层 建筑年份 建筑类型
+#2. taxtype 提取地铁站 地铁站距离 房本满几年
+#3. followInfo 提取多少人关注
+
+# 提取当前层
+data['当前层']=data['years'].str.extract('(\w+)\(')
+# 提取总楼层
+data['总楼层']=data['years'].str.extract('共(\d+)层')
+# 提取建筑年份
+data['建筑年份']=data['years'].str.extract('(\d+)年')
+# 提取建筑类型
+data['建筑类型']=data['years'].str.extract('建(\w+)')
+
+# 删除 floor
+del data['floor']
+
+data['taxtype']
+
+# 2. taxtype 提取地铁站 地铁站距离 房本满几年
+# 提取房本满几年
+data['房本类型']=data['taxtype'].str.extract('满(\w+)年')
+data['地铁站']=data['taxtype'].str.extract('线(\w+)站')
+data['地铁站距离']=data['taxtype'].str.extract('站(\d+)')
+
+# 3. followInfo 提取多少人关注
+data['关注人数']=data['followInfo'].str.extract('(\d+)')
+
+data['housetype'].unique()
+
+# 1.查看户型的类别，去除车位和别墅的信息
+# 2.根据户型 提取房间数 客厅数 卫生间数
+# 3.square去掉单位
+# 4.删除不需要的列
+
+data
+
+# 1、去除车位和别墅的信息
+# data[~data['housetype'].str.contains('(车|别)')]
+index_id=data[data['housetype'].str.contains('(车|别)')].index
+# len(index_id)
+data.drop(labels=index_id,axis=0,inplace=True)
+
+# # 2.根据户型 提取房间数 客厅数 卫生间数
+data['房间']=data['housetype'].str.extract('(\d+)')
+data['客厅']=data['housetype'].str.extract('(\d+)厅')
+data['卫生间']=data['housetype'].str.extract('(\d+)卫')
+
+# # 3.square去掉单位
+data['square']=data['square'].str.replace('平米','')
+
+data.info()
+
+# 修改数据类型
+data.square=data.square.astype(float)
+data.总楼层=data.总楼层.astype(float)
+data.建筑年份=data.建筑年份.astype(float)
+data.房间=data.房间.astype(float)
+data.客厅=data.客厅.astype(float)
+data.地铁站距离=data.地铁站距离.astype(float)
+data.关注人数=data.关注人数.astype(float)
+
+data.head(1)
+
+data['带看次数']=data['followInfo'].str.extract('共(\d+)次')
+
+data.info()
+
+# 把不需要的列删除
+data.drop(labels=['housetype','years','taxtype','卫生间',
+                 'title','tagList','followInfo','totalPrice'],
+         axis=1,inplace=True)
+
+data.info()
+
+# 带看次数 处理为数值型
+data['带看次数']=data['带看次数'].astype(float)
+
+# 对数据进行描述性统计分析
+
+# 类别型数据描述分析
+data.select_dtypes('object').describe()
+
+# 数值型数据描述分析
+data.describe()
+
+data[data['square']==2623.280000]
+
+data[data['unitPrice']==11393]
+
+#1. 当前层去掉地下室的数据
+
+index_id2=data[data['当前层']=='地下室'].index
+
+data.drop(labels=index_id2,axis=0,inplace=True)
+
+data.describe()
+
+data['unitPrice'].plot(kind='hist')
+
+# 均值加三倍标准差
+data['unitPrice'].mean()+3*data['unitPrice'].std()
+
+# 均值减三倍标准差
+data['unitPrice'].mean()-3*data['unitPrice'].std()
+
+data['unitPrice'].describe()
+
+# 上边缘  QU+1.5*IQR
+91659.5+1.5*(91659.5-60723.75)
+
+# 下边缘 QL-1.5*IQR
+60723.75-1.5*(91659.5-60723.75)
+
+data=data[(data['unitPrice']&gt;30000)&amp;(data['unitPrice']&lt;150000)]
+data.describe()
+
+# 普通住宅 总楼层&lt;40
+data=data[data['总楼层']&lt;40]
+
+# 房间数量 &lt;=4
+data=data[data['房间']&lt;=4]
+
+# 客厅数量 &lt;=2
+data=data[data['客厅']&lt;=2]
+
+data.describe()
+
+data.select_dtypes('object').describe()
+
+data['district'].unique()
+
+data['bizcircle'].unique()
+
+data['当前层'].unique()
+
+data['建筑类型'].unique()
+
+data['房本类型'].unique()
+
+# 建筑类型 去掉平房的数据
+index_id3=data[data['建筑类型']=='平房'].index
+
+data.drop(labels=index_id3,axis=0,inplace=True)
+
+# district 删除缺失值所在的行
+data=data[data.district.notnull()]
+data['district'].isnull().sum()
+
+# 房本类型 填补为1年
+data['房本类型'].fillna(1,inplace=True)
+
+data['建筑类型'].value_counts()
+
+data.select_dtypes('object').describe()
+
+data.info()
+
+s1=pd.Series([3,3,3,3,4,])
+s1.mode()
+
+# 找小区名称的其他数据
+# 如果建筑年份不为空 则进行填补
+# data[data['community']=='石门村路2号院']
+
+
+def get_建筑年份(community_name):
+    mode=data.loc[data['community']==community_name,'建筑年份'].mode()
+    if mode.size&gt;0:
+        return mode[0]
+    else:
+        return np.nan
+
+data['建筑年份'][data['建筑年份'].isnull()]=data['community'][data['建筑年份'].isnull()].apply(get_建筑年份)
+
+data.info()
+
+def get_建筑类型(community_name):
+    mode=data.loc[data['community']==community_name,'建筑类型'].mode()
+    if mode.size&gt;0:
+        return mode[0]
+    else:
+        return np.nan
+
+data['建筑类型'][data['建筑类型'].isnull()]=data['community'][data['建筑类型'].isnull()].apply(get_建筑类型)
+
+def get_地铁站(community_name):
+    mode=data.loc[data['community']==community_name,'地铁站'].mode()
+    if mode.size&gt;0:
+        return mode[0]
+    else:
+        return np.nan
+
+data['地铁站'][data['地铁站'].isnull()]=data['community'][data['地铁站'].isnull()].apply(get_地铁站)
+
+data.info()
+
+# 查看每一列缺失值数量
+for i in data.columns:
+    print(i,data[i].isnull().sum())
+
+data['建筑年份'].mode()
+
+data['建筑年份'].fillna(2004,inplace=True)
+
+data['建筑类型'].fillna('板楼',inplace=True)
+
+data['地铁站'].fillna('无',inplace=True)
+
+
+
+# 相同小区 地铁站距离求平均
+def get_地铁站距离(community_name):
+    mean=data.loc[data['community']==community_name,'地铁站距离'].mean()
+    if mean!=np.nan:
+        return mean
+    else:
+        return np.nan
+
+data['地铁站距离'][data['地铁站距离'].isnull()]=data['community'][data['地铁站距离'].isnull()].apply(get_地铁站距离)
+
+# 查看每一列缺失值数量
+for i in data.columns:
+    print(i,data[i].isnull().sum())
+
+data['地铁站距离'].fillna(data['地铁站距离'].mean(),inplace=True)
+
+data.info()
+
+# 因为后续要进行算法建模 构建模型 预测房价信息  
+# 需要把所有的特征 变为数值型
+
+data.columns
+
+data['district'].unique()
+
+#1. community  根据单价的均值编码
+#2. district  one-hot编码
+#3. bizcircle 根据单价的均值编码
+#4. 当前层: 底层0, 低楼层2, 中楼层4, 顶层1, 高楼层3
+#5. 建筑类型：板塔结合1, 塔楼0, 板楼2
+#6. 房本类型：五：5, 两：2, 1：1,
+#7. 地铁站：随机编码
+
+
+data['当前层'].value_counts()
+
+dic_当前层={'底层':0,'顶层':1,'低楼层':2,'高楼层':3,'中楼层':4}
+dic_当前层
+
+data['当前层']=data['当前层'].map(dic_当前层)
+
+data['建筑类型'].value_counts()
+
+dic_建筑类型={'塔楼':0,'板塔结合':1,'板楼':2}
+data['建筑类型']=data['建筑类型'].map(dic_建筑类型)
+
+data['房本类型'].value_counts()
+
+dic_房本类型={'五':5,'两':2,1:1}
+data['房本类型']=data['房本类型'].map(dic_房本类型)
+
+data.head()
+
+district_onehot=pd.get_dummies(data['district'],prefix='片区')
+district_onehot
+
+# 横向堆叠
+data=pd.concat(objs=[data,district_onehot],axis=1)
+data
+
+data['地铁站']
+
+dic_地铁站={label:i for i,label in enumerate(data['地铁站'])}
+# dic_地铁站
+
+data['地铁站']=data['地铁站'].map(dic_地铁站)
+data
+
+# 1. community  根据单价的均值编码
+# 3. bizcircle 根据单价的均值编码
+
+dic_community=dict(data.groupby('community')['unitPrice'].mean())
+
+dic_bizcircle=dict(data.groupby('bizcircle')['unitPrice'].mean())
+
+data['community']=data['community'].map(dic_community)
+data['bizcircle']=data['bizcircle'].map(dic_bizcircle)
+
+del data['district']
+
+data['y']=data['unitPrice']
+data
+
+del data['unitPrice']
+
+
+# 三、数据建模及预测
+data.columns
+
+X=data.iloc[:,0:19]
+X
+
+y=data['y']
+
+#1. 选择特征和标签
+#2. 划分训练集和测试集
+#3. 选择不同的回归算法进行预测 线性回归 lasso回归 邻回归 决策树回归
+#4. 评价模型
+
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
+from sklearn.tree import DecisionTreeRegressor
+
+from sklearn.model_selection import train_test_split
+
+X_train,X_test,y_train,y_test=train_test_split(X,y
+                                               ,test_size=0.2
+                                               ,random_state=123)
+
+# 线性回归
+model_LR=LinearRegression().fit(X_train,y_train)
+pred_y_LR=model_LR.predict(X_test)
+
+# lasso回归
+model_lasso=Lasso().fit(X_train,y_train)
+pred_y_lasso=model_lasso.predict(X_test)
+
+# 邻回归
+model_ridge=Ridge().fit(X_train,y_train)
+pred_y_ridge=model_ridge.predict(X_test)
+
+# 决策树回归
+model_dtr=DecisionTreeRegressor().fit(X_train,y_train)
+pred_y_dtr=model_dtr.predict(X_test)
+
+# 导入评价模块
+import sklearn.metrics as sm
+
+# 平均绝对误差
+print('线性回归',sm.mean_absolute_error(y_test,pred_y_LR))
+print('lasso回归',sm.mean_absolute_error(y_test,pred_y_lasso))
+print('邻回归',sm.mean_absolute_error(y_test,pred_y_ridge))
+print('决策树回归',sm.mean_absolute_error(y_test,pred_y_dtr))
+
+# 拟合系数
+print('线性回归',sm.r2_score(y_test,pred_y_LR))
+print('lasso回归',sm.r2_score(y_test,pred_y_lasso))
+print('邻回归',sm.r2_score(y_test,pred_y_ridge))
+print('决策树回归',sm.r2_score(y_test,pred_y_dtr))
+
+# 模型系数
+np.round(model_LR.coef_,2)
+
+# 模型截距
+model_LR.intercept_
+</pre>
+    </div>
+  </body>
+</html>

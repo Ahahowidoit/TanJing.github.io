@@ -1,0 +1,272 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DME STATISTICS DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">线性回归预测薪资</a>
+        </li>
+        <li>
+          <a href="#case2">lasso回归和邻回归预测薪资</a>
+        </li>
+        <li>
+          <a href="#case3">基于sklearn API实现逻辑回归分类</a>
+        </li>
+        <li>
+          <a href="#case4">基于sklearn API实现逻辑回归多分类</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 线性回归预测薪资</h2>
+      <h3>1.1 问题</h3>
+      <p>通过sklearn API实现线性回归预测薪资</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>绘制散点图 观察工作经验和薪资的关系</p>
+      <p>建立线性回归模型训练</p>
+      <p>绘制拟合直线</p>
+      <h3>1.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+# 导入线性模型
+import sklearn.linear_model as lm
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+Salary=pd.read_csv('data/Salary_Data.csv')
+Salary
+# YearsExperience:工作经验
+# Salary：薪资
+# 特征
+X=Salary['YearsExperience']
+# X
+# 标签
+y=Salary['Salary']
+# y
+# plt.scatter(X,y)
+# 生成特征及标签
+train_x=pd.DataFrame(X)
+train_x
+train_y=y
+# 构建模型
+model=lm.LinearRegression()
+# 训练
+model.fit(train_x,train_y)
+# 预测
+pred_y=model.predict(train_x)
+pred_y
+# # 可视化样本数据
+plt.figure(facecolor='lightgray',figsize=(8,6),dpi=100)
+# 绘制散点图
+plt.scatter(train_x,train_y,c='b',s=60,marker='*',
+           label='sample')
+# 绘制拟合直线
+plt.plot(X,pred_y,c='r',label='line')
+# 显示图例
+plt.legend()
+# 显示标题
+plt.title('LinearRegression')
+# 显示图像
+plt.show()
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 lasso回归和邻回归预测薪资</h2>
+      <h3>2.1 问题</h3>
+      <p>基于sklearn 使用lasso回归和邻回归预测薪资</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>导入Salary_Data2.csv数据</p>
+      <p>分别采用线性回归，lasso回归，邻回归训练模型</p>
+      <p>将拟合结果进行可视化</p>
+      <h3>2.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code">import numpy as np
+# 导入线性模型
+import sklearn.linear_model as lm
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# 忽略警告
+import warnings
+warnings.filterwarnings('ignore')
+
+Salary=pd.read_csv('data/Salary_Data2.csv')
+Salary
+
+# 特征
+X=Salary['YearsExperience']
+X
+
+# 标签
+y=Salary['Salary']
+
+# plt.scatter(X,y)
+
+# 生成特征及标签
+train_x=pd.DataFrame(X)
+train_x
+
+train_y=y
+
+# 构建线性回归模型
+model=lm.LinearRegression()
+# 训练
+model.fit(train_x,train_y)
+# 预测
+pred_y=model.predict(train_x)
+# pred_y
+
+
+# 构建邻回归模型
+# alpha:正则化力度
+model_ridge=lm.Ridge(alpha=150)
+# 训练
+model_ridge.fit(train_x,train_y)
+# 预测
+pred_ridge_y=model_ridge.predict(train_x)
+
+
+
+# 构建lasso回归模型
+# alpha:正则化力度
+model_lasso=lm.Lasso(alpha=10000)
+# 训练
+model_lasso.fit(train_x,train_y)
+# 预测
+pred_lasso_y=model_lasso.predict(train_x)
+
+# 可视化样本数据
+plt.figure(facecolor='lightgray',figsize=(8,6),dpi=100)
+# 绘制散点图
+plt.scatter(train_x,train_y,c='y',s=60,marker='*',
+           label='sample')
+
+# 绘制线性回归拟合直线
+plt.plot(X,pred_y,c='r',label='LR')
+
+# 绘制邻回归拟合直线
+plt.plot(X,pred_ridge_y,c='g',label='ridge')
+
+# 绘制lasso回归拟合直线
+plt.plot(X,pred_lasso_y,c='b',label='lasso')
+
+# 显示图例
+plt.legend()
+
+# 显示图像
+plt.show()
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 基于sklearn API实现逻辑回归分类</h2>
+      <h3>3.1 问题</h3>
+      <p>基于sklearn API实现逻辑回归分类</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1) 导入数据</p>
+      <p>2) 采用逻辑回归训练模型</p>
+      <p>3) 将拟合结果进行可视化</p>
+      <h3>3.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 逻辑分类器示例
+import numpy as np
+import sklearn.linear_model as lm
+import matplotlib.pyplot as plt
+
+x = np.array([[3, 1], [2, 5], [1, 8], [6, 4],
+              [5, 2], [3, 5], [4, 7], [4, -1]])
+y = np.array([0, 1, 1, 0, 0, 1, 1, 0])
+
+# 创建逻辑分类器对象
+model = lm.LogisticRegression()
+model.fit(x, y)  # 训练
+
+# 预测
+test_x = np.array([[3, 9], [6, 1]])
+test_y = model.predict(test_x)  # 预测
+print(test_y)
+
+
+plt.figure('Logistic Regression', facecolor='lightgray')
+plt.title('Logistic Regression', fontsize=20)
+plt.xlabel('x', fontsize=14)
+plt.ylabel('y', fontsize=14)
+plt.tick_params(labelsize=10)
+plt.scatter(x[:, 0],  # 样本x坐标
+           x[:, 1],  # 样本y坐标
+           c=y, cmap='brg', s=80)
+plt.scatter(test_x[:, 0], test_x[:, 1], c="red", marker='s', s=80)
+plt.show()
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 基于sklearn API实现逻辑回归多分类</h2>
+      <h3>4.1 问题</h3>
+      <p>基于sklearn API实现逻辑回归多分类</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p>1) 导入数据</p>
+      <p>2) 采用逻辑回归训练模型</p>
+      <p>3) 将拟合结果进行可视化</p>
+      <h3>4.3 代码</h3>
+      <p>完整代码如下：</p>
+      <pre class="code"># 多元分类器示例
+import numpy as np
+import sklearn.linear_model as lm
+import matplotlib.pyplot as plt
+
+# 输入
+x = np.array([[4, 7],
+              [3.5, 8],
+              [3.1, 6.2],
+              [0.5, 1],
+              [1, 2],
+              [1.2, 1.9],
+              [6, 2],
+              [5.7, 1.5],
+              [5.4, 2.2]])
+# 输出（多个类别）
+y = np.array([0, 0, 0, 1, 1, 1, 2, 2, 2])
+
+# 创建逻辑分类器对象
+model = lm.LogisticRegression(C=200) # 调整该值为1看效果
+model.fit(x, y)  # 训练
+pred_y=model.predict(x)
+
+# 可视化
+plt.figure('Logistic Classification', facecolor='lightgray')
+
+plt.title('Logistic Classification', fontsize=20)
+plt.xlabel('x', fontsize=14)
+plt.ylabel('y', fontsize=14)
+plt.tick_params(labelsize=10)
+plt.scatter(x[:, 0], x[:, 1], c=y, cmap='brg', s=80)
+plt.show()
+
+# 评价模型
+import sklearn.metrics as sm
+print(sm.classification_report(y,pred_y))
+</pre>
+    </div>
+  </body>
+</html>

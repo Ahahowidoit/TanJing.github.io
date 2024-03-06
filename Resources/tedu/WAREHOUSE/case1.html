@@ -1,0 +1,177 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATA_WAREHOUSE DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">HDFS Shell操作练习</a>
+        </li>
+        <li>
+          <a href="#case2">创建表</a>
+        </li>
+        <li>
+          <a href="#case3">数据加载</a>
+        </li>
+        <li>
+          <a href="#case4">分区表</a>
+        </li>
+        <li>
+          <a href="#case5">分区表数据加载</a>
+        </li>
+        <li>
+          <a href="#case6">动态分区表实</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 HDFS Shell操作练习</h2>
+      <h3>1.1 问题</h3>
+      <p>1）在HDFS中创建 /studir/stuinfo/ 目录</p>
+      <p>2）将本地students.txt文件上传到HDFS中</p>
+      <p>3）查看HDFS中 /studir/stuinfo/students.txt 的内容</p>
+      <p>4）将HDFS中 /studir/stuinfo/students.txt 下载到本地命名为 new_students.txt</p>
+      <p>5）删除HDFS中的 /studir 目录</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：在HDFS中创建 /studir/stuinfo/ 目录</p>
+      <pre class="code">hadoop fs -mkdir -p /studir/stuinfo/
+</pre>
+      <p class="number">步骤二：将本地students.txt文件上传到HDFS中</p>
+      <pre class="code">hadoop fs -put  students.txt /studir/stuinfo/
+</pre>
+      <p class="number">步骤三：查看HDFS中 /studir/stuinfo/students.txt 的内容</p>
+      <pre class="code">hadoop fs -cat  /studir/stuinfo/students.txt
+</pre>
+      <p class="number">步骤四：将HDFS中 /studir/stuinfo/students.txt 下载到本地命名为 new_students.txt</p>
+      <pre class="code">hadoop fs -get  /studir/stuinfo/students.txt   ~/new_students.txt
+</pre>
+      <p class="number">步骤五：删除HDFS中的 /studir 目录</p>
+      <pre class="code">hadoop fs -rm -r /studir
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 创建表</h2>
+      <h3>2.1 问题</h3>
+      <p>根据data.txt文件文件格式创建 stu表，字段名分别为stu_id 、stu_name、stu_class 、stu_score、stu_zhiwu、stu_info</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据data.txt文件文件格式创建 stu表，字段名分别为stu_id 、stu_name、stu_class 、stu_score、stu_zhiwu、stu_info</p>
+      <pre class="code">create table stu(
+stu_id string comment '学生ID',
+stu_name string comment '学生姓名',
+stu_class string comment '学生班级',
+stu_score map&lt;string,float&gt; comment '学生成绩',
+stu_zhiwu array&lt;string&gt; comment '学生职务',
+stu_info struct&lt;age:int,sex:string,city:string&gt; comment '学生基本信息')
+row format delimited
+fields terminated by '|'
+collection items terminated by ','
+map keys terminated by ':';
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 数据加载</h2>
+      <h3>3.1 问题</h3>
+      <p>通过Hadoop fs -put 指令实现数据.txt 文件加载到stu表.并验证数据是否正常映射</p>
+      <p>通过Hadoop fs -rm 指令删除stu 文件夹下的data.txt 文件</p>
+      <p>通过load data 形式加载数据到 stu表，并验证数据是否正常映射</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：通过Hadoop fs -put 指令实现数据.txt 文件加载到stu表.并验证数据是否正常映射</p>
+      <pre class="code">Hadoop fs -put hdfs dfs -put  /home/tarena/2111/Hive/数据.txt  /datas 
+</pre>
+      <p class="number">步骤二：通过Hadoop fs -rm 指令删除stu 文件夹下的data.txt 文件</p>
+      <pre class="code">Hadoop fs -rm '/user/hive/warehouse/edu.db/stu/数据.txt
+</pre>
+      <p class="number">步骤三：通过load data 形式加载数据到 stu表，并验证数据是否正常映射</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/数据.txt'  overwrite  into table stu;
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 分区表</h2>
+      <h3>4.1 问题</h3>
+      <p>根据data_bd.txt 创建一个分区表stu_partition，分区字段为school,此数据是北大学校的数据</p>
+      <h3>4.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：根据data_bd.txt 创建一个分区表，分区字段为school,此数据是北大学校的数据</p>
+      <pre class="code">create table stu_partition (
+stu_id string comment '学生ID',
+stu_name string comment '学生姓名',
+stu_class string comment '学生班级',
+stu_score map&lt;string,float&gt; comment '学生成绩',
+stu_zhiwu array&lt;string&gt; comment '学生职务',
+stu_info struct&lt;age:int,sex:string,city:string&gt; comment '学生基本信息')
+partitioned by (school string)
+row format delimited
+fields terminated by '|'
+collection items terminated by ','
+map keys terminated by ':';
+</pre>
+      <a name="case5">
+      </a>
+      <h2>5 分区表数据加载</h2>
+      <h3>5.1 问题</h3>
+      <p>为分区表 stu_partition 添加一个 bd分区</p>
+      <p>向分区表 stu_partition 的bd分区加载data_bd.txt 数据</p>
+      <p>向分区表 stu_partition 的qh分区加载data_qh.txt 数据(直接向qh分区种加载会自动生成清华分区）</p>
+      <h3>5.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：为分区表 stu_partition 添加一个 bd分区</p>
+      <pre class="code">alter table stu_partition add partition(school = "bd");
+</pre>
+      <p class="number">步骤二：向分区表 stu_partition 的bd分区加载data_bd.txt 数据</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/data_bd.txt' overwrite into  table stu_partition partition(school='bd');
+</pre>
+      <p class="number">步骤三：向分区表 stu_partition 的qh分区加载data_qh.txt 数据</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/data_qh.txt' overwrite into  table stu_partition partition(school='qh');
+</pre>
+      <a name="case6">
+      </a>
+      <h2>6 动态分区表实</h2>
+      <h3>6.1 问题</h3>
+      <p>为分区表 stu_partition 创建一个stu_pt表</p>
+      <p>向普通表 stu_pt 加载data_school.txt 数据</p>
+      <p>读取stu_pt 表的所有数据并插入到 stu_partition 表中实现动态分区</p>
+      <h3>6.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：为分区表 stu_partition 创建一个stu_pt表</p>
+      <pre class="code">screate table stu_pt (
+stu_id string comment '学生ID',
+stu_name string comment '学生姓名',
+stu_class string comment '学生班级',
+stu_score map&lt;string,float&gt; comment '学生成绩',
+stu_zhiwu array&lt;string&gt; comment '学生职务',
+stu_info struct&lt;age:int,sex:string,city:string&gt; comment '学生基本信息',
+school string)
+row format delimited
+fields terminated by '|'
+collection items terminated by ','
+map keys terminated by ':';
+</pre>
+      <p class="number">步骤二：向普通表 stu_pt 加载data_school.txt 数据</p>
+      <pre class="code">load data local inpath '/home/tarena/2111/Hive/data_school.txt' overwrite into  table stu_pt
+</pre>
+      <p class="number">步骤三：读取stu_pt 表的所有数据并插入到 stu_partition 表中实现动态分区</p>
+      <pre class="code">insert overwrite table stu_partition partition(school)
+select * from stu_pt;
+#根据提示打开动态分区开关
+set hive.exec.dynamic.partition.mode=nonstrict;
+</pre>
+    </div>
+  </body>
+</html>

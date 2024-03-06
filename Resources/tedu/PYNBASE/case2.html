@@ -1,0 +1,174 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNBASE DAY02</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">if 语句</a>
+        </li>
+        <li>
+          <a href="#case2">while</a>
+        </li>
+        <li>
+          <a href="#case3">写程序找出输入字符中的等号</a>
+        </li>
+        <li>
+          <a href="#case4">用户身份验证程序</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 if 语句</h2>
+      <h3>1.1 问题</h3>
+      <ol class="list">
+        <li>写一个程序，输入一个整数，用程序判断这个整数是正数，负数，还是零
+</li>
+      </ol>
+      <h3>1.2 方案</h3>
+      <ol class="list">
+        <li>一个数只能有三种情况：正数，负数和零，这个三种情况显然是互斥的，既不可能同时出现。分析得到，大于0即为为正数，小于0即为负数，如果正数和负数都不是，那他一定是零。根据个思路我们写程序如下：
+</li>
+      </ol>
+      <h3>1.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p class="number">打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog1.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p class="number">按如下示例编写文件</p>
+      <pre class="code">number = int(input('请输入一个整数：'))  # 等待用户输入数字
+
+if number &gt; 0:
+    print(number, '是正数！')
+elif number &lt; 0:
+    print(number, '是负数！')
+else:
+    print(number, '是零')
+</pre>
+      <p class="number">步骤三：运行程序myprog1.py</p>
+      <p class="number">在PyCharm 中右键点击myprog1.py 文件，选择 run ‘myprog1.py’ 运行程序，示例如下:</p>
+      <pre class="code">请输入一个整数：100
+100 是正数！
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 while</h2>
+      <h3>2.1 问题</h3>
+      <p>写一个程序,输入一个整数n，写程序打印如下 n 行文字</p>
+      <p>如:</p>
+      <pre class="code">   请输入: 10
+   这是第 1 行
+   这是第 2 行
+   这是第 3 行
+   ...
+   这是第 10 行
+</pre>
+      <h3>2.2 方案</h3>
+      <p>第一步要让程序获取用户输入的数字，在计算机内部用一个变量n 保存起来。使用循环语句控制循环的次数为10次，同时定义一个变量 i，让其开始值是1, 每次循环的内部让其自身的值 + 1后再重新绑定,即每次执行 i += 1。在每次进入循环前就先执行 print('这是第', i, '行') 打印当前的行数。然后再让i变量绑定的值变大即可。</p>
+      <h3>2.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog2.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p>按如下示例编写文件</p>
+      <pre class="code">n = int(input('请输入：'))
+
+i = 1
+while i &lt;= n:
+    print('这是第', i, '行')
+    i += 1
+</pre>
+      <p class="number">步骤三：运行程序myprog2.py</p>
+      <p>在PyCharm 中右键点击myprog2.py 文件，选择 run ‘myprog2.py’ 运行程序，示例如下:</p>
+      <pre class="code">请输入：5
+这是第 1 行
+这是第 2 行
+这是第 3 行
+这是第 4 行
+这是第 5 行
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 写程序找出输入字符中的等号</h2>
+      <h3>3.1 问题</h3>
+      <p>写一个程序，输入一个任意长度的字符串，用for 语句找出这个字符串中有几个英文的等号(=)</p>
+      <p>如:</p>
+      <pre class="code">请输入: a = b = c = 100
+结果: 3
+</pre>
+      <h3>3.2 方案</h3>
+      <p>Input 函数获取的是用户输入的文字组成的字符串，用for 语句可以对文字的每个字符进行遍历，可以依次对每个字符访问一次。在对所有的字符进行遍历之前，可以创建一个变量count用来记录用户输入文字中等号的次数，使用 count = 0 设置初始值为0</p>
+      <p>接下来使用for 语句对所有字符进行访问，在访问的过程中，如果此字符为英文的等号（=），就将变量count绑定的数字增大1, 即count += 1。当遍历结束后，count 变量绑定的值即为等号的总个数。</p>
+      <h3>3.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog3.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p>按如下示例编写文件</p>
+      <pre class="code">s = input('请输入：')  # 让用户输入文字，使用变量s绑定。
+count = 0  # 创建变量 count 用来记录个数，初始值为0
+for char in s:
+    if char == '=':
+        count += 1
+
+print('等号的个数是', count, '个。')
+</pre>
+      <p class="number">步骤三：运行程序myprog3.py</p>
+      <p>在PyCharm 中右键点击myprog3.py 文件，选择 run ‘myprog3.py’ 运行程序，示例如下:</p>
+      <pre class="code">请输入：a = b = c = 100
+结果： 3
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 用户身份验证程序</h2>
+      <h3>4.1 问题</h3>
+      <p>假设一个用户信息如下:</p>
+      <p>用户名是:root</p>
+      <p>密码是: 123456</p>
+      <p>写一个身份验证的程序myprog4.py，让用户输入用户名和密码登录, 用户名和密码全部匹配，提示登录成功。</p>
+      <p>否则继续，最多尝试3次。3次不匹配以后提示登录失败。</p>
+      <h3>4.2 方案</h3>
+      <p>先写一个循环语句循环三次，在每次循环的过程当中，我们让用户输入用户名和密码，然后对比用户名和密码是否正确，如果正确的则退出循环，并且提示登录成功，如果不正确就进入下一次循环，当三次循环的用户名和密码都没有比对正确，循环完毕且提示登录失败。</p>
+      <h3>4.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：使用PyCharm 编写程序文件</p>
+      <p>打开PyCharm， 创建一个新的项目(New Project)，在项目文件夹中创建myprog4.py 文件。</p>
+      <p class="number">步骤二：使用PyCharm 编写程序文件</p>
+      <p>按如下示例编写文件</p>
+      <pre class="code">for i in range(3):
+    username = input('请输入用户名：')
+    password = input('请输入密  码：')
+    if username == 'root' and password == '123456':
+        print('登录成功！')
+        break
+    else:
+        print('用户名或密码错误！')
+else:
+    print('登录失败！')
+</pre>
+      <p class="number">步骤三：运行程序myprog4.py</p>
+      <p>在PyCharm 中右键点击myprog4.py 文件，选择 run ‘myprog4.py’ 运行程序，示例如下:</p>
+      <pre class="code">请输入用户名：tedu
+请输入密  码：654321
+用户名或密码错误！
+请输入用户名：root
+请输入密  码：123456
+登录成功！
+</pre>
+    </div>
+  </body>
+</html>

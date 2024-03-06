@@ -1,0 +1,258 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>PYNBASE DAY01</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">准备python安装解释执行器</a>
+        </li>
+        <li>
+          <a href="#case2">安装PyCharm社区版 集成开发环境</a>
+        </li>
+        <li>
+          <a href="#case3">基本输出函数的调用</a>
+        </li>
+        <li>
+          <a href="#case4">变量和赋值语句综合练习</a>
+        </li>
+        <li>
+          <a href="#case5">字符串练习</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 准备python安装解释执行器</h2>
+      <h3>1.1 问题</h3>
+      <ol class="list">
+        <li>下载最新版本的python3
+</li>
+        <li>安装Python
+</li>
+        <li>验证运行python 
+</li>
+        <li>卸载Python
+</li>
+      </ol>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：下载最新版python3</p>
+      <p>首先去python官网下载python3的源码包，网址：https://www.python.org/</p>
+      <p>进去之后点击导航栏的Downloads，也可以鼠标放到Downloads上弹出菜单选择Windows，进入Windows 环境下Python 的下载页面，这里可以选择最新版本，如图-1所示：</p>
+      <p>我们课程使用的python 版本是3.9.13，你可以从如下链接下载：</p>
+      <p>https://www.python.org/ftp/python/3.9.13/python-3.9.13-amd64.exe</p>
+      <div class="image">
+        <img src="index.files/image001.png" />
+        <p>图-1</p>
+      </div>
+      <p class="number">步骤二：Windows下安装python3</p>
+      <p>1) 双击文件 python-3.9.13-amd64.exe ，运行安装程序。如图-2</p>
+      <p>/<p>图-2</p></p>
+      <p>2) 勾选 ”Add Python 3.9 to PATH” 选项,然后点击 ”Install Now” 进行安装。如图-3</p>
+      <p>/<p>图-3</p></p>
+      <p>点击“是”允许次应用对你的设备进行更改。如图-4:</p>
+      <p>/<p>图-4</p></p>
+      <p>进入安装过程中…，如图-5:</p>
+      <p>/<p>图-5</p></p>
+      <p>3) 安装成功显示如下界面。点击 Close 关闭即可!如图-6:</p>
+      <p>/<p>图-6</p></p>
+      <p class="number">步骤三：验证运行python</p>
+      <p>1）运行 命令提示符 程序，如图-7:</p>
+      <p>/<p>图-7</p></p>
+      <p>2）输入命令 python 后 按下回车键，即可进入Python的交互模式，如图-8所示：</p>
+      <p>/<p>图-8</p></p>
+      <p>3）在三个大于号提示符下输入 exit() 即可退出Python程序，回到 命令提示符 程序中。</p>
+      <pre class="code">&gt;&gt;&gt; exit()
+</pre>
+      <p class="number">步骤四：卸载 Python</p>
+      <p>1）启动Windows 控制面板 如图-9所示：</p>
+      <p>/<p>图-9</p></p>
+      <p>2）在控制面板中找到 卸载程序 并点击运行，如图-10:</p>
+      <p>/<p>图-10</p></p>
+      <p>3）进入 程序和功能 界面，先要卸载 Python 3.9.13(64-bit) 然后再卸载 Python Launcher 两个都需要卸载，如图-11所示:</p>
+      <p>/<p>图-11</p></p>
+      <p>4）进入卸载程序...，如图-12:</p>
+      <p>/<p>图-12</p></p>
+      <p>5）卸载 Python 3.9.13(64-bit) 成功。如图-13:</p>
+      <p>/<p>图-13</p></p>
+      <p>6）接下来卸载 Python Launcher 如下图-14所示</p>
+      <p>/<p>图-14</p></p>
+      <p>点击 是，开始卸载,如图-15:</p>
+      <p>/<p>图-15</p></p>
+      <p>python卸载成功!</p>
+      <a name="case2">
+      </a>
+      <h2>2 安装PyCharm社区版 集成开发环境</h2>
+      <h3>2.1 问题</h3>
+      <ol class="list">
+        <li>下载PyCharm社区版
+</li>
+        <li>安装PyCharm 社区版
+</li>
+        <li>启动运行 PyCharm 社区版
+</li>
+        <li>新建PyCharm 工程(Project)
+</li>
+      </ol>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：下载PyCharm 社区版</p>
+      <p>下载地址:</p>
+      <p>PyCharm windows 版本 安装包如下:</p>
+      <p>https://download.jetbrains.com/python/pycharm-community-2022.2.2.exe</p>
+      <p>PyCharm Mac OS X (苹果mac 系统) 版本 安装包如下:</p>
+      <p>https://download.jetbrains.com.cn/python/pycharm-community-2022.2.2.dmg</p>
+      <p class="number">步骤二：安装PyCharm 社区版</p>
+      <p>1）双击Pycharm安装包文件 pycharm-community-2022.2.2.exe</p>
+      <p>2）在用户账户控制对话框中选择 是, 如图-16</p>
+      <p>/<p>图-16</p></p>
+      <p>3）进入安装向导界面， 点击"next", 如图-17:</p>
+      <p>/<p>图-17</p></p>
+      <p>4）选择安装路径，选择默认路径，点击 "next" 即可,如图-18</p>
+      <p>/<p>图-18</p></p>
+      <p>5）选择安装选项。默认即可 ,如图-19</p>
+      <p>/<p>图-19</p></p>
+      <p>6）选择一个开始菜单名称，默认即可 ,如图-20:</p>
+      <p>/<p>图-20</p></p>
+      <p>7）进入安装过程，如图-21:</p>
+      <p>/<p>图-21</p></p>
+      <p>8）安装结束点击 Finish 按钮结束安装，如图-22:</p>
+      <p>/<p>图-22</p></p>
+      <p class="number">步骤三：启动运行 PyCharm 社区版</p>
+      <p>1）从Windows 开始菜单中找到"PyCharm Community Edition 2020", 如图-23:</p>
+      <p>/<p>图-23</p></p>
+      <p>2）第一次启动需要确认许可协议，勾选同意后点击"Continue" 继续下一步。 如图-24:</p>
+      <p>/<p>图-24</p></p>
+      <p>3）数据分型，可以选择 "Don't Send" (不发送), 如图-25:</p>
+      <p>/<p>图-25</p></p>
+      <p>4）进入新建工程界面, 如图-26:</p>
+      <p>/<p>图-26</p></p>
+      <p class="number">步骤四：新建PyCharm 工程(Project)</p>
+      <p>1）选择Create New Project 新建工程，如图-27:</p>
+      <p>/<p>图-27</p></p>
+      <p>2）选择项目文件夹的存放位置后。选择解释Python执行器的位置，如图-28:</p>
+      <p>/<p>图-28</p></p>
+      <p>3）选择 Add Interpreter 系统的解释执行器，如图-29:</p>
+      <p>/<p>图-29</p></p>
+      <p>4）解释执行器已经选定, 点击 Create 进入编辑界面，如图-30:</p>
+      <p>/<p>图-30</p></p>
+      <p>5）在以下编辑界面可以新建 Python文件和其他的文件了，如图-31:</p>
+      <p>/<p>图-31</p></p>
+      <p>6）至此我们可以在pycharm中编写 python 程序了!</p>
+      <a name="case3">
+      </a>
+      <h2>3 基本输出函数的调用</h2>
+      <h3>3.1 问题</h3>
+      <p>在交互模式下执行如下python 程序</p>
+      <pre class="code">print("hello world!")
+print("魏老师的年龄是", 35)
+print(1, 2, 3, 4)
+print(1, 2, 3, 4, sep=" ", end="\n")
+print(1, 2, 3, 4, sep="###", end="\n\n\n")
+print(1, 2, 3, 4)
+</pre>
+      <h3>3.2 方案</h3>
+      <p>编写程序时，很多情况下都需要程序打印一些信息让使用次程序的人看到，使用print()函数可以打印信息到终端或命令提示符。</p>
+      <h3>3.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：打开命令提示符程序</p>
+      <p>在 Windows的开始菜单中搜索 cmd 命令进入命令提示符。如图-32:</p>
+      <p>/<p>图-32</p></p>
+      <p class="number">步骤二：运行python 命令进入 python 的交互模式</p>
+      <pre class="code">Microsoft Windows [版本 10.0.18363.418]
+(c) 2019 Microsoft Corporation。保留所有权利。
+
+C:\Users\weimz&gt;python
+Python 3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt;
+</pre>
+      <p class="number">步骤三：在交互模式中输入相应的python 语句并执行</p>
+      <pre class="code">&gt;&gt;&gt; print("hello world!")
+hello world!
+&gt;&gt;&gt; print("魏老师的年龄是", 35)
+魏老师的年龄是 35
+&gt;&gt;&gt; print(1, 2, 3, 4)
+1 2 3 4
+&gt;&gt;&gt; print(1, 2, 3, 4, sep=" ", end="\n")
+1 2 3 4
+&gt;&gt;&gt; print(1, 2, 3, 4, sep="###", end="\n\n\n")
+1###2###3###4
+&gt;&gt;&gt; print(1, 2, 3, 4)
+1 2 3 4
+&gt;&gt;&gt;
+
+</pre>
+      <a name="case4">
+      </a>
+      <h2>4 变量和赋值语句综合练习</h2>
+      <h3>4.1 问题</h3>
+      <p>写一个程序 myprog.py</p>
+      <ol class="list">
+        <li>让用户输入用户名
+</li>
+        <li>让用户输入密码
+</li>
+        <li>打印 谁谁谁 的密码是 xxx
+</li>
+      </ol>
+      <h3>4.2 方案</h3>
+      <p>编写程序时，很多情况下都需要程序与用户交互。在python3中，主要通过input()获取用户输入信息，使用print()打印信息。使用赋值语句可以创建变量用于临时记住表达式执行的结果。</p>
+      <h3>4.3 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：编写程序</p>
+      <p>本次练习的程序文件是myprog.py。写入读取用户名和密码的语句</p>
+      <pre class="code">username = input('请输入用户名: ')     # 使用变量username接收用户输入的字符
+password = input('请输入密码: ')       # 使用变量password接收用户输入的密码字符
+
+print(username, '的密码是', password)  # 输出最后想要的信息，字符串和变量名之间用逗号分隔开
+</pre>
+      <p class="number">步骤二：测试脚本执行</p>
+      <p class="number">在PyCharm 中右键点击程序，选择 Run ‘myprog’ . 运行程序并输入用户名和密码</p>
+      <pre class="code">请输入用户名: root
+请输入密码: 123456
+root 的密码是 123456
+</pre>
+      <a name="case5">
+      </a>
+      <h2>5 字符串练习</h2>
+      <h3>5.1 问题</h3>
+      <p>写一个程序myprog2.py, 打印如下的长方形</p>
+      <p>长方形的宽是 10 个 # 号</p>
+      <p>高是 4个 #  号</p>
+      <p>如下图所示：</p>
+      <pre class="code">##########
+#        #
+#        #
+##########
+</pre>
+      <h3>5.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：编写程序</p>
+      <p>本次练习的程序文件是myprog2.py。写入打印# 好的打印语句</p>
+      <pre class="code">print('##########')&#xB;	print('#        #')&#xB;	print('#        #')&#xB;	print('##########')
+</pre>
+      <p class="number">步骤二：测试脚本执行</p>
+      <p class="number">在PyCharm 中右键点击程序，选择 Run ‘myprog2’ . 运行程序并打印结果</p>
+      <pre class="code">##########
+#        #
+#        #
+##########
+<p></p></pre>
+    </div>
+  </body>
+</html>

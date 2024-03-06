@@ -1,0 +1,281 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>CASE</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="index.files/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="index.files/jquery.snippet.js">
+    </script>
+    <script type="text/javascript" src="index.files/main.js">
+    </script>
+    <link type="text/css" href="index.files/index.css" rel="Stylesheet" />
+    <link type="text/css" href="index.files/jquery.snippet.css" rel="Stylesheet" />
+  </head>
+  <body>
+    <div class="source_style_case">
+      <a name="page_top_case" id="top_anchor" />
+      <a id="link_top" href="#page_top_case">Top</a>
+      <h1>DATABASE DAY04</h1>
+      <ol class="index">
+        <li>
+          <a href="#case1">表关联</a>
+        </li>
+        <li>
+          <a href="#case2">自定义函数</a>
+        </li>
+        <li>
+          <a href="#case3">存储过程</a>
+        </li>
+      </ol>
+      <a name="case1">
+      </a>
+      <h2>1 表关联</h2>
+      <h3>1.1 问题</h3>
+      <p>准备数据</p>
+      <p>获取合规数据（部门一定有人，人一定属于部门）</p>
+      <p>列出所有员工信息并显示其部门名称</p>
+      <p>列出所部门的人员信息 部门名称，员工姓名 性别；</p>
+      <p>列出所有员工信息并显示其部门名称(右连接实现)</p>
+      <p>查询每位老师教授的课程数量</p>
+      <p>查询各科成绩最高和最低的分数,形式 : 课程ID  课程名称 最高分  最低分</p>
+      <p>查询平均成绩大于85分的所有学生学号,姓名和平均成绩</p>
+      <p>查询课程编号为2且课程成绩在80以上的学生学号和姓名</p>
+      <p>查询各个课程及相应的选修人数</p>
+      <p>查询每位学生的姓名及平均成绩</p>
+      <h3>1.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">准备数据</p>
+      <pre class="code">create table dep(
+    id int primary key auto_increment,
+    dep_name char(20) not null unique,
+    dep_comment varchar(50)
+)auto_increment=200;
+​
+insert into dep values
+(1,'IT','xxxxxxxxxx'),
+(2,'Sale','yhyyyyyyy'),
+(3,'Operation','asdfadfadsf'),
+(5,'HR','asfasdfasdfasdfasdf')
+​
+create table emp(
+    id int primary key auto_increment,
+    name char(6) not null,
+    sex varchar(10),
+    dep_id int
+);
+​
+insert into emp values
+(1,'egon','male',1),
+(2,'alex','male',2),
+(3,'yh','female',2),
+(4,'evia','female',3),
+(5,'wpq','male',3),
+(6,'alex1','male',4);
+</pre>
+      <p class="number">步骤一：获取合规数据（部门一定有人，人一定属于部门）</p>
+      <pre class="code">select * from dep inner join emp on dep.id = emp.dep_id;
+</pre>
+      <p class="number">步骤二：列出所有员工信息并显示其部门名称</p>
+      <pre class="code">select emp.*,dep_name
+from emp left join dep on emp.dep_id = dep.id;
+</pre>
+      <p class="number">步骤三：列出所部门的人员信息 部门名称，员工姓名 性别；</p>
+      <pre class="code">select dep_name,name,sex 
+from dep left join emp on dep.id = emp.dep_id;
+</pre>
+      <p class="number">步骤四：列出所有员工信息并显示其部门名称(右连接实现)</p>
+      <pre class="code">select emp.*,dep_name 
+from dep 
+right join emp on dep.id = emp.dep_id;
+</pre>
+      <p class="number">步骤五：查询每位老师教授的课程数量</p>
+      <pre class="code">select t_name,count(c_id) as 课程数量 from teacher
+left join course on teacher.t_id = course.t_id
+group by t_name;
+</pre>
+      <p class="number">步骤六：查询各科成绩最高和最低的分数,形式 : 课程ID 课程名称 最高分 最低分</p>
+      <pre class="code">select course.c_id,c_name,max(s_score) as 最高分,min(s_score) as  最低分
+from score
+right join  course  on score.c_id = course.c_id
+group by course.c_id,c_name;
+</pre>
+      <p class="number">步骤七：查询平均成绩大于85分的所有学生学号,姓名和平均成绩</p>
+      <pre class="code">#方法1
+select student.s_id,s_name,avg(s_score) as 平均成绩  from score
+inner join student on score.s_id =student.s_id
+group by student.s_id,s_name
+having 平均成绩&gt;85;
+​
+#方法2（先过滤再关联，速度快）
+select   score_filter.s_id,s_name,平均成绩 from (
+select s_id,avg(s_score) as 平均成绩 from score
+group by s_id
+having 平均成绩&gt;85) as score_filter
+inner join student on score_filter.s_id =student.s_id
+</pre>
+      <p class="number">步骤八：查询课程编号为2且课程成绩在80以上的学生学号和姓名</p>
+      <pre class="code">#方法1
+select * from score
+inner join  student  on score.s_id =student.s_id
+where c_id=2 and s_score&gt;80;
+​
+#方法2（先过滤再关联，速度快）
+select * from score
+inner join  student  
+on score.s_id =student.s_id and c_id=2 and s_score&gt;80;
+</pre>
+      <p class="number">步骤九：查询各个课程及相应的选修人数</p>
+      <pre class="code">select course.c_id,c_name,count(s_id) as 人数 from course 
+left join score on course.c_id = score.c_id
+group by course.c_id,c_name
+</pre>
+      <p class="number">步骤十：查询每位学生的姓名及平均成绩</p>
+      <pre class="code">select s_name,avg(s_score) as 平均成绩  from student
+left join score on student.s_id = score.s_id
+group by s_name
+</pre>
+      <a name="case2">
+      </a>
+      <h2>2 自定义函数</h2>
+      <h3>2.1 问题</h3>
+      <p>自定义函数add10实现为指定数加10，并调用为books表每本书加10元</p>
+      <p>自定义函数diff实现两个数值之差，并调用实现每本书价格与100的差值</p>
+      <p>图书打折活动</p>
+      <p>图书下架时间规则</p>
+      <h3>2.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：自定义函数add10实现为指定数加10，并调用为books表每本书加10元</p>
+      <pre class="code">#函数定义
+delimiter $$  #定函数结束标记
+create function add10 (jiage int)
+returns int
+begin
+    #定义变量 declare 变量名 类型
+    declare jieguo int;
+    #变量赋值 set 变量名=值
+    set jieguo=jiage+10;
+    return jieguo;
+end $$ #此标记认为结束
+delimiter ;
+​
+#函数调用（未每本书加10元）
+select *,add10(price) from books;
+</pre>
+      <p class="number">步骤二：自定义函数diff实现两个数值之差，并调用实现每本书价格与100的差值</p>
+      <pre class="code">create function diff(value1 float, value2 float)
+returns int
+begin
+    declare cha float;
+    set cha = value1 - value2;
+    return cha;
+end;
+#调用
+select *,diff(100,price) as 差值 from books;
+</pre>
+      <p class="number">步骤三：图书打折活动</p>
+      <pre class="code">#函数定义
+create function dazhi(chubanshe varchar(20),
+                zuozhe varchar(10),jiage float)
+returns float
+begin
+    declare zhehoujia float;
+    set zhehoujia = jiage;
+    #1.老舍的书8折 茅盾的书7折， 
+    if zuozhe="老舍" then
+        set zhehoujia = zhehoujia * 0.8;
+    elseif zuozhe="茅盾" then
+        set zhehoujia = zhehoujia*0.7;
+    end if;
+    #2.机械工业出版社8折，人民教育出版社5折
+    if chubanshe="机械工业出版社" then
+        set zhehoujia = zhehoujia*0.8;
+    elseif chubanshe="人民教育出版社"  then 
+        set zhehoujia = zhehoujia*0.5;
+    end if;
+    return zhehoujia;
+end;
+select *,dazhi(press,author,price) as 折扣价 from books;
+</pre>
+      <p class="number">步骤四：图书下架时间规则</p>
+      <pre class="code">create function get_downtime(p_time date,
+                author varchar(20) ,bname varchar(20))
+returns date
+begin
+    declare down_time  date;
+    set down_time = p_time + interval 1 year;
+    IF author = "鲁迅" THEN
+        set down_time = date_add(down_time,interval 2 month);
+    elseif bname = "围城" THEN 
+        set down_time = date_sub(down_time,interval -3 month);
+    end if;
+    return down_time;
+end;
+​
+select *,get_downtime(p_time,author,bname) as 下架时间 
+from books;
+</pre>
+      <a name="case3">
+      </a>
+      <h2>3 存储过程</h2>
+      <h3>3.1 问题</h3>
+      <p>存储过程实现获取指定同学的成绩单</p>
+      <p>存储过程实现获取王五老师的学生id 列表</p>
+      <p>根据给学生姓名，科目名，获得其成绩</p>
+      <h3>3.2 步骤</h3>
+      <p>实现此案例需要按照如下步骤进行。</p>
+      <p class="number">步骤一：存储过程实现获取指定同学的成绩单</p>
+      <pre class="code">#定义
+create procedure get_score(in student_name varchar(20))
+begin
+    declare student_id int;
+    #找出赵雷同学的成绩单
+    #找赵雷的id   1
+    select s_id into student_id from student 
+    where s_name =student_name;
+    # 找s_id = 1的 成绩单
+    select * from score where s_id = student_id ;
+end;
+#调用
+call get_score("赵雷");
+</pre>
+      <p class="number">步骤二：存储过程实现获取王五老师的学生id 列表</p>
+      <pre class="code">#定义
+create procedure get_sid(in teacher_name  varchar(10))
+begin
+    declare teacher_id int;
+    declare course_id int;
+    #1. 王五的t_id  3
+    select t_id into teacher_id from teacher 
+    where t_name = teacher_name;
+    #2. 用t_id 找c_id  3
+    select c_id into course_id from course 
+    where t_id=teacher_id;
+    #3. 用c_id 找 s_id
+    select s_id from score where c_id =course_id;
+end;
+#调用
+call get_sid("王五");
+</pre>
+      <p class="number">步骤二：根据给学生姓名，科目名，获得其成绩</p>
+      <pre class="code">create procedure get_onescore(in student_name varchar(10)
+                             ,in course_name varchar(10))
+begin
+    declare student_id int;
+    declare course_id  int;
+    #1 根据学生名找s_id, 
+    select s_id into student_id  from student 
+    where s_name = student_name ;
+    #2.根据科目名找c_id, 
+    select c_id into course_id  from course 
+    where c_name= course_name;
+    #3 根据s_id,c_id 找成绩
+    select s_score from score 
+    where c_id=course_id  and s_id=student_id;
+end;
+#调用
+call get_onescore("孙风","英语");
+</pre>
+    </div>
+  </body>
+</html>
